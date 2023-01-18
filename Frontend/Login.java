@@ -179,6 +179,9 @@ public class Login {
 					.addGap(54))
 		);
 		panel.setLayout(gl_panel);
+		
+		JLabel lblNewLabel_5 = new JLabel("New label");
+		splitPane.setLeftComponent(lblNewLabel_5);
 		splitPane.setDividerLocation(370);
 		frame.setBounds(100, 100, 911, 598);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
