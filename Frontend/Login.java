@@ -34,7 +34,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
 public class Login {
-	
+
 	public JFrame getFrmLogin() {
 		return fromLogin;
 	}
@@ -119,14 +119,20 @@ public class Login {
 					fromLogin.dispose();
 					AdminPanel window = new AdminPanel();
 					window.getFrmAdminPanel().setVisible(true);
-				}
-				else if (enteredUsername.getText().equals("student")
-						&& Arrays.equals(passwordField.getPassword(), new char[] { 's', 't', 'u', 'd','e', 'n','t' })
+				} else if (enteredUsername.getText().equals("student")
+						&& Arrays.equals(passwordField.getPassword(), new char[] { 's', 't', 'u', 'd', 'e', 'n', 't' })
 						&& valueFromComboBox.equals("Student")) {
 					System.out.println("Logged in as student successfully!");
 					fromLogin.dispose();
 					StudentPanel window = new StudentPanel();
 					window.getFrmStudentPanel().setVisible(true);
+				} else if (enteredUsername.getText().equals("teacher")
+						&& Arrays.equals(passwordField.getPassword(), new char[] { 't', 'e', 'a', 'c', 'h', 'e', 'r' })
+						&& valueFromComboBox.equals("Teacher")) {
+					System.out.println("Logged in as teacher successfully!");
+					fromLogin.dispose();
+					TeacherPanel window = new TeacherPanel();
+					window.getFrmTeacherPanel().setVisible(true);
 				}
 			}
 		});
