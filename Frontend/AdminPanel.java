@@ -61,7 +61,7 @@ public class AdminPanel {
         fromAdminPanel = new JFrame();
         fromAdminPanel.setResizable(false);
         fromAdminPanel.setTitle("Admin Panel | Course Management System");
-        fromAdminPanel.setBounds(100, 100, 682, 565);
+        fromAdminPanel.setBounds(100, 100, 680, 564);
         fromAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JSplitPane splitPane = new JSplitPane();
@@ -121,19 +121,27 @@ public class AdminPanel {
         btnNewButton_1_1.setBackground(new Color(128, 128, 255));
         panel.add(btnNewButton_1_1);
 
-        JButton btnNewButton_1_1_1 = new JButton("Log Out");
-        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, btnNewButton_1_1_1);
-        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_1, 27, SpringLayout.WEST, panel);
-        sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_1, -22, SpringLayout.SOUTH, panel);
-        btnNewButton_1_1_1.setIcon(new ImageIcon(
+        JButton logOutButton = new JButton("Log Out");
+        logOutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Admin Logging out!");
+                fromAdminPanel.dispose();
+                Login window = new Login();
+                window.getFrmLogin().setVisible(true);
+            }
+        });
+        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, logOutButton);
+        sl_panel.putConstraint(SpringLayout.WEST, logOutButton, 27, SpringLayout.WEST, panel);
+        sl_panel.putConstraint(SpringLayout.SOUTH, logOutButton, -22, SpringLayout.SOUTH, panel);
+        logOutButton.setIcon(new ImageIcon(
                 "D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\logout.png"));
-        btnNewButton_1_1_1.setIconTextGap(16);
-        btnNewButton_1_1_1.setForeground(Color.WHITE);
-        btnNewButton_1_1_1.setFont(new Font("Poppins", Font.BOLD, 18));
-        btnNewButton_1_1_1.setBorderPainted(false);
-        btnNewButton_1_1_1.setBorder(null);
-        btnNewButton_1_1_1.setBackground(new Color(128, 128, 255));
-        panel.add(btnNewButton_1_1_1);
+        logOutButton.setIconTextGap(16);
+        logOutButton.setForeground(Color.WHITE);
+        logOutButton.setFont(new Font("Poppins", Font.BOLD, 18));
+        logOutButton.setBorderPainted(false);
+        logOutButton.setBorder(null);
+        logOutButton.setBackground(new Color(128, 128, 255));
+        panel.add(logOutButton);
 
         JButton btnNewButton_1_1_2 = new JButton("Courses");
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2, 26, SpringLayout.SOUTH, btnNewButton_1_1);
