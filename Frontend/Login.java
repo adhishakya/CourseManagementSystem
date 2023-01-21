@@ -85,7 +85,7 @@ public class Login {
 		enteredUsername.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255),
 				new Color(128, 128, 255), new Color(255, 255, 255), new Color(255, 255, 255)));
 		enteredUsername.setCaretColor(new Color(128, 128, 255));
-		enteredUsername.setFont(new Font("Arial", Font.PLAIN, 16));
+		enteredUsername.setFont(new Font("Poppins", Font.PLAIN, 16));
 		enteredUsername.setColumns(10);
 
 		comboBox = new JComboBox();
@@ -99,7 +99,7 @@ public class Login {
 		comboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
 				new Color(255, 255, 255), new Color(255, 255, 255)));
 		comboBox.setBackground(new Color(255, 255, 255));
-		comboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+		comboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "", "Admin", "Teacher", "Student" }));
 
 		JButton btnNewButton = new JButton("Login");
@@ -118,26 +118,26 @@ public class Login {
 				}
 			}
 		});
-		btnNewButton.setFont(new Font("Arial", Font.BOLD, 18));
+		btnNewButton.setFont(new Font("Poppins", Font.BOLD, 18));
 
 		passwordField = new JPasswordField();
 		passwordField.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
 				new Color(255, 255, 255), new Color(255, 255, 255)));
-		passwordField.setFont(new Font("Arial", Font.PLAIN, 16));
+		passwordField.setFont(new Font("Poppins", Font.PLAIN, 16));
 		passwordField.setEchoChar('*');
 		passwordField.setCaretColor(new Color(128, 128, 255));
 
 		JLabel lblNewLabel = new JLabel("Username");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 18));
 
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Arial", Font.BOLD, 18));
+		lblPassword.setFont(new Font("Poppins", Font.BOLD, 18));
 
 		JLabel lblUserType = new JLabel("User Type");
-		lblUserType.setFont(new Font("Arial", Font.BOLD, 18));
+		lblUserType.setFont(new Font("Poppins", Font.BOLD, 18));
 
 		JLabel lblNewLabel_1 = new JLabel("Login");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 28));
+		lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 28));
 
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\user-svgrepo-com (3).png"));
