@@ -34,8 +34,12 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
 public class Login {
+	
+	public JFrame getFrmLogin() {
+		return fromLogin;
+	}
 
-	private JFrame frame;
+	private JFrame fromLogin;
 	private JTextField enteredUsername;
 	private JPasswordField passwordField;
 	static String valueFromComboBox = "";
@@ -49,7 +53,7 @@ public class Login {
 			public void run() {
 				try {
 					Login window = new Login();
-					window.frame.setVisible(true);
+					window.fromLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,13 +72,13 @@ public class Login {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setTitle("Login | Course Management System");
-		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		fromLogin = new JFrame();
+		fromLogin.setTitle("Login | Course Management System");
+		fromLogin.getContentPane().setBackground(new Color(255, 255, 255));
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerSize(0);
-		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		fromLogin.getContentPane().add(splitPane, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -112,9 +116,17 @@ public class Login {
 						&& Arrays.equals(passwordField.getPassword(), new char[] { 'a', 'd', 'm', 'i', 'n' })
 						&& valueFromComboBox.equals("Admin")) {
 					System.out.println("Logged in as admin successfully!");
-					frame.dispose();
+					fromLogin.dispose();
 					AdminPanel window = new AdminPanel();
 					window.getFrmAdminPanel().setVisible(true);
+				}
+				else if (enteredUsername.getText().equals("student")
+						&& Arrays.equals(passwordField.getPassword(), new char[] { 's', 't', 'u', 'd','e', 'n','t' })
+						&& valueFromComboBox.equals("Student")) {
+					System.out.println("Logged in as student successfully!");
+					fromLogin.dispose();
+					StudentPanel window = new StudentPanel();
+					window.getFrmStudentPanel().setVisible(true);
 				}
 			}
 		});
@@ -200,7 +212,7 @@ public class Login {
 				"D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\reading.png"));
 		splitPane.setLeftComponent(lblNewLabel_5);
 		splitPane.setDividerLocation(370);
-		frame.setBounds(100, 100, 911, 598);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fromLogin.setBounds(100, 100, 911, 598);
+		fromLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
