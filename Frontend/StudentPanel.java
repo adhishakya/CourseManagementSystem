@@ -52,6 +52,8 @@ public class StudentPanel {
      */
     private void initialize() {
         fromStudentPanel = new JFrame();
+        fromStudentPanel.setResizable(false);
+        fromStudentPanel.setTitle("Student Panel | Course Management System");
         fromStudentPanel.setBounds(100, 100, 677, 523);
         fromStudentPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -78,7 +80,7 @@ public class StudentPanel {
         btnNewButton.setBackground(new Color(128, 128, 255));
         panel.add(btnNewButton);
 
-        JButton btnNewButton_1 = new JButton("Teacher");
+        JButton btnNewButton_1 = new JButton("Teachers");
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 29, SpringLayout.SOUTH, btnNewButton);
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, btnNewButton);
         btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\teacher-svgrepo-com (1).png"));
@@ -90,7 +92,7 @@ public class StudentPanel {
         btnNewButton_1.setBackground(new Color(128, 128, 255));
         panel.add(btnNewButton_1);
 
-        JButton btnNewButton_1_1_2 = new JButton("Courses");
+        JButton btnNewButton_1_1_2 = new JButton("Modules");
         btnNewButton_1_1_2.setIcon(new ImageIcon(
                 "D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\books.png"));
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2, 30, SpringLayout.SOUTH, btnNewButton_1);
@@ -104,6 +106,8 @@ public class StudentPanel {
         panel.add(btnNewButton_1_1_2);
 
         JButton btnNewButton_1_1_1 = new JButton("Log Out");
+        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_1, 0, SpringLayout.WEST, btnNewButton);
+        sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_1, -22, SpringLayout.SOUTH, panel);
         btnNewButton_1_1_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Student Logging out!");
@@ -112,8 +116,6 @@ public class StudentPanel {
                 window.getFrmLogin().setVisible(true);
             }
         });
-        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_1, 0, SpringLayout.WEST, btnNewButton);
-        sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_1, -23, SpringLayout.SOUTH, panel);
         btnNewButton_1_1_1.setIcon(new ImageIcon(
                 "D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\logout.png"));
         btnNewButton_1_1_1.setIconTextGap(16);
