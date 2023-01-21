@@ -93,7 +93,7 @@ public class AdminPanel {
         btnNewButton.setFont(new Font("Poppins", Font.BOLD, 18));
         panel.add(btnNewButton);
 
-        JButton btnNewButton_1 = new JButton("Teacher");
+        JButton btnNewButton_1 = new JButton("Teachers");
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 100, SpringLayout.NORTH, panel);
         sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton, -16, SpringLayout.NORTH, btnNewButton_1);
         btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\teacher-svgrepo-com (1).png"));
@@ -109,7 +109,11 @@ public class AdminPanel {
         btnNewButton_1.setBackground(new Color(128, 128, 255));
         panel.add(btnNewButton_1);
 
-        JButton btnNewButton_1_1 = new JButton("Student");
+        JButton btnNewButton_1_1 = new JButton("Students");
+        btnNewButton_1_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1, 0, SpringLayout.WEST, btnNewButton_1);
         sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1, -310, SpringLayout.SOUTH, panel);
         btnNewButton_1_1.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\student.png"));
@@ -226,9 +230,9 @@ public class AdminPanel {
 
         JLabel lblNewLabel = new JLabel("Welcome Back, Admin!");
         sl_panel_3.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, panel_3);
-        sl_panel_3.putConstraint(SpringLayout.WEST, lblNewLabel, 41, SpringLayout.WEST, panel_3);
+        sl_panel_3.putConstraint(SpringLayout.WEST, lblNewLabel, 31, SpringLayout.WEST, panel_3);
         sl_panel_3.putConstraint(SpringLayout.SOUTH, lblNewLabel, 89, SpringLayout.NORTH, panel_3);
-        sl_panel_3.putConstraint(SpringLayout.EAST, lblNewLabel, -59, SpringLayout.EAST, panel_3);
+        sl_panel_3.putConstraint(SpringLayout.EAST, lblNewLabel, -69, SpringLayout.EAST, panel_3);
         lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 30));
         panel_3.add(lblNewLabel);
         splitPane_1.setDividerLocation(100);
