@@ -24,10 +24,10 @@ import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
 
 public class AdminPanel {
-	
-	private CardLayout cl_cardPanel= new CardLayout(0, 0);
-	
-	private CardLayout cl_cardPanelTop= new CardLayout(0, 0);
+
+	private CardLayout cl_cardPanel = new CardLayout(0, 0);
+
+	private CardLayout cl_cardPanelTop = new CardLayout(0, 0);
 
 	public JFrame getFrmAdminPanel() {
 		return fromAdminPanel;
@@ -213,149 +213,175 @@ public class AdminPanel {
 		cardPanelTop.setBackground(new Color(255, 255, 255));
 		splitPane_1.setLeftComponent(cardPanelTop);
 		cardPanelTop.setLayout(cl_cardPanelTop);
-		
+
 		dashboardCardPanelTop = new JPanel();
 		dashboardCardPanelTop.setBackground(new Color(255, 255, 255));
 		cardPanelTop.add(dashboardCardPanelTop, "name_90724710509300");
 		SpringLayout sl_dashboardCardPanelTop = new SpringLayout();
 		dashboardCardPanelTop.setLayout(sl_dashboardCardPanelTop);
-		
+
 		JLabel lblNewLabel = new JLabel("Welcome Back, Admin!");
-		sl_dashboardCardPanelTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 25, SpringLayout.NORTH, dashboardCardPanelTop);
-		sl_dashboardCardPanelTop.putConstraint(SpringLayout.WEST, lblNewLabel, 46, SpringLayout.WEST, dashboardCardPanelTop);
+		sl_dashboardCardPanelTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 25, SpringLayout.NORTH,
+				dashboardCardPanelTop);
+		sl_dashboardCardPanelTop.putConstraint(SpringLayout.WEST, lblNewLabel, 46, SpringLayout.WEST,
+				dashboardCardPanelTop);
 		lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 30));
 		dashboardCardPanelTop.add(lblNewLabel);
-		
+
 		JPanel teachersCardPanelTop = new JPanel();
 		teachersCardPanelTop.setBackground(new Color(255, 255, 255));
 		cardPanelTop.add(teachersCardPanelTop, "name_90727370245900");
 		SpringLayout sl_teachersCardPanelTop = new SpringLayout();
 		teachersCardPanelTop.setLayout(sl_teachersCardPanelTop);
-		
+
 		JLabel lblTeacherCrud = new JLabel("Manage Teachers");
-		sl_teachersCardPanelTop.putConstraint(SpringLayout.NORTH, lblTeacherCrud, 25, SpringLayout.NORTH, teachersCardPanelTop);
-		sl_teachersCardPanelTop.putConstraint(SpringLayout.WEST, lblTeacherCrud, 49, SpringLayout.WEST, teachersCardPanelTop);
+		sl_teachersCardPanelTop.putConstraint(SpringLayout.NORTH, lblTeacherCrud, 25, SpringLayout.NORTH,
+				teachersCardPanelTop);
+		sl_teachersCardPanelTop.putConstraint(SpringLayout.WEST, lblTeacherCrud, 49, SpringLayout.WEST,
+				teachersCardPanelTop);
 		lblTeacherCrud.setFont(new Font("Poppins", Font.BOLD, 30));
 		teachersCardPanelTop.add(lblTeacherCrud);
-		
+
 		JPanel studentsCardPanelTop = new JPanel();
 		studentsCardPanelTop.setBackground(new Color(255, 255, 255));
 		cardPanelTop.add(studentsCardPanelTop, "name_90731635969300");
 		SpringLayout sl_studentsCardPanelTop = new SpringLayout();
 		studentsCardPanelTop.setLayout(sl_studentsCardPanelTop);
-		
+
 		JLabel lblManageStudents = new JLabel("Manage Students");
-		sl_studentsCardPanelTop.putConstraint(SpringLayout.NORTH, lblManageStudents, 26, SpringLayout.NORTH, studentsCardPanelTop);
-		sl_studentsCardPanelTop.putConstraint(SpringLayout.WEST, lblManageStudents, 49, SpringLayout.WEST, studentsCardPanelTop);
+		sl_studentsCardPanelTop.putConstraint(SpringLayout.NORTH, lblManageStudents, 26, SpringLayout.NORTH,
+				studentsCardPanelTop);
+		sl_studentsCardPanelTop.putConstraint(SpringLayout.WEST, lblManageStudents, 49, SpringLayout.WEST,
+				studentsCardPanelTop);
 		lblManageStudents.setFont(new Font("Poppins", Font.BOLD, 30));
 		studentsCardPanelTop.add(lblManageStudents);
-		
+
 		JPanel coursesCardPanelTop = new JPanel();
 		coursesCardPanelTop.setBackground(new Color(255, 255, 255));
 		cardPanelTop.add(coursesCardPanelTop, "name_90733662284300");
 		SpringLayout sl_coursesCardPanelTop = new SpringLayout();
 		coursesCardPanelTop.setLayout(sl_coursesCardPanelTop);
-		
+
 		JLabel lblTeacherCrud_1 = new JLabel("Manage Courses");
-		sl_coursesCardPanelTop.putConstraint(SpringLayout.NORTH, lblTeacherCrud_1, 26, SpringLayout.NORTH, coursesCardPanelTop);
-		sl_coursesCardPanelTop.putConstraint(SpringLayout.WEST, lblTeacherCrud_1, 51, SpringLayout.WEST, coursesCardPanelTop);
+		sl_coursesCardPanelTop.putConstraint(SpringLayout.NORTH, lblTeacherCrud_1, 26, SpringLayout.NORTH,
+				coursesCardPanelTop);
+		sl_coursesCardPanelTop.putConstraint(SpringLayout.WEST, lblTeacherCrud_1, 51, SpringLayout.WEST,
+				coursesCardPanelTop);
 		lblTeacherCrud_1.setFont(new Font("Poppins", Font.BOLD, 30));
 		coursesCardPanelTop.add(lblTeacherCrud_1);
-		
+
 		JPanel reportCardPanelTop = new JPanel();
 		reportCardPanelTop.setBackground(new Color(255, 255, 255));
 		cardPanelTop.add(reportCardPanelTop, "name_90735734126900");
 		SpringLayout sl_reportCardPanelTop = new SpringLayout();
 		reportCardPanelTop.setLayout(sl_reportCardPanelTop);
-		
+
 		JLabel lblManageReport = new JLabel("Manage Report");
-		sl_reportCardPanelTop.putConstraint(SpringLayout.NORTH, lblManageReport, 23, SpringLayout.NORTH, reportCardPanelTop);
-		sl_reportCardPanelTop.putConstraint(SpringLayout.WEST, lblManageReport, 51, SpringLayout.WEST, reportCardPanelTop);
+		sl_reportCardPanelTop.putConstraint(SpringLayout.NORTH, lblManageReport, 23, SpringLayout.NORTH,
+				reportCardPanelTop);
+		sl_reportCardPanelTop.putConstraint(SpringLayout.WEST, lblManageReport, 51, SpringLayout.WEST,
+				reportCardPanelTop);
 		lblManageReport.setFont(new Font("Poppins", Font.BOLD, 30));
 		reportCardPanelTop.add(lblManageReport);
-		
+
 		cardPanel = new JPanel();
 		cardPanel.setBackground(new Color(255, 255, 255));
 		splitPane_1.setRightComponent(cardPanel);
 		cardPanel.setLayout(cl_cardPanel);
-			
+
 		JPanel dashboardCardPanel = new JPanel();
 		dashboardCardPanel.setBackground(new Color(255, 255, 255));
 		cardPanel.add(dashboardCardPanel, "name_74576525649000");
 		SpringLayout sl_dashboardCardPanel = new SpringLayout();
 		dashboardCardPanel.setLayout(sl_dashboardCardPanel);
-		
-		JLabel lblNewLabel_1 = new JLabel("<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1002<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Students\r\n</html>\r\n\r\n\r\n");
-		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 44, SpringLayout.NORTH, dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1, 38, SpringLayout.WEST, dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -252, SpringLayout.SOUTH, dashboardCardPanel);
+
+		JLabel lblNewLabel_1 = new JLabel(
+				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1002<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Students\r\n</html>\r\n\r\n\r\n");
+		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 44, SpringLayout.NORTH,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1, 38, SpringLayout.WEST,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -252, SpringLayout.SOUTH,
+				dashboardCardPanel);
 		lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 24));
 		lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		dashboardCardPanel.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;53<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
+
+		JLabel lblNewLabel_1_1 = new JLabel(
+				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;53<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
 		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1, -36, SpringLayout.WEST, lblNewLabel_1_1);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 44, SpringLayout.NORTH, dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, -209, SpringLayout.EAST, dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 44, SpringLayout.NORTH,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, -209, SpringLayout.EAST,
+				dashboardCardPanel);
 		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1, 0, SpringLayout.SOUTH, lblNewLabel_1);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1, -29, SpringLayout.EAST, dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1, -29, SpringLayout.EAST,
+				dashboardCardPanel);
 		lblNewLabel_1_1.setFont(new Font("Poppins", Font.BOLD, 24));
 		lblNewLabel_1_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
 		lblNewLabel_1_1.setBackground(Color.WHITE);
 		dashboardCardPanel.add(lblNewLabel_1_1);
-		
-		JLabel lblNewLabel_1_2 = new JLabel("<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Courses\r\n</html>\r\n\r\n\r\n");
+
+		JLabel lblNewLabel_1_2 = new JLabel(
+				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Courses\r\n</html>\r\n\r\n\r\n");
 		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_2, 42, SpringLayout.SOUTH, lblNewLabel_1);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_2, 145, SpringLayout.WEST, dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_2, -85, SpringLayout.SOUTH, dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_2, -138, SpringLayout.EAST, dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_2, 145, SpringLayout.WEST,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_2, -85, SpringLayout.SOUTH,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_2, -138, SpringLayout.EAST,
+				dashboardCardPanel);
 		lblNewLabel_1_2.setFont(new Font("Poppins", Font.BOLD, 24));
 		lblNewLabel_1_2.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
 		lblNewLabel_1_2.setBackground(Color.WHITE);
 		dashboardCardPanel.add(lblNewLabel_1_2);
-		
+
 		JPanel teachersCardPanel = new JPanel();
 		cardPanel.add(teachersCardPanel, "name_74583098469500");
 		SpringLayout sl_teachersCardPanel = new SpringLayout();
 		teachersCardPanel.setLayout(sl_teachersCardPanel);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Teacher");
-		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 73, SpringLayout.NORTH, teachersCardPanel);
+		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 73, SpringLayout.NORTH,
+				teachersCardPanel);
 		sl_teachersCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_2, 92, SpringLayout.WEST, teachersCardPanel);
-		sl_teachersCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 151, SpringLayout.NORTH, teachersCardPanel);
+		sl_teachersCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 151, SpringLayout.NORTH,
+				teachersCardPanel);
 		sl_teachersCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_2, 297, SpringLayout.WEST, teachersCardPanel);
 		teachersCardPanel.add(lblNewLabel_2);
-		
+
 		JPanel studentsCardPanel = new JPanel();
 		cardPanel.add(studentsCardPanel, "name_74591453117300");
 		SpringLayout sl_studentsCardPanel = new SpringLayout();
 		studentsCardPanel.setLayout(sl_studentsCardPanel);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Students");
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 105, SpringLayout.NORTH, studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 105, SpringLayout.NORTH,
+				studentsCardPanel);
 		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_3, 106, SpringLayout.WEST, studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, 187, SpringLayout.NORTH, studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, 187, SpringLayout.NORTH,
+				studentsCardPanel);
 		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_3, 267, SpringLayout.WEST, studentsCardPanel);
 		studentsCardPanel.add(lblNewLabel_3);
-		
+
 		JPanel courseCardPanel = new JPanel();
 		cardPanel.add(courseCardPanel, "name_74601242877200");
 		SpringLayout sl_courseCardPanel = new SpringLayout();
 		courseCardPanel.setLayout(sl_courseCardPanel);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Course");
 		sl_courseCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_4, 50, SpringLayout.NORTH, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_4, 67, SpringLayout.WEST, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_4, 123, SpringLayout.NORTH, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_4, 216, SpringLayout.WEST, courseCardPanel);
 		courseCardPanel.add(lblNewLabel_4);
-		
+
 		JPanel reportCardPanel = new JPanel();
 		cardPanel.add(reportCardPanel, "name_76380701101000");
 		SpringLayout sl_reportCardPanel = new SpringLayout();
 		reportCardPanel.setLayout(sl_reportCardPanel);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Report");
 		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 85, SpringLayout.NORTH, reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_5, 127, SpringLayout.WEST, reportCardPanel);
