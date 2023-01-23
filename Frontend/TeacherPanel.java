@@ -17,12 +17,17 @@ import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 
 public class TeacherPanel {
+	
+	private CardLayout cl_cardPanelTeacher = new CardLayout(0, 0);
+	private CardLayout cl_cardPanelTopTeacher = new CardLayout(0, 0);
 
 	public JFrame getFrmTeacherPanel() {
 		return fromTeacherPanel;
 	}
 
 	private JFrame fromTeacherPanel;
+	private JPanel cardPanelTeacher;
+	private JPanel cardPanelTopTeacher;
 
 	/**
 	 * Launch the application.
@@ -68,6 +73,12 @@ public class TeacherPanel {
 		panel.setLayout(sl_panel);
 
 		JButton btnNewButton = new JButton("Dashboard");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanelTeacher.show(cardPanelTeacher, "name_79330044922200");
+				cl_cardPanelTopTeacher.show(cardPanelTopTeacher, "name_112385867187000");
+			}
+		});
 		btnNewButton.setIcon(new ImageIcon(
 				"D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\dashboard.png"));
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 33, SpringLayout.NORTH, panel);
@@ -81,6 +92,12 @@ public class TeacherPanel {
 		panel.add(btnNewButton);
 
 		JButton btnNewButton_1_1 = new JButton("Student");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanelTeacher.show(cardPanelTeacher, "name_79342838523500");
+				cl_cardPanelTopTeacher.show(cardPanelTopTeacher, "name_112387896874700");
+			}
+		});
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1, 29, SpringLayout.SOUTH, btnNewButton);
 		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1, 22, SpringLayout.WEST, panel);
 		btnNewButton_1_1.setIcon(new ImageIcon(
@@ -94,6 +111,12 @@ public class TeacherPanel {
 		panel.add(btnNewButton_1_1);
 
 		JButton btnNewButton_1_1_2 = new JButton("Modules");
+		btnNewButton_1_1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanelTeacher.show(cardPanelTeacher, "name_79349991822800");
+				cl_cardPanelTopTeacher.show(cardPanelTopTeacher, "name_112389746503700");
+			}
+		});
 		btnNewButton_1_1_2.setIcon(new ImageIcon(
 				"D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\books.png"));
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2, 29, SpringLayout.SOUTH, btnNewButton_1_1);
@@ -132,34 +155,66 @@ public class TeacherPanel {
 		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setRightComponent(splitPane_1);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		splitPane_1.setLeftComponent(panel_1);
-		SpringLayout sl_panel_1 = new SpringLayout();
-		panel_1.setLayout(sl_panel_1);
+		cardPanelTopTeacher = new JPanel();
+		cardPanelTopTeacher.setBackground(new Color(255, 255, 255));
+		splitPane_1.setLeftComponent(cardPanelTopTeacher);
+		cardPanelTopTeacher.setLayout(cl_cardPanelTopTeacher);
+		
+		JPanel dashboardCardPanelTeacherTop = new JPanel();
+		cardPanelTopTeacher.add(dashboardCardPanelTeacherTop, "name_112385867187000");
+		SpringLayout sl_dashboardCardPanelTeacherTop = new SpringLayout();
+		dashboardCardPanelTeacherTop.setLayout(sl_dashboardCardPanelTeacherTop);
+		
+		JLabel lblNewLabel_2 = new JLabel("hi");
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 25, SpringLayout.NORTH, dashboardCardPanelTeacherTop);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel_2, 37, SpringLayout.WEST, dashboardCardPanelTeacherTop);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 38, SpringLayout.NORTH, dashboardCardPanelTeacherTop);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel_2, 121, SpringLayout.WEST, dashboardCardPanelTeacherTop);
+		dashboardCardPanelTeacherTop.add(lblNewLabel_2);
+		
+		JPanel studentCardPanelTeacherTop = new JPanel();
+		cardPanelTopTeacher.add(studentCardPanelTeacherTop, "name_112387896874700");
+		SpringLayout sl_studentCardPanelTeacherTop = new SpringLayout();
+		studentCardPanelTeacherTop.setLayout(sl_studentCardPanelTeacherTop);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel, 22, SpringLayout.WEST, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel, 45, SpringLayout.NORTH, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel, 100, SpringLayout.WEST, studentCardPanelTeacherTop);
+		studentCardPanelTeacherTop.add(lblNewLabel);
+		
+		JPanel modulesCardPanelTeacherTop = new JPanel();
+		cardPanelTopTeacher.add(modulesCardPanelTeacherTop, "name_112389746503700");
+		SpringLayout sl_modulesCardPanelTeacherTop = new SpringLayout();
+		modulesCardPanelTeacherTop.setLayout(sl_modulesCardPanelTeacherTop);
+		
+		JLabel lblNewLabel_1 = new JLabel("Modules");
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 27, SpringLayout.NORTH, modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel_1, 53, SpringLayout.WEST, modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 68, SpringLayout.NORTH, modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel_1, 174, SpringLayout.WEST, modulesCardPanelTeacherTop);
+		modulesCardPanelTeacherTop.add(lblNewLabel_1);
 
-		JLabel lblWelcomeBackMoon = new JLabel("Welcome Back, Sir!");
-		sl_panel_1.putConstraint(SpringLayout.WEST, lblWelcomeBackMoon, 28, SpringLayout.WEST, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.SOUTH, lblWelcomeBackMoon, -25, SpringLayout.SOUTH, panel_1);
-		lblWelcomeBackMoon.setFont(new Font("Poppins", Font.BOLD, 30));
-		panel_1.add(lblWelcomeBackMoon);
-
-		JPanel cardPanel = new JPanel();
-		cardPanel.setBackground(new Color(255, 255, 255));
-		splitPane_1.setRightComponent(cardPanel);
-		cardPanel.setLayout(new CardLayout(0, 0));
+		cardPanelTeacher = new JPanel();
+		cardPanelTeacher.setBackground(new Color(255, 255, 255));
+		splitPane_1.setRightComponent(cardPanelTeacher);
+		cardPanelTeacher.setLayout(cl_cardPanelTeacher);
 
 		JPanel dashboardCardPanelTeacher = new JPanel();
-		cardPanel.add(dashboardCardPanelTeacher, "name_79330044922200");
+		dashboardCardPanelTeacher.setBackground(new Color(0, 0, 255));
+		cardPanelTeacher.add(dashboardCardPanelTeacher, "name_79330044922200");
 		dashboardCardPanelTeacher.setLayout(new SpringLayout());
 
-		JPanel StudentCardPanelTeacher = new JPanel();
-		cardPanel.add(StudentCardPanelTeacher, "name_79342838523500");
-		StudentCardPanelTeacher.setLayout(new SpringLayout());
+		JPanel studentCardPanelTeacher = new JPanel();
+		studentCardPanelTeacher.setBackground(new Color(192, 192, 192));
+		cardPanelTeacher.add(studentCardPanelTeacher, "name_79342838523500");
+		studentCardPanelTeacher.setLayout(new SpringLayout());
 
-		JPanel ModulesCardPanelTeacher = new JPanel();
-		cardPanel.add(ModulesCardPanelTeacher, "name_79349991822800");
-		ModulesCardPanelTeacher.setLayout(new SpringLayout());
+		JPanel modulesCardPanelTeacher = new JPanel();
+		modulesCardPanelTeacher.setBackground(new Color(128, 64, 0));
+		cardPanelTeacher.add(modulesCardPanelTeacher, "name_79349991822800");
+		modulesCardPanelTeacher.setLayout(new SpringLayout());
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 	}
