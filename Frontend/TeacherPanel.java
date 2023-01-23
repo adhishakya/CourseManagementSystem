@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.CardLayout;
 
 public class TeacherPanel {
 
@@ -143,9 +144,22 @@ public class TeacherPanel {
 		lblWelcomeBackMoon.setFont(new Font("Poppins", Font.BOLD, 30));
 		panel_1.add(lblWelcomeBackMoon);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 255));
-		splitPane_1.setRightComponent(panel_2);
+		JPanel cardPanel = new JPanel();
+		cardPanel.setBackground(new Color(255, 255, 255));
+		splitPane_1.setRightComponent(cardPanel);
+		cardPanel.setLayout(new CardLayout(0, 0));
+
+		JPanel dashboardCardPanelTeacher = new JPanel();
+		cardPanel.add(dashboardCardPanelTeacher, "name_79330044922200");
+		dashboardCardPanelTeacher.setLayout(new SpringLayout());
+
+		JPanel StudentCardPanelTeacher = new JPanel();
+		cardPanel.add(StudentCardPanelTeacher, "name_79342838523500");
+		StudentCardPanelTeacher.setLayout(new SpringLayout());
+
+		JPanel ModulesCardPanelTeacher = new JPanel();
+		cardPanel.add(ModulesCardPanelTeacher, "name_79349991822800");
+		ModulesCardPanelTeacher.setLayout(new SpringLayout());
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 	}
