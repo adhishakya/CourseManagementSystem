@@ -32,6 +32,8 @@ import java.awt.Dimension;
 import javax.swing.SpringLayout;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login {
 
@@ -104,9 +106,10 @@ public class Login {
 				new Color(255, 255, 255), new Color(255, 255, 255)));
 		comboBox.setBackground(new Color(255, 255, 255));
 		comboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "", "Admin", "Teacher", "Student" }));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Select User", "Admin", "Teacher", "Student" }));
 
 		JButton btnNewButton = new JButton("Login");
+
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBackground(new Color(128, 128, 255));
 		btnNewButton.setBorder(null);
@@ -158,13 +161,13 @@ public class Login {
 		lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 28));
 
 		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\user-svgrepo-com (3).png"));
+		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/images/user.png")));
 
 		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\key-svgrepo-com (2).png"));
+		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/images/password.png")));
 
 		JLabel lblNewLabel_4 = new JLabel("");
-		lblNewLabel_4.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\users (1).png"));
+		lblNewLabel_4.setIcon(new ImageIcon(Login.class.getResource("/images/users.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
 				gl_panel.createSequentialGroup().addGap(37)
@@ -214,8 +217,7 @@ public class Login {
 		panel.setLayout(gl_panel);
 
 		JLabel lblNewLabel_5 = new JLabel("");
-		lblNewLabel_5.setIcon(new ImageIcon(
-				"D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\reading.png"));
+		lblNewLabel_5.setIcon(new ImageIcon(Login.class.getResource("/images/reading.png")));
 		splitPane.setLeftComponent(lblNewLabel_5);
 		splitPane.setDividerLocation(370);
 		fromLogin.setBounds(100, 100, 911, 598);
