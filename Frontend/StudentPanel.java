@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.CardLayout;
 
 public class StudentPanel {
 
@@ -70,8 +71,7 @@ public class StudentPanel {
         JButton btnNewButton = new JButton("Dashboard");
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 33, SpringLayout.NORTH, panel);
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton, 22, SpringLayout.WEST, panel);
-        btnNewButton.setIcon(new ImageIcon(
-                "D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\dashboard.png"));
+        btnNewButton.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/dashboard.png")));
         btnNewButton.setIconTextGap(16);
         btnNewButton.setForeground(Color.WHITE);
         btnNewButton.setFont(new Font("Poppins", Font.BOLD, 18));
@@ -83,7 +83,7 @@ public class StudentPanel {
         JButton btnNewButton_1 = new JButton("Teachers");
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 29, SpringLayout.SOUTH, btnNewButton);
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, btnNewButton);
-        btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\shaky\\Downloads\\teacher-svgrepo-com (1).png"));
+        btnNewButton_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/teacher.png")));
         btnNewButton_1.setIconTextGap(15);
         btnNewButton_1.setForeground(Color.WHITE);
         btnNewButton_1.setFont(new Font("Poppins", Font.BOLD, 18));
@@ -93,8 +93,7 @@ public class StudentPanel {
         panel.add(btnNewButton_1);
 
         JButton btnNewButton_1_1_2 = new JButton("Modules");
-        btnNewButton_1_1_2.setIcon(new ImageIcon(
-                "D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\books.png"));
+        btnNewButton_1_1_2.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/books.png")));
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2, 30, SpringLayout.SOUTH, btnNewButton_1);
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2, 0, SpringLayout.WEST, btnNewButton);
         btnNewButton_1_1_2.setIconTextGap(14);
@@ -116,8 +115,7 @@ public class StudentPanel {
                 window.getFrmLogin().setVisible(true);
             }
         });
-        btnNewButton_1_1_1.setIcon(new ImageIcon(
-                "D:\\College Stuffs\\Level 5\\Object-Oriented Design and Programming\\hello\\Images\\logout.png"));
+        btnNewButton_1_1_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/logout.png")));
         btnNewButton_1_1_1.setIconTextGap(16);
         btnNewButton_1_1_1.setForeground(Color.WHITE);
         btnNewButton_1_1_1.setFont(new Font("Poppins", Font.BOLD, 18));
@@ -131,31 +129,6 @@ public class StudentPanel {
         splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setRightComponent(splitPane_1);
 
-        JPanel panel_1 = new JPanel();
-        panel_1.setBackground(new Color(255, 255, 255));
-        splitPane_1.setRightComponent(panel_1);
-        SpringLayout sl_panel_1 = new SpringLayout();
-        panel_1.setLayout(sl_panel_1);
-
-        JLabel lblNewLabel_1 = new JLabel(
-                "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student ID: 2223456<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Name: Mike Bean<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Group: L5CG20<br>\r\n</html>\r\n\r\n\r\n");
-        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 102, SpringLayout.NORTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_1, 26, SpringLayout.WEST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 344, SpringLayout.NORTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_1, 432, SpringLayout.WEST, panel_1);
-        lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 24));
-        lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
-        lblNewLabel_1.setBackground(Color.WHITE);
-        panel_1.add(lblNewLabel_1);
-
-        JLabel lblNewLabel = new JLabel("Student Details:");
-        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel, 20, SpringLayout.NORTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel, 27, SpringLayout.WEST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel, -13, SpringLayout.NORTH, lblNewLabel_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel, 236, SpringLayout.WEST, panel_1);
-        lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 24));
-        panel_1.add(lblNewLabel);
-
         JPanel panel_2 = new JPanel();
         panel_2.setBackground(new Color(255, 255, 255));
         splitPane_1.setLeftComponent(panel_2);
@@ -167,6 +140,46 @@ public class StudentPanel {
         sl_panel_2.putConstraint(SpringLayout.WEST, lblWelcomeBackStudent, 25, SpringLayout.WEST, panel_2);
         lblWelcomeBackStudent.setFont(new Font("Poppins", Font.BOLD, 30));
         panel_2.add(lblWelcomeBackStudent);
+
+        JPanel cardPanel = new JPanel();
+        splitPane_1.setRightComponent(cardPanel);
+        cardPanel.setLayout(new CardLayout(0, 0));
+
+        JPanel dashboardCardPanelStudent = new JPanel();
+        dashboardCardPanelStudent.setBackground(new Color(255, 255, 255));
+        cardPanel.add(dashboardCardPanelStudent, "name_78982683888600");
+        SpringLayout sl_dashboardCardPanelStudent = new SpringLayout();
+        dashboardCardPanelStudent.setLayout(sl_dashboardCardPanelStudent);
+
+        JLabel lblNewLabel_1 = new JLabel(
+                "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student ID: 2223456<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Name: Mike Bean<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Group: L5CG20<br>\r\n</html>\r\n\r\n\r\n");
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 99, SpringLayout.NORTH,
+                dashboardCardPanelStudent);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_1, 25, SpringLayout.WEST,
+                dashboardCardPanelStudent);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -38, SpringLayout.SOUTH,
+                dashboardCardPanelStudent);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.EAST, lblNewLabel_1, -30, SpringLayout.EAST,
+                dashboardCardPanelStudent);
+        lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 24));
+        lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+        lblNewLabel_1.setBackground(Color.WHITE);
+        dashboardCardPanelStudent.add(lblNewLabel_1);
+
+        JLabel lblNewLabel = new JLabel("Student Details:");
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel, 0, SpringLayout.WEST, lblNewLabel_1);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel, -26, SpringLayout.NORTH,
+                lblNewLabel_1);
+        lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 24));
+        dashboardCardPanelStudent.add(lblNewLabel);
+
+        JPanel teachersCardPanelStudent = new JPanel();
+        cardPanel.add(teachersCardPanelStudent, "name_78985517477200");
+        teachersCardPanelStudent.setLayout(new SpringLayout());
+
+        JPanel ModulesCardPanelStudent = new JPanel();
+        cardPanel.add(ModulesCardPanelStudent, "name_78987815364700");
+        ModulesCardPanelStudent.setLayout(new SpringLayout());
         splitPane_1.setDividerLocation(100);
         splitPane.setDividerLocation(200);
     }
