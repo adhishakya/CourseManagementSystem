@@ -34,6 +34,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Cursor;
 
 public class Login {
 
@@ -87,6 +88,8 @@ public class Login {
 		splitPane.setRightComponent(panel);
 
 		enteredUsername = new JTextField();
+		enteredUsername.setSelectedTextColor(new Color(255, 255, 255));
+		enteredUsername.setSelectionColor(new Color(128, 128, 255));
 		enteredUsername.setForeground(new Color(104, 104, 104));
 		enteredUsername.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255),
 				new Color(128, 128, 255), new Color(255, 255, 255), new Color(255, 255, 255)));
@@ -109,6 +112,7 @@ public class Login {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Select User", "Admin", "Teacher", "Student" }));
 
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBackground(new Color(128, 128, 255));
@@ -142,6 +146,8 @@ public class Login {
 		btnNewButton.setFont(new Font("Poppins", Font.BOLD, 18));
 
 		passwordField = new JPasswordField();
+		passwordField.setSelectionColor(new Color(128, 128, 255));
+		passwordField.setSelectedTextColor(new Color(255, 255, 255));
 		passwordField.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
 				new Color(255, 255, 255), new Color(255, 255, 255)));
 		passwordField.setFont(new Font("Poppins", Font.PLAIN, 16));
