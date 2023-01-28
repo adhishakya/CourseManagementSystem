@@ -190,7 +190,7 @@ public class AdminPanel {
 		logOutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LogoutPrompt logoutPrompt = new LogoutPrompt();
+				LogoutPromptAdmin logoutPrompt = new LogoutPromptAdmin();
 				logoutPrompt.setVisible(true);
 			}
 		});
