@@ -15,6 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SpringLayout;
@@ -42,6 +46,43 @@ public class AdminPanel {
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
 	private JTable table;
+
+	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
+			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
+					{ null, null, null, null, null, null }, },
+			new String[] { "Id", "Name", "Phone No.", "Address", "Modules", "Part Time" });
+
+	public static void showDataFromDatabase() {
+		Statement statement = DatabaseConnection.getStatement();
+
+		String selectQuery = "SELECT * FROM `teacherdetails`";
+
+		try {
+			ResultSet resultSet = statement.executeQuery(selectQuery);
+			teacherDefaultTableModel.setRowCount(0);
+			while (resultSet.next()) {
+				int teacherIdFromDB = resultSet.getInt("Id");
+				String teacherNameFromDB = resultSet.getString("teacherName");
+				BigDecimal teacherPhoneFromDB = resultSet.getBigDecimal("teacherPhoneNo");
+				String teacherAddressFromDB = resultSet.getString("teacherAddress");
+				String assignedModuleFromDB = resultSet.getString("assignedModule");
+				boolean isPartTimeFromDB = resultSet.getBoolean("isPartTime");
+
+				teacherDefaultTableModel.addRow(new Object[] {
+						teacherIdFromDB,
+						teacherNameFromDB,
+						teacherPhoneFromDB,
+						teacherAddressFromDB,
+						assignedModuleFromDB,
+						isPartTimeFromDB
+
+				});
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Launch the application.
@@ -359,28 +400,13 @@ public class AdminPanel {
 		table.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
 		table.setFont(new Font("Poppins", Font.PLAIN, 10));
 		table.setRowSelectionAllowed(false);
-		table.setModel(new DefaultTableModel(
-				new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, },
-				new String[] { "Id", "Name", "Phone No.", "Address", "Modules", "Part Time" }) {
-			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
+		table.setModel(teacherDefaultTableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(53);
 		table.getColumnModel().getColumn(0).setMinWidth(16);
-		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(1).setPreferredWidth(99);
-		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(91);
-		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(3).setPreferredWidth(97);
-		table.getColumnModel().getColumn(4).setResizable(false);
 		table.getColumnModel().getColumn(4).setPreferredWidth(97);
-		table.getColumnModel().getColumn(5).setResizable(false);
 		scrollPane.setViewportView(table);
 
 		JButton btnNewButton_2_1 = new JButton("Add");
@@ -635,5 +661,7 @@ public class AdminPanel {
 		reportCardPanel.add(lblNewLabel_5);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
+
+		AdminPanel.showDataFromDatabase();
 	}
 }
