@@ -11,6 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
@@ -32,11 +33,11 @@ public class AdminPanel {
 
 	private CardLayout cl_cardPanelTop = new CardLayout(0, 0);
 
-	public JFrame getFrmAdminPanel() {
+	public static JFrame getFrmAdminPanel() {
 		return fromAdminPanel;
 	}
 
-	private JFrame fromAdminPanel;
+	private static JFrame fromAdminPanel;
 	private JPanel cardPanel;
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
@@ -145,12 +146,11 @@ public class AdminPanel {
 		panel.add(btnNewButton_1_1);
 
 		JButton logOutButton = new JButton("Log Out");
+		logOutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Admin Logging out!");
-				fromAdminPanel.dispose();
-				Login window = new Login();
-				window.getFrmLogin().setVisible(true);
+				LogoutPrompt logoutPrompt = new LogoutPrompt();
+				logoutPrompt.setVisible(true);
 			}
 		});
 		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, logOutButton);
@@ -360,17 +360,10 @@ public class AdminPanel {
 		table.setFont(new Font("Poppins", Font.PLAIN, 10));
 		table.setRowSelectionAllowed(false);
 		table.setModel(new DefaultTableModel(
-				new Object[][] {
-						{ "", null, null, null, null, null },
-						{ null, null, null, null, null, null },
-						{ null, null, null, null, null, null },
-				},
-				new String[] {
-						"Id", "Name", "Phone No.", "Address", "Modules", "Part Time"
-				}) {
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false
-			};
+				new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, },
+				new String[] { "Id", "Name", "Phone No.", "Address", "Modules", "Part Time" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -390,7 +383,7 @@ public class AdminPanel {
 		table.getColumnModel().getColumn(5).setResizable(false);
 		scrollPane.setViewportView(table);
 
-		JButton btnNewButton_2_1 = new JButton("Create");
+		JButton btnNewButton_2_1 = new JButton("Add");
 		btnNewButton_2_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_teachersCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1, 60, SpringLayout.WEST,
 				teachersCardPanel);
@@ -398,13 +391,13 @@ public class AdminPanel {
 				teachersCardPanel);
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createTeacher createTeacher = new createTeacher();
+				AddTeacher createTeacher = new AddTeacher();
 				createTeacher.setVisible(true);
 			}
 		});
 		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1, 20, SpringLayout.NORTH,
 				teachersCardPanel);
-		btnNewButton_2_1.setIconTextGap(15);
+		btnNewButton_2_1.setIconTextGap(12);
 		btnNewButton_2_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
 		btnNewButton_2_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_2_1.setOpaque(false);
@@ -473,7 +466,14 @@ public class AdminPanel {
 		SpringLayout sl_studentsCardPanel = new SpringLayout();
 		studentsCardPanel.setLayout(sl_studentsCardPanel);
 
-		JButton btnNewButton_2_1_4 = new JButton("Create");
+		JButton btnNewButton_2_1_4 = new JButton("Add");
+		btnNewButton_2_1_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddStudent addStudent = new AddStudent();
+				addStudent.setVisible(true);
+			}
+		});
+		btnNewButton_2_1_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_4, 21, SpringLayout.NORTH,
 				studentsCardPanel);
 		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1_4, 58, SpringLayout.WEST,
@@ -484,13 +484,14 @@ public class AdminPanel {
 				studentsCardPanel);
 		btnNewButton_2_1_4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
 		btnNewButton_2_1_4.setOpaque(false);
-		btnNewButton_2_1_4.setIconTextGap(15);
+		btnNewButton_2_1_4.setIconTextGap(12);
 		btnNewButton_2_1_4.setFont(new Font("Poppins", Font.BOLD, 14));
 		btnNewButton_2_1_4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
 		btnNewButton_2_1_4.setBackground(Color.WHITE);
 		studentsCardPanel.add(btnNewButton_2_1_4);
 
 		JButton btnNewButton_2_1_1_1 = new JButton("Replace");
+		btnNewButton_2_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_1_1, 21, SpringLayout.NORTH,
 				studentsCardPanel);
 		btnNewButton_2_1_1_1.addActionListener(new ActionListener() {
@@ -510,6 +511,7 @@ public class AdminPanel {
 		studentsCardPanel.add(btnNewButton_2_1_1_1);
 
 		JButton btnNewButton_2_1_1_1_1 = new JButton("Update");
+		btnNewButton_2_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_1_1_1, 21, SpringLayout.SOUTH,
 				btnNewButton_2_1_4);
 		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1_1_1_1, 58, SpringLayout.WEST,
@@ -525,6 +527,7 @@ public class AdminPanel {
 		studentsCardPanel.add(btnNewButton_2_1_1_1_1);
 
 		JButton btnNewButton_2_1_1_1_1_1 = new JButton("Delete");
+		btnNewButton_2_1_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, btnNewButton_2_1_1_1_1, -94, SpringLayout.WEST,
 				btnNewButton_2_1_1_1_1_1);
 		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_2_1_1_1, -21, SpringLayout.NORTH,
