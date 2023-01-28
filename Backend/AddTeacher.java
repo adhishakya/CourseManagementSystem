@@ -210,6 +210,7 @@ public class AddTeacher extends JDialog {
                     int insertSuccess = statement.executeUpdate(insertQuery);
                     if (insertSuccess == 1) {
                         JOptionPane.showMessageDialog(contentPanel, "Added Teacher data successfully!");
+                        dispose();
                     }
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
