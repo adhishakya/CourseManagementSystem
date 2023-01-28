@@ -16,17 +16,18 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
+import java.awt.Cursor;
 
 public class StudentPanel {
-	
-	private CardLayout cl_cardPanelStudent = new CardLayout(0, 0);
-	private CardLayout cl_cardPanelStudentTop = new CardLayout(0, 0);
 
-    public JFrame getFrmStudentPanel() {
+    private CardLayout cl_cardPanelStudent = new CardLayout(0, 0);
+    private CardLayout cl_cardPanelStudentTop = new CardLayout(0, 0);
+
+    public static JFrame getFrmStudentPanel() {
         return fromStudentPanel;
     }
 
-    private JFrame fromStudentPanel;
+    private static JFrame fromStudentPanel;
     private JPanel cardPanelStudent;
     private JPanel cardPanelStudentTop;
 
@@ -75,10 +76,10 @@ public class StudentPanel {
 
         JButton btnNewButton = new JButton("Dashboard");
         btnNewButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		cl_cardPanelStudent.show(cardPanelStudent, "name_78982683888600");
-        		cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110887659857400");
-        	}
+            public void actionPerformed(ActionEvent e) {
+                cl_cardPanelStudent.show(cardPanelStudent, "name_78982683888600");
+                cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110887659857400");
+            }
         });
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 33, SpringLayout.NORTH, panel);
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton, 22, SpringLayout.WEST, panel);
@@ -93,10 +94,10 @@ public class StudentPanel {
 
         JButton btnNewButton_1 = new JButton("Teachers");
         btnNewButton_1.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		cl_cardPanelStudent.show(cardPanelStudent, "name_78985517477200");
-        		cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110889775858700");
-        	}
+            public void actionPerformed(ActionEvent e) {
+                cl_cardPanelStudent.show(cardPanelStudent, "name_78985517477200");
+                cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110889775858700");
+            }
         });
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 29, SpringLayout.SOUTH, btnNewButton);
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, btnNewButton);
@@ -111,10 +112,10 @@ public class StudentPanel {
 
         JButton btnNewButton_1_1_2 = new JButton("Modules");
         btnNewButton_1_1_2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		cl_cardPanelStudent.show(cardPanelStudent, "name_78987815364700");
-        		cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110891736583900");
-        	}
+            public void actionPerformed(ActionEvent e) {
+                cl_cardPanelStudent.show(cardPanelStudent, "name_78987815364700");
+                cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110891736583900");
+            }
         });
         btnNewButton_1_1_2.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/books.png")));
         sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2, 30, SpringLayout.SOUTH, btnNewButton_1);
@@ -128,14 +129,13 @@ public class StudentPanel {
         panel.add(btnNewButton_1_1_2);
 
         JButton btnNewButton_1_1_1 = new JButton("Log Out");
+        btnNewButton_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_1, 0, SpringLayout.WEST, btnNewButton);
         sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_1, -22, SpringLayout.SOUTH, panel);
         btnNewButton_1_1_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Student Logging out!");
-                fromStudentPanel.dispose();
-                Login window = new Login();
-                window.getFrmLogin().setVisible(true);
+                LogoutPromptStudent logoutPrompt = new LogoutPromptStudent();
+                logoutPrompt.setVisible(true);
             }
         });
         btnNewButton_1_1_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/logout.png")));
@@ -156,23 +156,25 @@ public class StudentPanel {
         cardPanelStudentTop.setBackground(new Color(255, 255, 255));
         splitPane_1.setLeftComponent(cardPanelStudentTop);
         cardPanelStudentTop.setLayout(cl_cardPanelStudentTop);
-        
+
         JPanel dashboardCardPanelStudentTop = new JPanel();
         dashboardCardPanelStudentTop.setBackground(new Color(255, 255, 255));
         cardPanelStudentTop.add(dashboardCardPanelStudentTop, "name_110887659857400");
         SpringLayout sl_dashboardCardPanelStudentTop = new SpringLayout();
         dashboardCardPanelStudentTop.setLayout(sl_dashboardCardPanelStudentTop);
-        
+
         JLabel lblWelcomeBackMike = new JLabel("Welcome Back, Mike!");
-        sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.NORTH, lblWelcomeBackMike, 25, SpringLayout.NORTH, dashboardCardPanelStudentTop);
-        sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.WEST, lblWelcomeBackMike, 31, SpringLayout.WEST, dashboardCardPanelStudentTop);
+        sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.NORTH, lblWelcomeBackMike, 25, SpringLayout.NORTH,
+                dashboardCardPanelStudentTop);
+        sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.WEST, lblWelcomeBackMike, 31, SpringLayout.WEST,
+                dashboardCardPanelStudentTop);
         lblWelcomeBackMike.setFont(new Font("Poppins", Font.BOLD, 30));
         dashboardCardPanelStudentTop.add(lblWelcomeBackMike);
-        
+
         JPanel teachersCardPanelStudentTop = new JPanel();
         teachersCardPanelStudentTop.setBackground(new Color(0, 64, 64));
         cardPanelStudentTop.add(teachersCardPanelStudentTop, "name_110889775858700");
-        
+
         JPanel modulesCardPanelStudentTop = new JPanel();
         cardPanelStudentTop.add(modulesCardPanelStudentTop, "name_110891736583900");
 
@@ -212,20 +214,24 @@ public class StudentPanel {
         cardPanelStudent.add(teachersCardPanelStudent, "name_78985517477200");
         SpringLayout sl_teachersCardPanelStudent = new SpringLayout();
         teachersCardPanelStudent.setLayout(sl_teachersCardPanelStudent);
-        
+
         JLabel lblNewLabel_2 = new JLabel("Teachers");
-        sl_teachersCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 96, SpringLayout.NORTH, teachersCardPanelStudent);
-        sl_teachersCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_2, 130, SpringLayout.WEST, teachersCardPanelStudent);
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 96, SpringLayout.NORTH,
+                teachersCardPanelStudent);
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_2, 130, SpringLayout.WEST,
+                teachersCardPanelStudent);
         teachersCardPanelStudent.add(lblNewLabel_2);
 
         JPanel modulesCardPanelStudent = new JPanel();
         cardPanelStudent.add(modulesCardPanelStudent, "name_78987815364700");
         SpringLayout sl_modulesCardPanelStudent = new SpringLayout();
         modulesCardPanelStudent.setLayout(sl_modulesCardPanelStudent);
-        
+
         JLabel lblNewLabel_3 = new JLabel("Modules");
-        sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 132, SpringLayout.NORTH, modulesCardPanelStudent);
-        sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 175, SpringLayout.WEST, modulesCardPanelStudent);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 132, SpringLayout.NORTH,
+                modulesCardPanelStudent);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 175, SpringLayout.WEST,
+                modulesCardPanelStudent);
         modulesCardPanelStudent.add(lblNewLabel_3);
         splitPane_1.setDividerLocation(100);
         splitPane.setDividerLocation(200);
