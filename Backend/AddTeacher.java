@@ -9,29 +9,43 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Button;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 import java.awt.event.ActionEvent;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Cursor;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ItemEvent;
 
 public class AddTeacher extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
+    private JTextField teacherFullNameTextField;
+    private JTextField teacherPhoneTextField;
+    private JTextField teacherAddressTextField;
     private final ButtonGroup buttonGroup = new ButtonGroup();
+    private String teacherName = "";
+    private String teacherPhone = "";
+    private String teacherAddress = "";
+    private String assignedModule = "";
+    private String isPartTimeText = "";
+    private String isPartTime = "";
 
     /**
      * Launch the application.
@@ -66,17 +80,20 @@ public class AddTeacher extends JDialog {
         lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 20));
         contentPanel.add(lblNewLabel);
 
-        textField = new JTextField();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, textField, 14, SpringLayout.SOUTH, lblNewLabel);
-        textField.setCaretColor(new Color(128, 128, 255));
-        textField.setSelectedTextColor(new Color(255, 255, 255));
-        textField.setSelectionColor(new Color(128, 128, 255));
-        textField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-        textField.setFont(new Font("Poppins", Font.PLAIN, 14));
-        sl_contentPanel.putConstraint(SpringLayout.WEST, textField, 128, SpringLayout.WEST, contentPanel);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, textField, -28, SpringLayout.EAST, contentPanel);
-        contentPanel.add(textField);
-        textField.setColumns(10);
+        teacherFullNameTextField = new JTextField();
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, teacherFullNameTextField, 14, SpringLayout.SOUTH,
+                lblNewLabel);
+        teacherFullNameTextField.setCaretColor(new Color(128, 128, 255));
+        teacherFullNameTextField.setSelectedTextColor(new Color(255, 255, 255));
+        teacherFullNameTextField.setSelectionColor(new Color(128, 128, 255));
+        teacherFullNameTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
+        teacherFullNameTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
+        sl_contentPanel.putConstraint(SpringLayout.WEST, teacherFullNameTextField, 128, SpringLayout.WEST,
+                contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, teacherFullNameTextField, -28, SpringLayout.EAST,
+                contentPanel);
+        contentPanel.add(teacherFullNameTextField);
+        teacherFullNameTextField.setColumns(10);
 
         JLabel lblNewLabel_1_1 = new JLabel("Phone No :");
         sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, 26, SpringLayout.WEST, contentPanel);
@@ -84,18 +101,19 @@ public class AddTeacher extends JDialog {
         lblNewLabel_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1);
 
-        textField_1 = new JTextField();
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, textField, -29, SpringLayout.NORTH, textField_1);
-        textField_1.setSelectionColor(new Color(128, 128, 255));
-        textField_1.setSelectedTextColor(new Color(255, 255, 255));
-        textField_1.setCaretColor(new Color(128, 128, 255));
-        textField_1.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, textField_1, 122, SpringLayout.NORTH, contentPanel);
-        textField_1.setFont(new Font("Poppins", Font.PLAIN, 14));
-        sl_contentPanel.putConstraint(SpringLayout.WEST, textField_1, 23, SpringLayout.EAST, lblNewLabel_1_1);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, textField_1, -28, SpringLayout.EAST, contentPanel);
-        textField_1.setColumns(10);
-        contentPanel.add(textField_1);
+        teacherPhoneTextField = new JTextField();
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, teacherFullNameTextField, -29, SpringLayout.NORTH,
+                teacherPhoneTextField);
+        teacherPhoneTextField.setSelectionColor(new Color(128, 128, 255));
+        teacherPhoneTextField.setSelectedTextColor(new Color(255, 255, 255));
+        teacherPhoneTextField.setCaretColor(new Color(128, 128, 255));
+        teacherPhoneTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, teacherPhoneTextField, 122, SpringLayout.NORTH, contentPanel);
+        teacherPhoneTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
+        sl_contentPanel.putConstraint(SpringLayout.WEST, teacherPhoneTextField, 23, SpringLayout.EAST, lblNewLabel_1_1);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, teacherPhoneTextField, -28, SpringLayout.EAST, contentPanel);
+        teacherPhoneTextField.setColumns(10);
+        contentPanel.add(teacherPhoneTextField);
 
         JLabel lblNewLabel_1_1_1 = new JLabel("Address :");
         sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1, 46, SpringLayout.SOUTH, lblNewLabel_1_1);
@@ -103,19 +121,22 @@ public class AddTeacher extends JDialog {
         lblNewLabel_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1_1);
 
-        textField_2 = new JTextField();
-        sl_contentPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1_1, -26, SpringLayout.WEST, textField_2);
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, textField_2, 195, SpringLayout.NORTH, contentPanel);
-        textField_2.setSelectionColor(new Color(128, 128, 255));
-        textField_2.setSelectedTextColor(new Color(255, 255, 255));
-        textField_2.setCaretColor(new Color(128, 128, 255));
-        textField_2.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, textField_1, -42, SpringLayout.NORTH, textField_2);
-        textField_2.setFont(new Font("Poppins", Font.PLAIN, 14));
-        sl_contentPanel.putConstraint(SpringLayout.WEST, textField_2, 128, SpringLayout.WEST, contentPanel);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, textField_2, -28, SpringLayout.EAST, contentPanel);
-        textField_2.setColumns(10);
-        contentPanel.add(textField_2);
+        teacherAddressTextField = new JTextField();
+        sl_contentPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1_1, -26, SpringLayout.WEST,
+                teacherAddressTextField);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, teacherAddressTextField, 195, SpringLayout.NORTH,
+                contentPanel);
+        teacherAddressTextField.setSelectionColor(new Color(128, 128, 255));
+        teacherAddressTextField.setSelectedTextColor(new Color(255, 255, 255));
+        teacherAddressTextField.setCaretColor(new Color(128, 128, 255));
+        teacherAddressTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, teacherPhoneTextField, -42, SpringLayout.NORTH,
+                teacherAddressTextField);
+        teacherAddressTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
+        sl_contentPanel.putConstraint(SpringLayout.WEST, teacherAddressTextField, 128, SpringLayout.WEST, contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, teacherAddressTextField, -28, SpringLayout.EAST, contentPanel);
+        teacherAddressTextField.setColumns(10);
+        contentPanel.add(teacherAddressTextField);
 
         JLabel lblNewLabel_1_1_1_1 = new JLabel("Module :");
         sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 40, SpringLayout.SOUTH,
@@ -135,11 +156,13 @@ public class AddTeacher extends JDialog {
         sl_contentPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1_1_1_1, -36, SpringLayout.WEST,
                 rdbtnNewRadioButton);
         rdbtnNewRadioButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, textField_2, -87, SpringLayout.NORTH, rdbtnNewRadioButton);
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, teacherAddressTextField, -87, SpringLayout.NORTH,
+                rdbtnNewRadioButton);
         rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
         sl_contentPanel.putConstraint(SpringLayout.NORTH, rdbtnNewRadioButton, -2, SpringLayout.NORTH,
                 lblNewLabel_1_1_1_1_1);
-        sl_contentPanel.putConstraint(SpringLayout.WEST, rdbtnNewRadioButton, 0, SpringLayout.WEST, textField);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, rdbtnNewRadioButton, 0, SpringLayout.WEST,
+                teacherFullNameTextField);
         buttonGroup.add(rdbtnNewRadioButton);
         rdbtnNewRadioButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         contentPanel.add(rdbtnNewRadioButton);
@@ -161,6 +184,40 @@ public class AddTeacher extends JDialog {
         contentPanel.add(lblNewLabel_1_1_2);
 
         JButton btnNewButton = new JButton("Add");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                teacherName = teacherFullNameTextField.getText().trim();
+                teacherPhone = teacherPhoneTextField.getText().trim();
+                teacherAddress = teacherAddressTextField.getText().trim();
+                for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+                    AbstractButton button = buttons.nextElement();
+                    if (button.isSelected()) {
+                        isPartTimeText = button.getText();
+                        if (isPartTimeText.equalsIgnoreCase("Part-Time")) {
+                            isPartTime = "1";
+                        } else {
+                            isPartTime = "0";
+                        }
+                        System.out.println(isPartTime);
+                    }
+                }
+                Statement statement = DatabaseConnection.getStatement();
+
+                String insertQuery = "INSERT INTO `teacherdetails` (`Id`, `teacherName`, `teacherPhoneNo`, `teacherAddress`, `assignedModule`, `isPartTime`) "
+                        + "VALUES (NULL, '" + teacherName + "', '" + teacherPhone + "', '" + teacherAddress + "', '"
+                        + assignedModule + "', '" + isPartTime + "');";
+                try {
+                    int insertSuccess = statement.executeUpdate(insertQuery);
+                    if (insertSuccess == 1) {
+                        JOptionPane.showMessageDialog(contentPanel, "Added Teacher data successfully!");
+                    }
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+            }
+        });
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.setForeground(new Color(255, 255, 255));
         btnNewButton.setBorder(null);
@@ -176,7 +233,8 @@ public class AddTeacher extends JDialog {
         btnNewButton_1.setForeground(new Color(255, 255, 255));
         btnNewButton_1.setBackground(new Color(128, 128, 255));
         btnNewButton_1.setBorder(null);
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 139, SpringLayout.SOUTH, textField_2);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 139, SpringLayout.SOUTH,
+                teacherAddressTextField);
         sl_contentPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -15, SpringLayout.SOUTH, contentPanel);
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -184,17 +242,27 @@ public class AddTeacher extends JDialog {
             }
         });
         sl_contentPanel.putConstraint(SpringLayout.EAST, btnNewButton, -26, SpringLayout.WEST, btnNewButton_1);
-        sl_contentPanel.putConstraint(SpringLayout.WEST, btnNewButton_1, -89, SpringLayout.EAST, textField);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, btnNewButton_1, -89, SpringLayout.EAST,
+                teacherFullNameTextField);
         btnNewButton_1.setFont(new Font("Poppins", Font.BOLD, 14));
-        sl_contentPanel.putConstraint(SpringLayout.EAST, btnNewButton_1, 0, SpringLayout.EAST, textField);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, btnNewButton_1, 0, SpringLayout.EAST,
+                teacherFullNameTextField);
         contentPanel.add(btnNewButton_1);
 
         JComboBox comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Module" }));
+        comboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == 1) {
+                    assignedModule = (String) e.getItem();
+                    System.out.println(e.getItem());
+                }
+            }
+        });
+        comboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Module", "OODP", "AI", "NMC" }));
         sl_contentPanel.putConstraint(SpringLayout.NORTH, comboBox, 0, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
-        sl_contentPanel.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, textField);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, teacherFullNameTextField);
         sl_contentPanel.putConstraint(SpringLayout.SOUTH, comboBox, 31, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, comboBox, 0, SpringLayout.EAST, textField);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, comboBox, 0, SpringLayout.EAST, teacherFullNameTextField);
         comboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
         comboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
 
