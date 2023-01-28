@@ -76,6 +76,7 @@ public class Login {
 	 */
 	private void initialize() {
 		fromLogin = new JFrame();
+		fromLogin.setResizable(false);
 		fromLogin.setTitle("Login | Course Management System");
 		fromLogin.getContentPane().setBackground(new Color(255, 255, 255));
 
