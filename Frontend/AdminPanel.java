@@ -7,6 +7,8 @@ import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
@@ -19,6 +21,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Enumeration;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SpringLayout;
@@ -30,6 +33,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AdminPanel {
 
@@ -45,7 +50,7 @@ public class AdminPanel {
 	private JPanel cardPanel;
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
-	private JTable table;
+	private JTable teacherTable;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -68,13 +73,8 @@ public class AdminPanel {
 				String assignedModuleFromDB = resultSet.getString("assignedModule");
 				boolean isPartTimeFromDB = resultSet.getBoolean("isPartTime");
 
-				teacherDefaultTableModel.addRow(new Object[] {
-						teacherIdFromDB,
-						teacherNameFromDB,
-						teacherPhoneFromDB,
-						teacherAddressFromDB,
-						assignedModuleFromDB,
-						isPartTimeFromDB
+				teacherDefaultTableModel.addRow(new Object[] { teacherIdFromDB, teacherNameFromDB, teacherPhoneFromDB,
+						teacherAddressFromDB, assignedModuleFromDB, isPartTimeFromDB
 
 				});
 			}
@@ -114,7 +114,7 @@ public class AdminPanel {
 		fromAdminPanel = new JFrame();
 		fromAdminPanel.setResizable(false);
 		fromAdminPanel.setTitle("Admin Panel | Course Management System");
-		fromAdminPanel.setBounds(100, 100, 724, 565);
+		fromAdminPanel.setBounds(300, 100, 724, 565);
 		fromAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JSplitPane splitPane = new JSplitPane();
@@ -396,18 +396,19 @@ public class AdminPanel {
 		sl_teachersCardPanel.putConstraint(SpringLayout.SOUTH, scrollPane, -43, SpringLayout.SOUTH, teachersCardPanel);
 		teachersCardPanel.add(scrollPane);
 
-		table = new JTable();
-		table.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
-		table.setFont(new Font("Poppins", Font.PLAIN, 10));
-		table.setRowSelectionAllowed(false);
-		table.setModel(teacherDefaultTableModel);
-		table.getColumnModel().getColumn(0).setPreferredWidth(53);
-		table.getColumnModel().getColumn(0).setMinWidth(16);
-		table.getColumnModel().getColumn(1).setPreferredWidth(99);
-		table.getColumnModel().getColumn(2).setPreferredWidth(91);
-		table.getColumnModel().getColumn(3).setPreferredWidth(97);
-		table.getColumnModel().getColumn(4).setPreferredWidth(97);
-		scrollPane.setViewportView(table);
+		teacherTable = new JTable();
+		teacherTable.setDefaultEditor(Object.class, null);
+		teacherTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
+		teacherTable.setFont(new Font("Poppins", Font.PLAIN, 10));
+		teacherTable.setRowSelectionAllowed(false);
+		teacherTable.setModel(teacherDefaultTableModel);
+		teacherTable.getColumnModel().getColumn(0).setPreferredWidth(53);
+		teacherTable.getColumnModel().getColumn(0).setMinWidth(16);
+		teacherTable.getColumnModel().getColumn(1).setPreferredWidth(99);
+		teacherTable.getColumnModel().getColumn(2).setPreferredWidth(91);
+		teacherTable.getColumnModel().getColumn(3).setPreferredWidth(97);
+		teacherTable.getColumnModel().getColumn(4).setPreferredWidth(97);
+		scrollPane.setViewportView(teacherTable);
 
 		JButton btnNewButton_2_1 = new JButton("Add");
 		btnNewButton_2_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -446,6 +447,65 @@ public class AdminPanel {
 		teachersCardPanel.add(btnNewButton_2_1_3);
 
 		JButton btnNewButton_2_1_2 = new JButton("Update");
+		btnNewButton_2_1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?",
+						"Update or Delete Teacher", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+						options, options[0]);
+				if (n == 0) {
+					JOptionPane.showMessageDialog(null, "Entered Update Mode!");
+					teacherTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							AddTeacher updateTeacher = new AddTeacher();
+							updateTeacher.setVisible(true);
+							updateTeacher.setTitle("Update Teacher | Course Management System");
+							JLabel heading = updateTeacher.getHeading();
+							heading.setText("Update Teacher");
+							JButton updateButton = updateTeacher.getAddButton();
+							updateButton.setText("Update");
+							String teacherName = "";
+							BigDecimal teacherPhone = new BigDecimal(0);
+							String teacherAddress = "";
+							String assignedModule = "";
+							Boolean isPartTime = false;
+							for (int columnIndex = 1; columnIndex < teacherTable.getColumnCount(); columnIndex++) {
+								if (teacherName.isEmpty()) {
+									teacherName = (String) teacherTable.getValueAt(teacherTable.getSelectedRow(),
+											columnIndex);
+								} else if (teacherPhone.compareTo(new BigDecimal(0)) == 0) {
+									teacherPhone = (BigDecimal) teacherTable.getValueAt(teacherTable.getSelectedRow(),
+											columnIndex);
+								} else if (teacherAddress.isEmpty()) {
+									teacherAddress = (String) teacherTable.getValueAt(teacherTable.getSelectedRow(),
+											columnIndex);
+								} else if (assignedModule.isEmpty()) {
+									assignedModule = (String) teacherTable.getValueAt(teacherTable.getSelectedRow(),
+											columnIndex);
+								} else {
+									isPartTime = (Boolean) teacherTable.getValueAt(teacherTable.getSelectedRow(),
+											columnIndex);
+								}
+							}
+							updateTeacher.getTeacherFullNameTextField().setText(teacherName);
+							updateTeacher.getTeacherPhoneTextField().setText(teacherPhone.toString());
+							updateTeacher.getTeacherAddressTextField().setText(teacherAddress);
+							ButtonGroup buttonGroup = updateTeacher.getButtonGroup();
+
+							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+									.hasMoreElements();) {
+								AbstractButton button = buttons.nextElement();
+								if (isPartTime.equals(button.getText())) {
+									button.setSelected(false);
+								}
+							}
+						}
+					});
+
+				}
+			}
+		});
 		btnNewButton_2_1_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_teachersCardPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_2_1, -23, SpringLayout.NORTH,
 				btnNewButton_2_1_2);
@@ -494,6 +554,7 @@ public class AdminPanel {
 
 		JButton btnNewButton_2_1_4 = new JButton("Add");
 		btnNewButton_2_1_4.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				AddStudent addStudent = new AddStudent();
 				addStudent.setVisible(true);
