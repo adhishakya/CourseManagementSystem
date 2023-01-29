@@ -32,6 +32,7 @@ import java.awt.CardLayout;
 import javax.swing.border.MatteBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -114,7 +115,7 @@ public class AdminPanel {
 		fromAdminPanel = new JFrame();
 		fromAdminPanel.setResizable(false);
 		fromAdminPanel.setTitle("Admin Panel | Course Management System");
-		fromAdminPanel.setBounds(300, 100, 724, 565);
+		fromAdminPanel.setBounds(330, 100, 724, 565);
 		fromAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JSplitPane splitPane = new JSplitPane();
@@ -469,7 +470,21 @@ public class AdminPanel {
 							BigDecimal teacherPhone = new BigDecimal(0);
 							String teacherAddress = "";
 							String assignedModule = "";
-							Boolean isPartTime = false;
+							String isPartTimeText = "";
+							String isPartTime = "";
+							ButtonGroup buttonGroup = updateTeacher.getButtonGroup();
+							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+									.hasMoreElements();) {
+								AbstractButton button = buttons.nextElement();
+								if (button.isSelected()) {
+									isPartTimeText = button.getText();
+									if (isPartTimeText.equalsIgnoreCase("Part-Time")) {
+										isPartTime = "1";
+									} else {
+										isPartTime = "0";
+									}
+								}
+							}
 							for (int columnIndex = 1; columnIndex < teacherTable.getColumnCount(); columnIndex++) {
 								if (teacherName.isEmpty()) {
 									teacherName = (String) teacherTable.getValueAt(teacherTable.getSelectedRow(),
@@ -484,22 +499,81 @@ public class AdminPanel {
 									assignedModule = (String) teacherTable.getValueAt(teacherTable.getSelectedRow(),
 											columnIndex);
 								} else {
-									isPartTime = (Boolean) teacherTable.getValueAt(teacherTable.getSelectedRow(),
-											columnIndex);
+									if (teacherTable.getValueAt(teacherTable.getSelectedRow(), columnIndex)
+											.equals(false)) {
+										isPartTime = "0";
+									} else {
+										isPartTime = "1";
+									}
 								}
 							}
 							updateTeacher.getTeacherFullNameTextField().setText(teacherName);
 							updateTeacher.getTeacherPhoneTextField().setText(teacherPhone.toString());
 							updateTeacher.getTeacherAddressTextField().setText(teacherAddress);
-							ButtonGroup buttonGroup = updateTeacher.getButtonGroup();
 
-							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
-									.hasMoreElements();) {
-								AbstractButton button = buttons.nextElement();
-								if (isPartTime.equals(button.getText())) {
-									button.setSelected(false);
+							// for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+							// .hasMoreElements();) {
+							// AbstractButton button = buttons.nextElement();
+							// if (isPartTime.equals(button.getText())) {
+							// button.setText("0");
+							// }
+							// }
+							updateButton.setActionCommand("Update");
+							updateButton.addActionListener(new ActionListener() {
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									// TODO Auto-generated method stub
+									if (e.getActionCommand().equals("Update")) {
+										JTextField teacherFullNameTextField = updateTeacher
+												.getTeacherFullNameTextField();
+										JTextField teacherPhoneTextField = updateTeacher.getTeacherPhoneTextField();
+										JTextField teacherAddressTextField = updateTeacher.getTeacherAddressTextField();
+										String assignedModule2 = updateTeacher.getAssignedModule();
+										String isPartTime2 = updateTeacher.getIsPartTime();
+
+										String updatedTeacherName = teacherFullNameTextField.getText().trim();
+										String updatedTeacherPhone = teacherPhoneTextField.getText().trim();
+										String updatedTeacherAddress = teacherAddressTextField.getText().trim();
+										String updatedAssignedModule = assignedModule2.trim();
+										String updatedIsPartTimeText = "";
+										String updatedIsPartTime = "";
+										ButtonGroup buttonGroup = updateTeacher.getButtonGroup();
+										for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+												.hasMoreElements();) {
+											AbstractButton button = buttons.nextElement();
+											if (button.isSelected()) {
+												updatedIsPartTimeText = button.getText();
+												if (updatedIsPartTimeText.equalsIgnoreCase("Part-Time")) {
+													updatedIsPartTime = "1";
+												} else {
+													updatedIsPartTime = "0";
+												}
+											}
+										}
+										int updateRowNumber = teacherTable.getSelectedRow() + 1;
+										String updateQuery = "UPDATE `teacherdetails` "
+												+ "SET `teacherName` = '" + updatedTeacherName + "',"
+												+ " `teacherPhoneNo` = '" + updatedTeacherPhone + "',"
+												+ " `teacherAddress` = '" + updatedTeacherAddress + "',"
+												+ " `assignedModule` = '" + updatedAssignedModule + "',"
+												+ " `isPartTime` = '" + updatedIsPartTime + "'"
+												+ " WHERE `teacherdetails`.`Id` = " + updateRowNumber + "";
+										Statement statement = DatabaseConnection.getStatement();
+										try {
+											int updateSuccess = statement.executeUpdate(updateQuery);
+											if (updateSuccess == 1) {
+												JOptionPane.showMessageDialog(null, "Data Updated");
+											}
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+
+										}
+
+									}
 								}
-							}
+							});
 						}
 					});
 
