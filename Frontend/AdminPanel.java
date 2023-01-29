@@ -445,19 +445,24 @@ public class AdminPanel {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							int deleteId = (int) teacherTable.getValueAt(teacherTable.getSelectedRow(), 0);
-							Statement statement = DatabaseConnection.getStatement();
-							String deleteQuery = "DELETE FROM `teacherdetails` WHERE `teacherdetails`.`Id` = "
-									+ deleteId + "";
-							try {
-								int deleteSuccess = statement.executeUpdate(deleteQuery);
-								if (deleteSuccess == 1) {
-									JOptionPane.showMessageDialog(null, "Data Deleted");
+							int confirmation = JOptionPane.showOptionDialog(null,
+									"Delete teacher with Id: " + deleteId + "?", "Delete Teacher",
+									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+							if (confirmation == 0) {
+								Statement statement = DatabaseConnection.getStatement();
+								String deleteQuery = "DELETE FROM `teacherdetails` WHERE `teacherdetails`.`Id` = "
+										+ deleteId + "";
+								try {
+									int deleteSuccess = statement.executeUpdate(deleteQuery);
+									if (deleteSuccess == 1) {
+										JOptionPane.showMessageDialog(null, "Data Deleted");
+									}
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
 								}
-							} catch (SQLException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								AdminPanel.showDataFromDatabase();
 							}
-							AdminPanel.showDataFromDatabase();
 						}
 					});
 
@@ -559,7 +564,6 @@ public class AdminPanel {
 										JTextField teacherPhoneTextField = updateTeacher.getTeacherPhoneTextField();
 										JTextField teacherAddressTextField = updateTeacher.getTeacherAddressTextField();
 										String assignedModule2 = updateTeacher.getAssignedModule();
-										String isPartTime2 = updateTeacher.getIsPartTime();
 
 										String updatedTeacherName = teacherFullNameTextField.getText().trim();
 										String updatedTeacherPhone = teacherPhoneTextField.getText().trim();
@@ -580,13 +584,14 @@ public class AdminPanel {
 												}
 											}
 										}
-										int updateRowNumber = teacherTable.getSelectedRow() + 1;
+										int updateId = (int) teacherTable.getValueAt(teacherTable.getSelectedRow(), 0);
+
 										String updateQuery = "UPDATE `teacherdetails` " + "SET `teacherName` = '"
 												+ updatedTeacherName + "'," + " `teacherPhoneNo` = '"
 												+ updatedTeacherPhone + "'," + " `teacherAddress` = '"
 												+ updatedTeacherAddress + "'," + " `assignedModule` = '"
 												+ updatedAssignedModule + "'," + " `isPartTime` = '" + updatedIsPartTime
-												+ "'" + " WHERE `teacherdetails`.`Id` = " + updateRowNumber + "";
+												+ "'" + " WHERE `teacherdetails`.`Id` = " + updateId + "";
 										Statement statement = DatabaseConnection.getStatement();
 										try {
 											int updateSuccess = statement.executeUpdate(updateQuery);
