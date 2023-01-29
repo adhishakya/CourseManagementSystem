@@ -434,6 +434,36 @@ public class AdminPanel {
 		teachersCardPanel.add(btnNewButton_2_1);
 
 		JButton btnNewButton_2_1_3 = new JButton("Delete");
+		btnNewButton_2_1_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter delete mode?", "Delete Teacher",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
+					teacherTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							int deleteId = (int) teacherTable.getValueAt(teacherTable.getSelectedRow(), 0);
+							Statement statement = DatabaseConnection.getStatement();
+							String deleteQuery = "DELETE FROM `teacherdetails` WHERE `teacherdetails`.`Id` = "
+									+ deleteId + "";
+							try {
+								int deleteSuccess = statement.executeUpdate(deleteQuery);
+								if (deleteSuccess == 1) {
+									JOptionPane.showMessageDialog(null, "Data Deleted");
+								}
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							AdminPanel.showDataFromDatabase();
+						}
+					});
+
+				}
+			}
+		});
 		btnNewButton_2_1_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_2_1_3.setIconTextGap(14);
 		btnNewButton_2_1_3.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/delete.png")));
@@ -451,9 +481,8 @@ public class AdminPanel {
 		btnNewButton_2_1_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] options = { "Yes", "No" };
-				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?",
-						"Update or Delete Teacher", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-						options, options[0]);
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?", "Update Teacher",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 				if (n == 0) {
 					JOptionPane.showMessageDialog(null, "Entered Update Mode!");
 					teacherTable.addMouseListener(new MouseAdapter() {
@@ -552,18 +581,19 @@ public class AdminPanel {
 											}
 										}
 										int updateRowNumber = teacherTable.getSelectedRow() + 1;
-										String updateQuery = "UPDATE `teacherdetails` "
-												+ "SET `teacherName` = '" + updatedTeacherName + "',"
-												+ " `teacherPhoneNo` = '" + updatedTeacherPhone + "',"
-												+ " `teacherAddress` = '" + updatedTeacherAddress + "',"
-												+ " `assignedModule` = '" + updatedAssignedModule + "',"
-												+ " `isPartTime` = '" + updatedIsPartTime + "'"
-												+ " WHERE `teacherdetails`.`Id` = " + updateRowNumber + "";
+										String updateQuery = "UPDATE `teacherdetails` " + "SET `teacherName` = '"
+												+ updatedTeacherName + "'," + " `teacherPhoneNo` = '"
+												+ updatedTeacherPhone + "'," + " `teacherAddress` = '"
+												+ updatedTeacherAddress + "'," + " `assignedModule` = '"
+												+ updatedAssignedModule + "'," + " `isPartTime` = '" + updatedIsPartTime
+												+ "'" + " WHERE `teacherdetails`.`Id` = " + updateRowNumber + "";
 										Statement statement = DatabaseConnection.getStatement();
 										try {
 											int updateSuccess = statement.executeUpdate(updateQuery);
 											if (updateSuccess == 1) {
 												JOptionPane.showMessageDialog(null, "Data Updated");
+												updateTeacher.dispose();
+												AdminPanel.showDataFromDatabase();
 											}
 										} catch (SQLException e1) {
 											// TODO Auto-generated catch block
