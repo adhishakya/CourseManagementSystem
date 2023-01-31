@@ -52,6 +52,8 @@ public class AdminPanel {
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
 	private JTable teacherTable;
+	private boolean isUpdate;
+	private boolean isDelete;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -353,7 +355,7 @@ public class AdminPanel {
 		lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		dashboardCardPanel.add(lblNewLabel_1);
-		
+
 		JPanel teachersCardPanel = new JPanel();
 		teachersCardPanel.setBackground(new Color(255, 255, 255));
 		cardPanel.add(teachersCardPanel, "name_74583098469500");
@@ -381,12 +383,14 @@ public class AdminPanel {
 		teacherTable.getColumnModel().getColumn(3).setPreferredWidth(97);
 		teacherTable.getColumnModel().getColumn(4).setPreferredWidth(97);
 		scrollPane.setViewportView(teacherTable);
-		
+
 		int teacherCount = teacherTable.getRowCount();
 		System.out.println(teacherCount);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel(
-				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+teacherCount+"<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
+				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+						+ teacherCount
+						+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
 		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1, -46, SpringLayout.WEST, lblNewLabel_1_1);
 		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1, 0, SpringLayout.SOUTH, lblNewLabel_1);
 		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1, -23, SpringLayout.EAST,
@@ -414,8 +418,6 @@ public class AdminPanel {
 		lblNewLabel_1_2.setBackground(Color.WHITE);
 		dashboardCardPanel.add(lblNewLabel_1_2);
 
-		
-
 		JButton addButton = new JButton("Add");
 		addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_teachersCardPanel.putConstraint(SpringLayout.WEST, addButton, 60, SpringLayout.WEST, teachersCardPanel);
@@ -437,9 +439,11 @@ public class AdminPanel {
 		JButton deleteButton = new JButton("Delete");
 		JButton updateButtonBox = new JButton("Update");
 		JButton stopButton = new JButton("Stop");
-		
+
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				isUpdate = false;
+				isDelete = false;
 				addButton.setVisible(true);
 				deleteButton.setVisible(true);
 				updateButtonBox.setVisible(true);
@@ -447,43 +451,48 @@ public class AdminPanel {
 				stopButton.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
 			}
 		});
-		
+
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] options = { "Yes", "No" };
 				int n = JOptionPane.showOptionDialog(null, "Do you want to enter delete mode?", "Delete Teacher",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 				if (n == 0) {
-					JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
-					addButton.setVisible(false);
-					updateButtonBox.setVisible(false);
-					stopButton.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
-					stopButton.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
-					
-					teacherTable.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int deleteId = (int) teacherTable.getValueAt(teacherTable.getSelectedRow(), 0);
-							int confirmation = JOptionPane.showOptionDialog(null,
-									"Delete teacher with Id: " + deleteId + "?", "Delete Teacher",
-									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-							if (confirmation == 0) {
-								Statement statement = DatabaseConnection.getStatement();
-								String deleteQuery = "DELETE FROM `teacherdetails` WHERE `teacherdetails`.`Id` = "
-										+ deleteId + "";
-								try {
-									int deleteSuccess = statement.executeUpdate(deleteQuery);
-									if (deleteSuccess == 1) {
-										JOptionPane.showMessageDialog(null, "Data Deleted");
+					isUpdate = false;
+					isDelete = true;
+						JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
+						addButton.setVisible(false);
+						updateButtonBox.setVisible(false);
+						stopButton.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+						stopButton.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+
+						teacherTable.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								if (isUpdate == false && isDelete == true) {
+								int deleteId = (int) teacherTable.getValueAt(teacherTable.getSelectedRow(), 0);
+								int confirmation = JOptionPane.showOptionDialog(null,
+										"Delete teacher with Id: " + deleteId + "?", "Delete Teacher",
+										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
+										options[0]);
+								if (confirmation == 0) {
+									Statement statement = DatabaseConnection.getStatement();
+									String deleteQuery = "DELETE FROM `teacherdetails` WHERE `teacherdetails`.`Id` = "
+											+ deleteId + "";
+									try {
+										int deleteSuccess = statement.executeUpdate(deleteQuery);
+										if (deleteSuccess == 1) {
+											JOptionPane.showMessageDialog(null, "Data Deleted");
+										}
+									} catch (SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
 									}
-								} catch (SQLException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
+									AdminPanel.showDataFromDatabase();
 								}
-								AdminPanel.showDataFromDatabase();
 							}
 						}
-					});
+						});
 
 				}
 			}
@@ -505,14 +514,17 @@ public class AdminPanel {
 				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?", "Update Teacher",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 				if (n == 0) {
+					isUpdate = true;
+					isDelete = false;
 					JOptionPane.showMessageDialog(null, "Entered Update Mode!");
-						addButton.setVisible(false);
-						deleteButton.setVisible(false);
-						stopButton.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
-						stopButton.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
-						teacherTable.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
+					addButton.setVisible(false);
+					deleteButton.setVisible(false);
+					stopButton.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+					stopButton.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					teacherTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isUpdate == true && isDelete == false) {
 								AddTeacher updateTeacher = new AddTeacher();
 								updateTeacher.setVisible(true);
 								updateTeacher.setTitle("Update Teacher | Course Management System");
@@ -633,7 +645,8 @@ public class AdminPanel {
 									}
 								});
 							}
-						});
+						}
+					});
 
 				}
 			}
