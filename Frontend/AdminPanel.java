@@ -873,10 +873,9 @@ public class AdminPanel {
 											int updateId = (int) studentTable.getValueAt(studentTable.getSelectedRow(),
 													0);
 
-											String updateQuery = "UPDATE `studentdetails` SET "
-													+ "`studentName` = '" + updatedStudentName + "', "
-													+ "`level` = '" + updatedStudentLevel + "', "
-													+ "`semester` = '" + updatedStudentSemester + "', "
+											String updateQuery = "UPDATE `studentdetails` SET " + "`studentName` = '"
+													+ updatedStudentName + "', " + "`level` = '" + updatedStudentLevel
+													+ "', " + "`semester` = '" + updatedStudentSemester + "', "
 													+ "`studentGroup` = '" + updatedStudentGroup + "', "
 													+ "`studentAddress` = '" + updatedStudentAddress + "', "
 													+ "`studentCourse` = '" + updatedStudentCourse + "', "
@@ -931,6 +930,33 @@ public class AdminPanel {
 					updateButtonBox2.setVisible(false);
 					stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
 					stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					studentTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isStudentUpdate == false && isStudentDelete == true) {
+								int deleteId = (int) studentTable.getValueAt(studentTable.getSelectedRow(), 0);
+								int confirmation = JOptionPane.showOptionDialog(null,
+										"Delete student with Id: " + deleteId + "?", "Delete Student",
+										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
+										options[0]);
+								if (confirmation == 0) {
+									Statement statement = DatabaseConnection.getStatement();
+									String deleteQuery = "DELETE FROM `studentdetails` WHERE `studentdetails`.`Id` = "
+											+ deleteId + "";
+									try {
+										int deleteSuccess = statement.executeUpdate(deleteQuery);
+										if (deleteSuccess == 1) {
+											JOptionPane.showMessageDialog(null, "Data Deleted");
+										}
+									} catch (SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									AdminPanel.showStudentDataFromDatabase();
+								}
+							}
+						}
+					});
 
 				}
 
