@@ -52,8 +52,10 @@ public class AdminPanel {
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
 	private JTable teacherTable;
-	private boolean isUpdate;
-	private boolean isDelete;
+	private boolean isTeacherUpdate;
+	private boolean isTeacherDelete;
+	private boolean isStudentUpdate;
+	private boolean isStudentDelete;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -488,8 +490,8 @@ public class AdminPanel {
 
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				isUpdate = false;
-				isDelete = false;
+				isTeacherUpdate = false;
+				isTeacherDelete = false;
 				addButton.setVisible(true);
 				deleteButton.setVisible(true);
 				updateButtonBox.setVisible(true);
@@ -504,8 +506,8 @@ public class AdminPanel {
 				int n = JOptionPane.showOptionDialog(null, "Do you want to enter delete mode?", "Delete Teacher",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 				if (n == 0) {
-					isUpdate = false;
-					isDelete = true;
+					isTeacherUpdate = false;
+					isTeacherDelete = true;
 					JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
 					addButton.setVisible(false);
 					updateButtonBox.setVisible(false);
@@ -515,7 +517,7 @@ public class AdminPanel {
 					teacherTable.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							if (isUpdate == false && isDelete == true) {
+							if (isTeacherUpdate == false && isTeacherDelete == true) {
 								int deleteId = (int) teacherTable.getValueAt(teacherTable.getSelectedRow(), 0);
 								int confirmation = JOptionPane.showOptionDialog(null,
 										"Delete teacher with Id: " + deleteId + "?", "Delete Teacher",
@@ -559,8 +561,8 @@ public class AdminPanel {
 				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?", "Update Teacher",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 				if (n == 0) {
-					isUpdate = true;
-					isDelete = false;
+					isTeacherUpdate = true;
+					isTeacherDelete = false;
 					JOptionPane.showMessageDialog(null, "Entered Update Mode!");
 					addButton.setVisible(false);
 					deleteButton.setVisible(false);
@@ -569,7 +571,7 @@ public class AdminPanel {
 					teacherTable.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							if (isUpdate == true && isDelete == false) {
+							if (isTeacherUpdate == true && isTeacherDelete == false) {
 								AddTeacher updateTeacher = new AddTeacher();
 								updateTeacher.setVisible(true);
 								updateTeacher.setTitle("Update Teacher | Course Management System");
@@ -727,93 +729,133 @@ public class AdminPanel {
 		SpringLayout sl_studentsCardPanel = new SpringLayout();
 		studentsCardPanel.setLayout(sl_studentsCardPanel);
 
-		JButton btnNewButton_2_1_4 = new JButton("Add");
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, btnNewButton_2_1_4, 209, SpringLayout.WEST,
+		JButton addButton2 = new JButton("Add");
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, addButton2, 209, SpringLayout.WEST,
 				studentsCardPanel);
-		btnNewButton_2_1_4.addActionListener(new ActionListener() {
+		addButton2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				AddStudent addStudent = new AddStudent();
 				addStudent.setVisible(true);
 			}
 		});
-		btnNewButton_2_1_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_4, 21, SpringLayout.NORTH,
+		addButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, addButton2, 21, SpringLayout.NORTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1_4, 58, SpringLayout.WEST,
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, addButton2, 58, SpringLayout.WEST,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_2_1_4, -351, SpringLayout.SOUTH,
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, addButton2, -351, SpringLayout.SOUTH,
 				studentsCardPanel);
-		btnNewButton_2_1_4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
-		btnNewButton_2_1_4.setOpaque(false);
-		btnNewButton_2_1_4.setIconTextGap(12);
-		btnNewButton_2_1_4.setFont(new Font("Poppins", Font.BOLD, 14));
-		btnNewButton_2_1_4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
-		btnNewButton_2_1_4.setBackground(Color.WHITE);
-		studentsCardPanel.add(btnNewButton_2_1_4);
+		addButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
+		addButton2.setOpaque(false);
+		addButton2.setIconTextGap(12);
+		addButton2.setFont(new Font("Poppins", Font.BOLD, 14));
+		addButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		addButton2.setBackground(Color.WHITE);
+		studentsCardPanel.add(addButton2);
 
-		JButton btnNewButton_2_1_1_1 = new JButton("Stop");
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_1_1, 21, SpringLayout.NORTH,
+		JButton stopButton2 = new JButton("Stop");
+		JButton deleteButton2 = new JButton("Delete");
+		JButton updateButtonBox2 = new JButton("Update");
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, updateButtonBox2, 0, SpringLayout.NORTH, deleteButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, updateButtonBox2, 0, SpringLayout.WEST, addButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, updateButtonBox2, 0, SpringLayout.EAST,
+				addButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, stopButton2, 21, SpringLayout.NORTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, btnNewButton_2_1_1_1, -64, SpringLayout.EAST,
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, stopButton2, -64, SpringLayout.EAST,
 				studentsCardPanel);
-		btnNewButton_2_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_2_1_1_1.addActionListener(new ActionListener() {
+		stopButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		stopButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				isStudentUpdate = false;
+				isStudentDelete = false;
+				addButton2.setVisible(true);
+				deleteButton2.setVisible(true);
+				updateButtonBox2.setVisible(true);
+				stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
+				stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
 			}
 		});
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1_1_1, -215, SpringLayout.EAST,
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, stopButton2, -215, SpringLayout.EAST,
 				studentsCardPanel);
-		btnNewButton_2_1_1_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
-		btnNewButton_2_1_1_1.setOpaque(false);
-		btnNewButton_2_1_1_1.setIconTextGap(10);
-		btnNewButton_2_1_1_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		btnNewButton_2_1_1_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
-		btnNewButton_2_1_1_1.setBackground(Color.WHITE);
-		studentsCardPanel.add(btnNewButton_2_1_1_1);
+		stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
+		stopButton2.setOpaque(false);
+		stopButton2.setIconTextGap(10);
+		stopButton2.setFont(new Font("Poppins", Font.BOLD, 14));
+		stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
+		stopButton2.setBackground(Color.WHITE);
+		studentsCardPanel.add(stopButton2);
 
-		JButton btnNewButton_2_1_1_1_1 = new JButton("Update");
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_1_1_1, 21, SpringLayout.SOUTH,
-				btnNewButton_2_1_4);
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1_1_1_1, 58, SpringLayout.WEST,
-				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, btnNewButton_2_1_1_1_1, 0, SpringLayout.EAST,
-				btnNewButton_2_1_4);
-		btnNewButton_2_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_2_1_1_1_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/update.png")));
-		btnNewButton_2_1_1_1_1.setOpaque(false);
-		btnNewButton_2_1_1_1_1.setIconTextGap(14);
-		btnNewButton_2_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		btnNewButton_2_1_1_1_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
-		btnNewButton_2_1_1_1_1.setBackground(Color.WHITE);
-		studentsCardPanel.add(btnNewButton_2_1_1_1_1);
+		updateButtonBox2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?", "Update Teacher",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					isStudentUpdate = true;
+					isStudentDelete = false;
+					JOptionPane.showMessageDialog(null, "Entered Update Mode!");
+					addButton2.setVisible(false);
+					deleteButton2.setVisible(false);
+					stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+					stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+				}
 
-		JButton btnNewButton_2_1_1_1_1_1 = new JButton("Delete");
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_2_1_1_1, -21, SpringLayout.NORTH,
-				btnNewButton_2_1_1_1_1_1);
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, btnNewButton_2_1_1_1_1_1, 93, SpringLayout.NORTH,
+			}
+		});
+		updateButtonBox2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		updateButtonBox2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/update.png")));
+		updateButtonBox2.setOpaque(false);
+		updateButtonBox2.setIconTextGap(14);
+		updateButtonBox2.setFont(new Font("Poppins", Font.BOLD, 14));
+		updateButtonBox2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		updateButtonBox2.setBackground(Color.WHITE);
+		studentsCardPanel.add(updateButtonBox2);
+
+		deleteButton2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter delete mode?", "Delete Teacher",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					isStudentUpdate = false;
+					isStudentDelete = true;
+					JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
+					addButton2.setVisible(false);
+					updateButtonBox2.setVisible(false);
+					stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+					stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+
+				}
+
+			}
+		});
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, stopButton2, -21, SpringLayout.NORTH,
+				deleteButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, deleteButton2, 93, SpringLayout.NORTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, btnNewButton_2_1_1_1_1_1, 312, SpringLayout.WEST,
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, deleteButton2, 312, SpringLayout.WEST,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, btnNewButton_2_1_1_1_1_1, 0, SpringLayout.EAST,
-				btnNewButton_2_1_1_1);
-		btnNewButton_2_1_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_2_1_1_1_1_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/delete.png")));
-		btnNewButton_2_1_1_1_1_1.setOpaque(false);
-		btnNewButton_2_1_1_1_1_1.setIconTextGap(14);
-		btnNewButton_2_1_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		btnNewButton_2_1_1_1_1_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
-		btnNewButton_2_1_1_1_1_1.setBackground(Color.WHITE);
-		studentsCardPanel.add(btnNewButton_2_1_1_1_1_1);
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, deleteButton2, 0, SpringLayout.EAST,
+				stopButton2);
+		deleteButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		deleteButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/delete.png")));
+		deleteButton2.setOpaque(false);
+		deleteButton2.setIconTextGap(14);
+		deleteButton2.setFont(new Font("Poppins", Font.BOLD, 14));
+		deleteButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		deleteButton2.setBackground(Color.WHITE);
+		studentsCardPanel.add(deleteButton2);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, updateButtonBox2, -18, SpringLayout.NORTH,
+				scrollPane_1);
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, scrollPane_1, 161, SpringLayout.NORTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_2_1_1_1_1, -18, SpringLayout.NORTH,
-				scrollPane_1);
 		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, scrollPane_1, -22, SpringLayout.SOUTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, btnNewButton_2_1_1_1_1_1, -18, SpringLayout.NORTH,
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton2, -18, SpringLayout.NORTH,
 				scrollPane_1);
 		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, scrollPane_1, 10, SpringLayout.WEST, studentsCardPanel);
 		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, scrollPane_1, 517, SpringLayout.WEST, studentsCardPanel);
