@@ -52,6 +52,7 @@ public class AdminPanel {
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
 	private JTable teacherTable;
+	private JTable studentTable;
 	private boolean isTeacherUpdate;
 	private boolean isTeacherDelete;
 	private boolean isStudentUpdate;
@@ -68,8 +69,6 @@ public class AdminPanel {
 					{ null, null, null, null, null, null, null, null, null },
 					{ null, null, null, null, null, null, null, null, null }, },
 			new String[] { "Id", "Name", "Level", "Semester", "Group", "Address", "Course", "Age", "Phone No." });
-
-	private JTable studentTable;
 
 	public static void showStudentDataFromDatabase() {
 		Statement statement = DatabaseConnection.getStatement();
@@ -92,8 +91,7 @@ public class AdminPanel {
 
 				studentDefaultTableModel.addRow(new Object[] { studentIdFromDB, studentNameFromDB, studentLevelFromDB,
 						studentSemesterFromDB, studentGroupFromDB, studentAddressFromDB, studentCourseFromDB,
-						studentAgeFromDB, studentPhoneFromDB
-				});
+						studentAgeFromDB, studentPhoneFromDB });
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -730,8 +728,7 @@ public class AdminPanel {
 		studentsCardPanel.setLayout(sl_studentsCardPanel);
 
 		JButton addButton2 = new JButton("Add");
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, addButton2, 209, SpringLayout.WEST,
-				studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, addButton2, 209, SpringLayout.WEST, studentsCardPanel);
 		addButton2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -740,12 +737,9 @@ public class AdminPanel {
 			}
 		});
 		addButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, addButton2, 21, SpringLayout.NORTH,
-				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, addButton2, 58, SpringLayout.WEST,
-				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, addButton2, -351, SpringLayout.SOUTH,
-				studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, addButton2, 21, SpringLayout.NORTH, studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, addButton2, 58, SpringLayout.WEST, studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, addButton2, -351, SpringLayout.SOUTH, studentsCardPanel);
 		addButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
 		addButton2.setOpaque(false);
 		addButton2.setIconTextGap(12);
@@ -753,18 +747,16 @@ public class AdminPanel {
 		addButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
 		addButton2.setBackground(Color.WHITE);
 		studentsCardPanel.add(addButton2);
+		studentTable = new JTable();
 
 		JButton stopButton2 = new JButton("Stop");
 		JButton deleteButton2 = new JButton("Delete");
 		JButton updateButtonBox2 = new JButton("Update");
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, updateButtonBox2, 0, SpringLayout.NORTH, deleteButton2);
 		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, updateButtonBox2, 0, SpringLayout.WEST, addButton2);
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, updateButtonBox2, 0, SpringLayout.EAST,
-				addButton2);
-		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, stopButton2, 21, SpringLayout.NORTH,
-				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, stopButton2, -64, SpringLayout.EAST,
-				studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, updateButtonBox2, 0, SpringLayout.EAST, addButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, stopButton2, 21, SpringLayout.NORTH, studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, stopButton2, -64, SpringLayout.EAST, studentsCardPanel);
 		stopButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		stopButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -777,8 +769,7 @@ public class AdminPanel {
 				stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
 			}
 		});
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, stopButton2, -215, SpringLayout.EAST,
-				studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, stopButton2, -215, SpringLayout.EAST, studentsCardPanel);
 		stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
 		stopButton2.setOpaque(false);
 		stopButton2.setIconTextGap(10);
@@ -800,6 +791,120 @@ public class AdminPanel {
 					deleteButton2.setVisible(false);
 					stopButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
 					stopButton2.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					studentTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isStudentUpdate == true && isStudentDelete == false) {
+								AddStudent updateStudent = new AddStudent();
+								updateStudent.setVisible(true);
+								updateStudent.setTitle("Update Student | Course Management System");
+								JLabel heading = updateStudent.getAddStudentHeading();
+								heading.setText("Update Student");
+								JButton updateButton = updateStudent.getAddStudentButton();
+								updateButton.setText("Update");
+								String studentName = "";
+								int studentLevel = 0;
+								int studentSemester = 0;
+								String studentGroup = "";
+								String studentAddress = "";
+								String studentCourse = "";
+								int studentAge = 0;
+								BigDecimal studentPhone = new BigDecimal(0);
+								for (int columnIndex = 1; columnIndex < studentTable.getColumnCount(); columnIndex++) {
+									if (studentName.isEmpty()) {
+										studentName = (String) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else if (studentLevel == 0) {
+										studentLevel = (int) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else if (studentSemester == 0) {
+										studentSemester = (int) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else if (studentGroup.isEmpty()) {
+										studentGroup = (String) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else if (studentAddress.isEmpty()) {
+										studentAddress = (String) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else if (studentCourse.isEmpty()) {
+										studentCourse = (String) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else if (studentAge == 0) {
+										studentAge = (int) studentTable.getValueAt(studentTable.getSelectedRow(),
+												columnIndex);
+									} else {
+										studentPhone = (BigDecimal) studentTable
+												.getValueAt(studentTable.getSelectedRow(), columnIndex);
+									}
+								}
+								updateStudent.getStudentFullNameTextField().setText(studentName);
+								updateStudent.getStudentGroupTextField().setText(studentGroup);
+								updateStudent.getStudentAddressTextField().setText(studentAddress);
+								updateStudent.getStudentCourseTextField().setText(studentCourse);
+								updateStudent.getStudentAgeTextField().setText(String.valueOf(studentAge));
+								updateStudent.getStudentPhoneTextField().setText(studentPhone.toString());
+
+								updateButton.setActionCommand("Update");
+								updateButton.addActionListener(new ActionListener() {
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										// TODO Auto-generated method stub
+										if (e.getActionCommand().equals("Update")) {
+											JTextField studentFullNameTextField = updateStudent
+													.getStudentFullNameTextField();
+											String studentLevel = updateStudent.getStudentLevel();
+											String studentSemester = updateStudent.getStudentSemester();
+											JTextField studentGroupTextField = updateStudent.getStudentGroupTextField();
+											JTextField studentAddressField = updateStudent.getStudentAddressTextField();
+											JTextField studentCourseField = updateStudent.getStudentCourseTextField();
+											JTextField studentAgeField = updateStudent.getStudentAgeTextField();
+											JTextField studentPhoneTextField = updateStudent.getStudentPhoneTextField();
+
+											String updatedStudentName = studentFullNameTextField.getText().trim();
+											String updatedStudentLevel = studentLevel.trim();
+											String updatedStudentSemester = studentSemester.trim();
+											String updatedStudentGroup = studentGroupTextField.getText().trim();
+											String updatedStudentAddress = studentAddressField.getText().trim();
+											String updatedStudentCourse = studentCourseField.getText().trim();
+											String updatedStudentAge = studentAgeField.getText().trim();
+											String updateStudentPhone = studentPhoneTextField.getText().trim();
+
+											int updateId = (int) studentTable.getValueAt(studentTable.getSelectedRow(),
+													0);
+
+											String updateQuery = "UPDATE `studentdetails` SET "
+													+ "`studentName` = '" + updatedStudentName + "', "
+													+ "`level` = '" + updatedStudentLevel + "', "
+													+ "`semester` = '" + updatedStudentSemester + "', "
+													+ "`studentGroup` = '" + updatedStudentGroup + "', "
+													+ "`studentAddress` = '" + updatedStudentAddress + "', "
+													+ "`studentCourse` = '" + updatedStudentCourse + "', "
+													+ "`studentAge` = '" + updatedStudentAge + "', "
+													+ "`studentPhone` = '" + updateStudentPhone + "'"
+													+ " WHERE `studentdetails`.`Id` = " + updateId + ";";
+											Statement statement = DatabaseConnection.getStatement();
+											try {
+												int updateSuccess = statement.executeUpdate(updateQuery);
+												if (updateSuccess == 1) {
+													JOptionPane.showMessageDialog(null, "Data Updated");
+													updateStudent.dispose();
+													AdminPanel.showStudentDataFromDatabase();
+												}
+											} catch (SQLException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+
+											}
+
+										}
+									}
+								});
+
+							}
+
+						}
+					});
 				}
 
 			}
@@ -831,14 +936,11 @@ public class AdminPanel {
 
 			}
 		});
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, stopButton2, -21, SpringLayout.NORTH,
-				deleteButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, stopButton2, -21, SpringLayout.NORTH, deleteButton2);
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, deleteButton2, 93, SpringLayout.NORTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, deleteButton2, 312, SpringLayout.WEST,
-				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, deleteButton2, 0, SpringLayout.EAST,
-				stopButton2);
+		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, deleteButton2, 312, SpringLayout.WEST, studentsCardPanel);
+		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, deleteButton2, 0, SpringLayout.EAST, stopButton2);
 		deleteButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		deleteButton2.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/delete.png")));
 		deleteButton2.setOpaque(false);
@@ -849,19 +951,16 @@ public class AdminPanel {
 		studentsCardPanel.add(deleteButton2);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, updateButtonBox2, -18, SpringLayout.NORTH,
-				scrollPane_1);
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, updateButtonBox2, -18, SpringLayout.NORTH, scrollPane_1);
 		sl_studentsCardPanel.putConstraint(SpringLayout.NORTH, scrollPane_1, 161, SpringLayout.NORTH,
 				studentsCardPanel);
 		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, scrollPane_1, -22, SpringLayout.SOUTH,
 				studentsCardPanel);
-		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton2, -18, SpringLayout.NORTH,
-				scrollPane_1);
+		sl_studentsCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton2, -18, SpringLayout.NORTH, scrollPane_1);
 		sl_studentsCardPanel.putConstraint(SpringLayout.WEST, scrollPane_1, 10, SpringLayout.WEST, studentsCardPanel);
 		sl_studentsCardPanel.putConstraint(SpringLayout.EAST, scrollPane_1, 517, SpringLayout.WEST, studentsCardPanel);
 		studentsCardPanel.add(scrollPane_1);
 
-		studentTable = new JTable();
 		studentTable.setModel(studentDefaultTableModel);
 		studentTable.setDefaultEditor(Object.class, null);
 		studentTable.getColumnModel().getColumn(0).setPreferredWidth(29);
