@@ -148,7 +148,7 @@ public class AdminPanel {
 
 				});
 				teacherCount = teacherTable.getRowCount();
-				// System.out.println(teacherCount);
+//				System.out.println(teacherCount);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -453,7 +453,7 @@ public class AdminPanel {
 		teacherTable.getColumnModel().getColumn(4).setPreferredWidth(97);
 		scrollPane.setViewportView(teacherTable);
 
-		// teacherCount = teacherTable.getRowCount();
+//		teacherCount = teacherTable.getRowCount();
 
 		JLabel lblNewLabel_1_1 = new JLabel(
 				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -495,7 +495,7 @@ public class AdminPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddTeacher createTeacher = new AddTeacher();
 				createTeacher.setVisible(true);
-				// teacherCount = teacherTable.getRowCount();
+//				teacherCount = teacherTable.getRowCount();
 			}
 		});
 		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, addButton, 20, SpringLayout.NORTH, teachersCardPanel);
@@ -654,13 +654,13 @@ public class AdminPanel {
 								updateTeacher.getTeacherPhoneTextField().setText(teacherPhone.toString());
 								updateTeacher.getTeacherAddressTextField().setText(teacherAddress);
 
-								// for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
-								// .hasMoreElements();) {
-								// AbstractButton button = buttons.nextElement();
-								// if (isPartTime.equals(button.getText())) {
-								// button.setText("0");
-								// }
-								// }
+//							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+//									.hasMoreElements();) {
+//								AbstractButton button = buttons.nextElement();
+//								if (isPartTime.equals(button.getText())) {
+//									button.setText("0");
+//								}
+//							}
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
 
@@ -1059,6 +1059,22 @@ public class AdminPanel {
 		JButton stopButton3 = new JButton("Stop");
 		JButton updateBoxButton3 = new JButton("Update");
 		JButton deleteButton3 = new JButton("Delete");
+		deleteButton3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter delete mode?", "Delete Course",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					isCourseUpdate = false;
+					isCourseDelete = true;
+					JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
+					addButton3.setVisible(false);
+					updateBoxButton3.setVisible(false);
+					stopButton3.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+					stopButton3.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+				}
+			}
+		});
 		stopButton3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sl_courseCardPanel.putConstraint(SpringLayout.NORTH, stopButton3, 25, SpringLayout.NORTH, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.WEST, stopButton3, 101, SpringLayout.EAST, addButton3);
@@ -1096,6 +1112,72 @@ public class AdminPanel {
 					deleteButton3.setVisible(false);
 					stopButton3.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
 					stopButton3.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					courseTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isCourseUpdate == true && isCourseDelete == false) {
+								AddCourse updateCourse = new AddCourse();
+								updateCourse.setVisible(true);
+								updateCourse.setTitle("Update Course | Course Management System");
+								JLabel heading = updateCourse.getCourseHeading();
+								heading.setText("Update Course");
+								JButton updateButton = updateCourse.getAddButton();
+								updateButton.setText("Update");
+
+								String courseId = "";
+								String courseName = "";
+								for (int columnIndex = 0; columnIndex < courseTable.getColumnCount(); columnIndex++) {
+									if (courseId.isEmpty()) {
+										courseId = (String) courseTable.getValueAt(courseTable.getSelectedRow(),
+												columnIndex);
+									} else {
+										courseName = (String) courseTable.getValueAt(courseTable.getSelectedRow(),
+												columnIndex);
+									}
+								}
+								updateCourse.getCourseIdTextField().setText(courseId);
+								updateCourse.getCourseNameTextField().setText(courseName);
+								
+								updateButton.setActionCommand("Update");
+								updateButton.addActionListener(new ActionListener() {
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										// TODO Auto-generated method stub
+										if (e.getActionCommand().equals("Update")) {
+											JTextField courseIdTextField = updateCourse.getCourseIdTextField();
+											JTextField courseNameTextField = updateCourse.getCourseNameTextField();
+
+											String updatedCourseId = courseIdTextField.getText().trim();
+											String updatedCourseName = courseNameTextField.getText().trim();
+
+											String updateId = (String) courseTable.getValueAt(courseTable.getSelectedRow(),
+													0);
+
+											String updateQuery = "UPDATE `coursedetails` SET `"
+													+ "courseId` = '"+updatedCourseId+"', "
+													+ "`courseName` = '"+updatedCourseName+"' "
+													+ "WHERE `coursedetails`.`courseId` = '"+updateId+"'";
+											Statement statement = DatabaseConnection.getStatement();
+											try {
+												int updateSuccess = statement.executeUpdate(updateQuery);
+												if (updateSuccess == 1) {
+													JOptionPane.showMessageDialog(null, "Data Updated");
+													updateCourse.dispose();
+													AdminPanel.showCourseDataFromDatabase();
+												}
+											} catch (SQLException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+
+											}
+
+										}
+									}
+								});
+							}
+						}
+					});
 
 				}
 			}
@@ -1135,6 +1217,7 @@ public class AdminPanel {
 		courseCardPanel.add(scrollPane_2);
 
 		courseTable = new JTable();
+		courseTable.setDefaultEditor(Object.class, null);
 		courseTable.setModel(courseDefaultTableModel);
 		courseTable.setFont(new Font("Poppins", Font.PLAIN, 10));
 		courseTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
