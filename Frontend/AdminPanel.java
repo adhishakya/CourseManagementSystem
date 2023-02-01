@@ -148,7 +148,7 @@ public class AdminPanel {
 
 				});
 				teacherCount = teacherTable.getRowCount();
-//				System.out.println(teacherCount);
+				// System.out.println(teacherCount);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -453,7 +453,7 @@ public class AdminPanel {
 		teacherTable.getColumnModel().getColumn(4).setPreferredWidth(97);
 		scrollPane.setViewportView(teacherTable);
 
-//		teacherCount = teacherTable.getRowCount();
+		// teacherCount = teacherTable.getRowCount();
 
 		JLabel lblNewLabel_1_1 = new JLabel(
 				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -495,7 +495,7 @@ public class AdminPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddTeacher createTeacher = new AddTeacher();
 				createTeacher.setVisible(true);
-//				teacherCount = teacherTable.getRowCount();
+				// teacherCount = teacherTable.getRowCount();
 			}
 		});
 		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, addButton, 20, SpringLayout.NORTH, teachersCardPanel);
@@ -654,13 +654,13 @@ public class AdminPanel {
 								updateTeacher.getTeacherPhoneTextField().setText(teacherPhone.toString());
 								updateTeacher.getTeacherAddressTextField().setText(teacherAddress);
 
-//							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
-//									.hasMoreElements();) {
-//								AbstractButton button = buttons.nextElement();
-//								if (isPartTime.equals(button.getText())) {
-//									button.setText("0");
-//								}
-//							}
+								// for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+								// .hasMoreElements();) {
+								// AbstractButton button = buttons.nextElement();
+								// if (isPartTime.equals(button.getText())) {
+								// button.setText("0");
+								// }
+								// }
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
 
@@ -1072,6 +1072,33 @@ public class AdminPanel {
 					updateBoxButton3.setVisible(false);
 					stopButton3.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
 					stopButton3.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					courseTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isCourseUpdate == false && isCourseDelete == true) {
+								String deleteId = (String) courseTable.getValueAt(courseTable.getSelectedRow(), 0);
+								int confirmation = JOptionPane.showOptionDialog(null,
+										"Delete Course with Id: " + deleteId + "?", "Delete Course",
+										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
+										options[0]);
+								if (confirmation == 0) {
+									Statement statement = DatabaseConnection.getStatement();
+									String deleteQuery = "DELETE FROM `coursedetails` WHERE `coursedetails`.`courseId` = '"
+											+ deleteId + "'";
+									try {
+										int deleteSuccess = statement.executeUpdate(deleteQuery);
+										if (deleteSuccess == 1) {
+											JOptionPane.showMessageDialog(null, "Data Deleted");
+										}
+									} catch (SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									AdminPanel.showCourseDataFromDatabase();
+								}
+							}
+						}
+					});
 				}
 			}
 		});
@@ -1137,7 +1164,7 @@ public class AdminPanel {
 								}
 								updateCourse.getCourseIdTextField().setText(courseId);
 								updateCourse.getCourseNameTextField().setText(courseName);
-								
+
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
 
@@ -1151,13 +1178,14 @@ public class AdminPanel {
 											String updatedCourseId = courseIdTextField.getText().trim();
 											String updatedCourseName = courseNameTextField.getText().trim();
 
-											String updateId = (String) courseTable.getValueAt(courseTable.getSelectedRow(),
+											String updateId = (String) courseTable.getValueAt(
+													courseTable.getSelectedRow(),
 													0);
 
 											String updateQuery = "UPDATE `coursedetails` SET `"
-													+ "courseId` = '"+updatedCourseId+"', "
-													+ "`courseName` = '"+updatedCourseName+"' "
-													+ "WHERE `coursedetails`.`courseId` = '"+updateId+"'";
+													+ "courseId` = '" + updatedCourseId + "', "
+													+ "`courseName` = '" + updatedCourseName + "' "
+													+ "WHERE `coursedetails`.`courseId` = '" + updateId + "'";
 											Statement statement = DatabaseConnection.getStatement();
 											try {
 												int updateSuccess = statement.executeUpdate(updateQuery);
