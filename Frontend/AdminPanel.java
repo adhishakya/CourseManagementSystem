@@ -955,7 +955,6 @@ public class AdminPanel {
 								updateStudent.getStudentFullNameTextField().setText(studentName);
 								updateStudent.getStudentGroupTextField().setText(studentGroup);
 								updateStudent.getStudentAddressTextField().setText(studentAddress);
-								updateStudent.getStudentCourseTextField().setText(studentCourse);
 								updateStudent.getStudentAgeTextField().setText(String.valueOf(studentAge));
 								updateStudent.getStudentPhoneTextField().setText(studentPhone.toString());
 
@@ -973,35 +972,35 @@ public class AdminPanel {
 											String studentSemester = updateStudent.getStudentSemester();
 											JTextField studentGroupTextField = updateStudent.getStudentGroupTextField();
 											JTextField studentAddressField = updateStudent.getStudentAddressTextField();
-											JTextField studentCourseField = updateStudent.getStudentCourseTextField();
 											JTextField studentAgeField = updateStudent.getStudentAgeTextField();
 											JTextField studentPhoneTextField = updateStudent.getStudentPhoneTextField();
 
-											String updateUniId = uniIdTextField.getText().trim();
+											String updatedUniId = uniIdTextField.getText().trim();
 											String updatedStudentName = studentFullNameTextField.getText().trim();
 											String updatedStudentLevel = studentLevel.trim();
 											String updatedStudentSemester = studentSemester.trim();
 											String updatedStudentGroup = studentGroupTextField.getText().trim();
 											String updatedStudentAddress = studentAddressField.getText().trim();
-											String updatedStudentCourse = studentCourseField.getText().trim();
+											String updatedStudentCourse = updateStudent.getCourseFromComboBox();
 											String updatedStudentAge = studentAgeField.getText().trim();
-											String updateStudentPhone = studentPhoneTextField.getText().trim();
+											String updatedStudentPhone = studentPhoneTextField.getText().trim();
 
 											int updateId = (int) studentTable.getValueAt(studentTable.getSelectedRow(),
 													0);
 
-											int updateUniIdInt = Integer.parseInt(updateUniId);
+											int updatedUniIdInt = Integer.parseInt(updatedUniId);
 
-											String updateQuery = "UPDATE `studentdetails` SET `Id` = '" + updateUniIdInt
-													+ "'" + "`studentName` = '" + updatedStudentName + "', "
-													+ "`level` = '" + updatedStudentLevel + "', " + "`semester` = '"
-													+ updatedStudentSemester + "', " + "`studentGroup` = '"
-													+ updatedStudentGroup + "', " + "`studentAddress` = '"
-													+ updatedStudentAddress + "', " + "`studentCourse` = '"
-													+ updatedStudentCourse + "', " + "`studentAge` = '"
-													+ updatedStudentAge + "', " + "`studentPhone` = '"
-													+ updateStudentPhone + "'" + " WHERE `studentdetails`.`Id` = "
-													+ updateId + ";";
+											String updateQuery = "UPDATE `studentdetails` SET "
+													+ "`Id` = '" + updatedUniIdInt + "', "
+													+ "`studentName` = '" + updatedStudentName + "', "
+													+ "`level` = '" + updatedStudentLevel + "', "
+													+ "`semester` = '" + updatedStudentSemester + "', "
+													+ "`studentGroup` = '" + updatedStudentGroup + "', "
+													+ "`studentAddress` = '" + updatedStudentAddress + "', "
+													+ "`studentCourse` = '" + updatedStudentCourse + "', "
+													+ "`studentAge` = '" + updatedStudentAge + "', "
+													+ "`studentPhone` = '" + updatedStudentPhone + "' "
+													+ "WHERE `studentdetails`.`Id` = " + updateId + "";
 											Statement statement = DatabaseConnection.getStatement();
 											try {
 												int updateSuccess = statement.executeUpdate(updateQuery);
@@ -1488,7 +1487,7 @@ public class AdminPanel {
 								}
 								updateModule.getModuleIdTextField().setText(moduleId);
 								updateModule.getModuleNameTextField().setText(moduleName);
-								updateModule.getModuleLeaderTextField().setText(moduleLeader);
+								// updateModule.getModuleLeaderTextField().setText(moduleLeader);
 
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
@@ -1499,21 +1498,21 @@ public class AdminPanel {
 										if (e.getActionCommand().equals("Update")) {
 											JTextField moduleIdTextField = updateModule.getModuleIdTextField();
 											JTextField moduleNameTextField = updateModule.getModuleNameTextField();
-											JTextField moduleLeaderTextField = updateModule.getModuleLeaderTextField();
 
 											String updatedModuleId = moduleIdTextField.getText().trim();
 											String updatedModuleName = moduleNameTextField.getText().trim();
-											String updatedCourseLeader = moduleLeaderTextField.getText().trim();
+											String updatedModuleLeader = updateModule.getModuleLeaderFromComboBox()
+													.trim();
+											String updatedCourse = updateModule.getCourseFromComboBox().trim();
 
 											String updateId = (String) moduleTable
 													.getValueAt(moduleTable.getSelectedRow(), 0);
 
-											String updateQuery = "UPDATE `moduledetails` SET "
-													+ "`moduleId` = '" + updatedModuleId + "', "
-													+ "`moduleName` = '" + updatedModuleName + "', "
-													+ "`moduleLeader` = '" + updatedCourseLeader + "', "
-													+ "`course` = 'bcs' WHERE `moduledetails`.`moduleId` = '" + updateId
-													+ "';";
+											String updateQuery = "UPDATE `moduledetails` SET " + "`moduleId` = '"
+													+ updatedModuleId + "', " + "`moduleName` = '" + updatedModuleName
+													+ "', " + "`moduleLeader` = '" + updatedModuleLeader + "', "
+													+ "`course` = '" + updatedCourse
+													+ "' WHERE `moduledetails`.`moduleId` = '" + updateId + "';";
 											Statement statement = DatabaseConnection.getStatement();
 											try {
 												int updateSuccess = statement.executeUpdate(updateQuery);
