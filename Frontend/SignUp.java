@@ -232,6 +232,13 @@ public class SignUp {
                         int insertSuccess = statement.executeUpdate(insertQuery);
                         if (insertSuccess == 1) {
                             JOptionPane.showMessageDialog(null, "Successfully Signed Up!");
+                            String insertStudentQuery = "INSERT INTO `studentdetails` "
+                                    + "(`Id`, `studentName`, `level`, `semester`, `studentgroup`, `studentAddress`,"
+                                    + " `studentCourse`, `studentAge`, `studentPhone`)"
+                                    + " VALUES (" + uniId + ", '" + username + "', '4', '1',"
+                                    + " 'L4CG1', 'Nepal', 'BCS', '18',"
+                                    + " '9800000000');";
+                            statement.executeUpdate(insertStudentQuery);
                             Login window = new Login();
                             window.getFrmLogin().setVisible(true);
                             signupPanel.dispose();
