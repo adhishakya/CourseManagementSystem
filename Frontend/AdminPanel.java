@@ -52,7 +52,7 @@ public class AdminPanel {
 	private JPanel dashboardCardPanelTop;
 	private JPanel cardPanelTop;
 	private static JTable teacherTable;
-	private JTable studentTable;
+	private static JTable studentTable;
 	private boolean isTeacherUpdate;
 	private boolean isTeacherDelete;
 	private boolean isStudentUpdate;
@@ -61,9 +61,14 @@ public class AdminPanel {
 	private boolean isCourseDelete;
 	private boolean isModuleUpdate;
 	private boolean isModuleDelete;
-	private JTable courseTable;
+	private static JTable courseTable;
 	private static int teacherCount = 0;
+	private static int studentCount = 0;
+	private static int courseCount = 0;
 	private JTable moduleTable;
+	private static JLabel teacherCountDisplay;
+	private static JLabel studentCountDisplay;
+	private static JLabel courseCountDisplay;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -106,7 +111,13 @@ public class AdminPanel {
 				studentDefaultTableModel.addRow(new Object[] { studentIdFromDB, studentNameFromDB, studentLevelFromDB,
 						studentSemesterFromDB, studentGroupFromDB, studentAddressFromDB, studentCourseFromDB,
 						studentAgeFromDB, studentPhoneFromDB });
+
+				studentCount = studentTable.getRowCount();
 			}
+			studentCountDisplay.setText(
+					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ studentCount
+							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Students\r\n</html>\r\n\r\n\r\n");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,7 +160,12 @@ public class AdminPanel {
 				String courseNameFromDB = resultSet.getString("courseName");
 
 				courseDefaultTableModel.addRow(new Object[] { courseIdFromDB, courseNameFromDB });
+				courseCount = courseTable.getRowCount();
 			}
+			courseCountDisplay.setText(
+					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ courseCount
+							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Courses\r\n</html>\r\n\r\n\r\n");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -178,8 +194,11 @@ public class AdminPanel {
 
 				});
 				teacherCount = teacherTable.getRowCount();
-				// System.out.println(teacherCount);
 			}
+			teacherCountDisplay.setText(
+					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ teacherCount
+							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -476,18 +495,17 @@ public class AdminPanel {
 		SpringLayout sl_dashboardCardPanel = new SpringLayout();
 		dashboardCardPanel.setLayout(sl_dashboardCardPanel);
 
-		JLabel lblNewLabel_1 = new JLabel(
-				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1002<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Students\r\n</html>\r\n\r\n\r\n");
-		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 44, SpringLayout.NORTH,
+		studentCountDisplay = new JLabel();
+		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, studentCountDisplay, 44, SpringLayout.NORTH,
 				dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1, 38, SpringLayout.WEST,
+		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, studentCountDisplay, 38, SpringLayout.WEST,
 				dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -252, SpringLayout.SOUTH,
+		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, studentCountDisplay, -252, SpringLayout.SOUTH,
 				dashboardCardPanel);
-		lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 24));
-		lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
-		lblNewLabel_1.setBackground(Color.WHITE);
-		dashboardCardPanel.add(lblNewLabel_1);
+		studentCountDisplay.setFont(new Font("Poppins", Font.BOLD, 24));
+		studentCountDisplay.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+		studentCountDisplay.setBackground(Color.WHITE);
+		dashboardCardPanel.add(studentCountDisplay);
 
 		JPanel teachersCardPanel = new JPanel();
 		teachersCardPanel.setBackground(new Color(255, 255, 255));
@@ -517,39 +535,35 @@ public class AdminPanel {
 		teacherTable.getColumnModel().getColumn(4).setPreferredWidth(97);
 		scrollPane.setViewportView(teacherTable);
 
-		// teacherCount = teacherTable.getRowCount();
+		teacherCountDisplay = new JLabel();
+		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, teacherCountDisplay, 44, SpringLayout.NORTH,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, studentCountDisplay, -38, SpringLayout.WEST,
+				teacherCountDisplay);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, teacherCountDisplay, -237, SpringLayout.EAST,
+				dashboardCardPanel);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, teacherCountDisplay, -23, SpringLayout.EAST,
+				dashboardCardPanel);
+		teacherCountDisplay.setFont(new Font("Poppins", Font.BOLD, 24));
+		teacherCountDisplay.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+		teacherCountDisplay.setBackground(Color.WHITE);
+		dashboardCardPanel.add(teacherCountDisplay);
 
-		JLabel lblNewLabel_1_1 = new JLabel(
-				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-						+ teacherCount
-						+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
-		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 44, SpringLayout.NORTH,
+		courseCountDisplay = new JLabel();
+		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, teacherCountDisplay, -53, SpringLayout.NORTH,
+				courseCountDisplay);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, courseCountDisplay, 53, SpringLayout.SOUTH,
+				studentCountDisplay);
+		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, courseCountDisplay, 164, SpringLayout.WEST,
 				dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1, -38, SpringLayout.WEST, lblNewLabel_1_1);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, -237, SpringLayout.EAST,
+		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, courseCountDisplay, -73, SpringLayout.SOUTH,
 				dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1, -23, SpringLayout.EAST,
+		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, courseCountDisplay, -149, SpringLayout.EAST,
 				dashboardCardPanel);
-		lblNewLabel_1_1.setFont(new Font("Poppins", Font.BOLD, 24));
-		lblNewLabel_1_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
-		lblNewLabel_1_1.setBackground(Color.WHITE);
-		dashboardCardPanel.add(lblNewLabel_1_1);
-
-		JLabel lblNewLabel_1_2 = new JLabel(
-				"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Courses\r\n</html>\r\n\r\n\r\n");
-		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1, -53, SpringLayout.NORTH,
-				lblNewLabel_1_2);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_2, -154, SpringLayout.EAST,
-				dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_2, 53, SpringLayout.SOUTH, lblNewLabel_1);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_2, 159, SpringLayout.WEST,
-				dashboardCardPanel);
-		sl_dashboardCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_2, -73, SpringLayout.SOUTH,
-				dashboardCardPanel);
-		lblNewLabel_1_2.setFont(new Font("Poppins", Font.BOLD, 24));
-		lblNewLabel_1_2.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
-		lblNewLabel_1_2.setBackground(Color.WHITE);
-		dashboardCardPanel.add(lblNewLabel_1_2);
+		courseCountDisplay.setFont(new Font("Poppins", Font.BOLD, 24));
+		courseCountDisplay.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+		courseCountDisplay.setBackground(Color.WHITE);
+		dashboardCardPanel.add(courseCountDisplay);
 
 		JButton addButton = new JButton("Add");
 		addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
