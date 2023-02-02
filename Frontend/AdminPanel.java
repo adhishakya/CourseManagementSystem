@@ -1377,6 +1377,33 @@ public class AdminPanel {
 					updateBoxButton4.setVisible(false);
 					stopButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
 					stopButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					moduleTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isModuleUpdate == false && isModuleDelete == true) {
+								String deleteId = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
+								int confirmation = JOptionPane.showOptionDialog(null,
+										"Delete Module with Id: " + deleteId + "?", "Delete Course",
+										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
+										options[0]);
+								if (confirmation == 0) {
+									Statement statement = DatabaseConnection.getStatement();
+									String deleteQuery = "DELETE FROM `moduledetails` WHERE `moduledetails`.`moduleId` = '"
+											+ deleteId + "'";
+									try {
+										int deleteSuccess = statement.executeUpdate(deleteQuery);
+										if (deleteSuccess == 1) {
+											JOptionPane.showMessageDialog(null, "Data Deleted");
+										}
+									} catch (SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									AdminPanel.showModuleDataFromDatabase();
+								}
+							}
+						}
+					});
 				}
 			}
 		});
@@ -1418,6 +1445,81 @@ public class AdminPanel {
 					deleteButton4.setVisible(false);
 					stopButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
 					stopButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+					moduleTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							if (isModuleUpdate == true && isModuleDelete == false) {
+								AddModule updateModule = new AddModule();
+								updateModule.setVisible(true);
+								updateModule.setTitle("Update Module | Course Management System");
+								JLabel heading = updateModule.getModuleHeading();
+								heading.setText("Update Module");
+								JButton updateButton = updateModule.getAddButton();
+								updateButton.setText("Update");
+
+								String moduleId = "";
+								String moduleName = "";
+								String moduleLeader = "";
+								for (int columnIndex = 0; columnIndex < moduleTable.getColumnCount(); columnIndex++) {
+									if (moduleId.isEmpty()) {
+										moduleId = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(),
+												columnIndex);
+									} else if (moduleName.isEmpty()) {
+										moduleName = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(),
+												columnIndex);
+									} else {
+										moduleLeader = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(),
+												columnIndex);
+									}
+								}
+								updateModule.getModuleIdTextField().setText(moduleId);
+								updateModule.getModuleNameTextField().setText(moduleName);
+								updateModule.getModuleLeaderTextField().setText(moduleLeader);
+
+								updateButton.setActionCommand("Update");
+								updateButton.addActionListener(new ActionListener() {
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										// TODO Auto-generated method stub
+										if (e.getActionCommand().equals("Update")) {
+											JTextField moduleIdTextField = updateModule.getModuleIdTextField();
+											JTextField moduleNameTextField = updateModule.getModuleNameTextField();
+											JTextField moduleLeaderTextField = updateModule.getModuleLeaderTextField();
+
+											String updatedModuleId = moduleIdTextField.getText().trim();
+											String updatedModuleName = moduleNameTextField.getText().trim();
+											String updatedCourseLeader = moduleLeaderTextField.getText().trim();
+
+											String updateId = (String) moduleTable
+													.getValueAt(moduleTable.getSelectedRow(), 0);
+
+											String updateQuery = "UPDATE `moduledetails` SET "
+													+ "`moduleId` = '" + updatedModuleId + "', "
+													+ "`moduleName` = '" + updatedModuleName + "', "
+													+ "`moduleLeader` = '" + updatedCourseLeader + "', "
+													+ "`course` = 'bcs' WHERE `moduledetails`.`moduleId` = '" + updateId
+													+ "';";
+											Statement statement = DatabaseConnection.getStatement();
+											try {
+												int updateSuccess = statement.executeUpdate(updateQuery);
+												if (updateSuccess == 1) {
+													JOptionPane.showMessageDialog(null, "Data Updated");
+													updateModule.dispose();
+													AdminPanel.showModuleDataFromDatabase();
+												}
+											} catch (SQLException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+
+											}
+
+										}
+									}
+								});
+							}
+						}
+					});
 				}
 			}
 		});
