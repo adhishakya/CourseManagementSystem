@@ -29,6 +29,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Cursor;
 import java.awt.event.ItemListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ItemEvent;
@@ -38,15 +39,23 @@ public class AddModule extends JDialog {
     private final JPanel contentPanel = new JPanel();
     private JTextField moduleIdTextField;
     private JTextField moduleNameTextField;
-    private JTextField moduleLeaderTextField;
     private JButton addButton;
-    private JLabel heading;
+    private JLabel moduleHeading;
     private String moduleId;
     private String moduleName;
-    private String moduleLeader;
+    private String courseFromComboBox;
+    private String moduleLeaderFromComboBox;
 
-    public JLabel getHeading() {
-        return heading;
+    public String getModuleLeaderFromComboBox() {
+        return moduleLeaderFromComboBox;
+    }
+
+    public String getCourseFromComboBox() {
+        return courseFromComboBox;
+    }
+
+    public JLabel getModuleHeading() {
+        return moduleHeading;
     }
 
     public JPanel getContentPanel() {
@@ -63,10 +72,6 @@ public class AddModule extends JDialog {
 
     public JTextField getModuleNameTextField() {
         return moduleNameTextField;
-    }
-
-    public JTextField getModuleLeaderTextField() {
-        return moduleLeaderTextField;
     }
 
     /**
@@ -95,16 +100,16 @@ public class AddModule extends JDialog {
         SpringLayout sl_contentPanel = new SpringLayout();
         contentPanel.setLayout(sl_contentPanel);
 
-        heading = new JLabel("Add New Module");
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, heading, 10, SpringLayout.NORTH, contentPanel);
-        sl_contentPanel.putConstraint(SpringLayout.WEST, heading, 26, SpringLayout.WEST, contentPanel);
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, heading, 48, SpringLayout.NORTH, contentPanel);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, heading, -289, SpringLayout.EAST, contentPanel);
-        heading.setFont(new Font("Poppins", Font.BOLD, 20));
-        contentPanel.add(heading);
+        moduleHeading = new JLabel("Add New Module");
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleHeading, 10, SpringLayout.NORTH, contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, moduleHeading, 26, SpringLayout.WEST, contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, moduleHeading, 48, SpringLayout.NORTH, contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, moduleHeading, -289, SpringLayout.EAST, contentPanel);
+        moduleHeading.setFont(new Font("Poppins", Font.BOLD, 20));
+        contentPanel.add(moduleHeading);
 
         moduleIdTextField = new JTextField();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleIdTextField, 20, SpringLayout.SOUTH, heading);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleIdTextField, 20, SpringLayout.SOUTH, moduleHeading);
         sl_contentPanel.putConstraint(SpringLayout.SOUTH, moduleIdTextField, -321, SpringLayout.SOUTH, contentPanel);
         sl_contentPanel.putConstraint(SpringLayout.EAST, moduleIdTextField, -28, SpringLayout.EAST, contentPanel);
         moduleIdTextField.setCaretColor(new Color(128, 128, 255));
@@ -116,7 +121,7 @@ public class AddModule extends JDialog {
         moduleIdTextField.setColumns(10);
 
         JLabel lblNewLabel_1_1 = new JLabel("Module Name :");
-        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, 0, SpringLayout.WEST, heading);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, 0, SpringLayout.WEST, moduleHeading);
         lblNewLabel_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1);
 
@@ -135,30 +140,14 @@ public class AddModule extends JDialog {
         contentPanel.add(moduleNameTextField);
 
         JLabel lblNewLabel_1_1_1 = new JLabel("Module Leader : ");
-        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1, 0, SpringLayout.WEST, heading);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1, 0, SpringLayout.WEST, moduleHeading);
         sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_1, -189, SpringLayout.SOUTH, contentPanel);
         sl_contentPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1_1, -335, SpringLayout.EAST, contentPanel);
         lblNewLabel_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1_1);
 
-        moduleLeaderTextField = new JTextField();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleLeaderTextField, 38, SpringLayout.SOUTH,
-                moduleNameTextField);
-        sl_contentPanel.putConstraint(SpringLayout.WEST, moduleLeaderTextField, 6, SpringLayout.EAST,
-                lblNewLabel_1_1_1);
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, moduleLeaderTextField, -189, SpringLayout.SOUTH,
-                contentPanel);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, moduleLeaderTextField, -28, SpringLayout.EAST, contentPanel);
-        moduleLeaderTextField.setSelectionColor(new Color(128, 128, 255));
-        moduleLeaderTextField.setSelectedTextColor(new Color(255, 255, 255));
-        moduleLeaderTextField.setCaretColor(new Color(128, 128, 255));
-        moduleLeaderTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-        moduleLeaderTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-        moduleLeaderTextField.setColumns(10);
-        contentPanel.add(moduleLeaderTextField);
-
         JLabel lblNewLabel_1_1_1_1 = new JLabel("Course :");
-        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, heading);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, moduleHeading);
         lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1_1_1);
 
@@ -174,32 +163,7 @@ public class AddModule extends JDialog {
         sl_contentPanel.putConstraint(SpringLayout.NORTH, addButton, 354, SpringLayout.NORTH, contentPanel);
         sl_contentPanel.putConstraint(SpringLayout.WEST, addButton, 280, SpringLayout.WEST, contentPanel);
         addButton.setActionCommand("Add");
-        addButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getActionCommand().equals("Add")) {
-                    moduleId = moduleIdTextField.getText().trim();
-                    moduleName = moduleNameTextField.getText().trim();
-                    moduleLeader = moduleLeaderTextField.getText().trim();
-                    Statement statement = DatabaseConnection.getStatement();
 
-                    String insertQuery = "INSERT INTO `moduledetails` "
-                            + "(`moduleId`, `moduleName`, `moduleLeader`, `course`)"
-                            + " VALUES ('" + moduleId + "', '" + moduleName + "', '" + moduleLeader + "', 'bcs');";
-                    try {
-                        int insertSuccess = statement.executeUpdate(insertQuery);
-                        if (insertSuccess == 1) {
-                            JOptionPane.showMessageDialog(contentPanel, "Added Module data successfully!");
-                            AdminPanel.showModuleDataFromDatabase();
-                            dispose();
-                        }
-                    } catch (SQLException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }
-
-            }
-        });
         addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addButton.setForeground(new Color(255, 255, 255));
         addButton.setBorder(null);
@@ -227,19 +191,12 @@ public class AddModule extends JDialog {
         contentPanel.add(btnNewButton_1);
 
         JComboBox courseComboBox = new JComboBox();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, courseComboBox, 39, SpringLayout.SOUTH,
-                moduleLeaderTextField);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, courseComboBox, 108, SpringLayout.SOUTH, moduleNameTextField);
         sl_contentPanel.putConstraint(SpringLayout.SOUTH, courseComboBox, -53, SpringLayout.NORTH, addButton);
         sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 3, SpringLayout.NORTH, courseComboBox);
         sl_contentPanel.putConstraint(SpringLayout.WEST, courseComboBox, 0, SpringLayout.WEST, moduleIdTextField);
         sl_contentPanel.putConstraint(SpringLayout.EAST, courseComboBox, 0, SpringLayout.EAST, moduleIdTextField);
-        courseComboBox.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == 1) {
-                }
-            }
-        });
-        courseComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Course" }));
+
         courseComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
         courseComboBox
                 .setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
@@ -247,6 +204,95 @@ public class AddModule extends JDialog {
                         new Color(255, 255, 255), new Color(255, 255, 255)));
         courseComboBox.setBackground(Color.WHITE);
         contentPanel.add(courseComboBox);
+
+        JComboBox moduleLeaderComboBox = new JComboBox();
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleLeaderComboBox, -6, SpringLayout.NORTH,
+                lblNewLabel_1_1_1);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, moduleLeaderComboBox, 0, SpringLayout.WEST, moduleIdTextField);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, moduleLeaderComboBox, 0, SpringLayout.EAST, moduleIdTextField);
+        moduleLeaderComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
+        moduleLeaderComboBox
+                .setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
+
+                        new Color(255, 255, 255), new Color(255, 255, 255)));
+        moduleLeaderComboBox.setBackground(Color.WHITE);
+        contentPanel.add(moduleLeaderComboBox);
+
+        moduleLeaderComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Teacher" }));
+        String fetchTeacherQuery = "SELECT teacherName FROM `teacherdetails`";
+        String[] teachersArray = new String[15];
+        int i = 0;
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(fetchTeacherQuery);
+
+            while (resultSet.next()) {
+                teachersArray[i] = resultSet.getString("TeacherName");
+                moduleLeaderComboBox.addItem(teachersArray[i]);
+                i++;
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        moduleLeaderComboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == 1) {
+                    moduleLeaderFromComboBox = (String) e.getItem();
+                }
+            }
+        });
+
+        courseComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Course" }));
+        String fetchCoursesQuery = "SELECT courseName FROM `coursedetails`";
+        String[] coursesArray = new String[5];
+        i = 0;
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(fetchCoursesQuery);
+
+            while (resultSet.next()) {
+                coursesArray[i] = resultSet.getString("CourseName");
+                courseComboBox.addItem(coursesArray[i]);
+                i++;
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        courseComboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == 1) {
+                    courseFromComboBox = (String) e.getItem();
+                }
+            }
+        });
+
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getActionCommand().equals("Add")) {
+                    moduleId = moduleIdTextField.getText().trim();
+                    moduleName = moduleNameTextField.getText().trim();
+                    Statement statement = DatabaseConnection.getStatement();
+
+                    String insertQuery = "INSERT INTO `moduledetails` "
+                            + "(`moduleId`, `moduleName`, `moduleLeader`, `course`)" + " VALUES ('" + moduleId + "', '"
+                            + moduleName + "', '" + moduleLeaderFromComboBox + "', '" + courseFromComboBox + "');";
+                    try {
+                        int insertSuccess = statement.executeUpdate(insertQuery);
+                        if (insertSuccess == 1) {
+                            JOptionPane.showMessageDialog(contentPanel, "Added Module data successfully!");
+                            AdminPanel.showModuleDataFromDatabase();
+                            dispose();
+                        }
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }
+
+            }
+        });
 
     }
 }
