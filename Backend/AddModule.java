@@ -189,7 +189,7 @@ public class AddModule extends JDialog {
                         int insertSuccess = statement.executeUpdate(insertQuery);
                         if (insertSuccess == 1) {
                             JOptionPane.showMessageDialog(contentPanel, "Added Module data successfully!");
-                            // AdminPanel.showTeacherDataFromDatabase();
+                            AdminPanel.showModuleDataFromDatabase();
                             dispose();
                         }
                     } catch (SQLException e1) {
