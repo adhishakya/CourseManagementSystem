@@ -59,8 +59,11 @@ public class AdminPanel {
 	private boolean isStudentDelete;
 	private boolean isCourseUpdate;
 	private boolean isCourseDelete;
+	private boolean isModuleUpdate;
+	private boolean isModuleDelete;
 	private JTable courseTable;
 	private static int teacherCount = 0;
+	private JTable moduleTable;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -76,6 +79,10 @@ public class AdminPanel {
 
 	private static DefaultTableModel courseDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { null, null }, { null, null }, }, new String[] { "Course ID", "Course Name" });
+
+	private static DefaultTableModel moduleDefaultTableModel = new DefaultTableModel(
+			new Object[][] { { null, null, null, null }, { null, null, null, null }, },
+			new String[] { "Id", "Name", "Module Leader", "Course" });
 
 	public static void showStudentDataFromDatabase() {
 		Statement statement = DatabaseConnection.getStatement();
@@ -99,6 +106,29 @@ public class AdminPanel {
 				studentDefaultTableModel.addRow(new Object[] { studentIdFromDB, studentNameFromDB, studentLevelFromDB,
 						studentSemesterFromDB, studentGroupFromDB, studentAddressFromDB, studentCourseFromDB,
 						studentAgeFromDB, studentPhoneFromDB });
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void showModuleDataFromDatabase() {
+		Statement statement = DatabaseConnection.getStatement();
+
+		String selectQuery = "SELECT * FROM `moduledetails`";
+
+		try {
+			ResultSet resultSet = statement.executeQuery(selectQuery);
+			moduleDefaultTableModel.setRowCount(0);
+			while (resultSet.next()) {
+				String moduleIdFromDB = resultSet.getString("moduleId");
+				String moduleNameFromDB = resultSet.getString("moduleName");
+				String moduleLeaderFromDB = resultSet.getString("moduleLeader");
+				String courseFromDB = resultSet.getString("course");
+
+				moduleDefaultTableModel
+						.addRow(new Object[] { moduleIdFromDB, moduleNameFromDB, moduleLeaderFromDB, courseFromDB });
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1311,70 +1341,131 @@ public class AdminPanel {
 		SpringLayout sl_moduleCardPanel = new SpringLayout();
 		moduleCardPanel.setLayout(sl_moduleCardPanel);
 
-		JButton addButton3_1 = new JButton("Add");
-		addButton3_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
-		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, addButton3_1, 35, SpringLayout.NORTH, moduleCardPanel);
-		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, addButton3_1, 51, SpringLayout.WEST, moduleCardPanel);
-		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, addButton3_1, 86, SpringLayout.NORTH, moduleCardPanel);
-		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, addButton3_1, 207, SpringLayout.WEST, moduleCardPanel);
-		addButton3_1.setOpaque(false);
-		addButton3_1.setIconTextGap(17);
-		addButton3_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		addButton3_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
-		addButton3_1.setBackground(Color.WHITE);
-		moduleCardPanel.add(addButton3_1);
+		JButton addButton4 = new JButton("Add");
+		addButton4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddModule addModule = new AddModule();
+				addModule.setVisible(true);
+			}
+		});
+		addButton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		addButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
+		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, addButton4, 35, SpringLayout.NORTH, moduleCardPanel);
+		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, addButton4, 51, SpringLayout.WEST, moduleCardPanel);
+		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, addButton4, 86, SpringLayout.NORTH, moduleCardPanel);
+		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, addButton4, 207, SpringLayout.WEST, moduleCardPanel);
+		addButton4.setOpaque(false);
+		addButton4.setIconTextGap(17);
+		addButton4.setFont(new Font("Poppins", Font.BOLD, 14));
+		addButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		addButton4.setBackground(Color.WHITE);
+		moduleCardPanel.add(addButton4);
 
-		JButton stopButton3_1 = new JButton("Stop");
-		stopButton3_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
-		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, stopButton3_1, 35, SpringLayout.NORTH, moduleCardPanel);
-		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, stopButton3_1, -223, SpringLayout.EAST, moduleCardPanel);
-		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, stopButton3_1, 0, SpringLayout.SOUTH, addButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, stopButton3_1, -67, SpringLayout.EAST, moduleCardPanel);
-		stopButton3_1.setOpaque(false);
-		stopButton3_1.setIconTextGap(10);
-		stopButton3_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		stopButton3_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
-		stopButton3_1.setBackground(Color.WHITE);
-		moduleCardPanel.add(stopButton3_1);
+		JButton updateBoxButton4 = new JButton("Update");
+		JButton stopButton4 = new JButton("Stop");
+		JButton deleteButton4 = new JButton("Delete");
+		deleteButton4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter delete mode?", "Delete Module",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					isModuleUpdate = false;
+					isModuleDelete = true;
+					JOptionPane.showMessageDialog(null, "Entered Delete Mode!");
+					addButton4.setVisible(false);
+					updateBoxButton4.setVisible(false);
+					stopButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+					stopButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+				}
+			}
+		});
 
-		JButton updateBoxButton3_1 = new JButton("Update");
-		updateBoxButton3_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/update.png")));
-		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, updateBoxButton3_1, 32, SpringLayout.SOUTH, addButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, updateBoxButton3_1, 0, SpringLayout.WEST, addButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, updateBoxButton3_1, 83, SpringLayout.SOUTH, addButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, updateBoxButton3_1, 0, SpringLayout.EAST, addButton3_1);
-		updateBoxButton3_1.setOpaque(false);
-		updateBoxButton3_1.setIconTextGap(14);
-		updateBoxButton3_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		updateBoxButton3_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
-		updateBoxButton3_1.setBackground(Color.WHITE);
-		moduleCardPanel.add(updateBoxButton3_1);
+		stopButton4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				isModuleUpdate = false;
+				isModuleDelete = false;
+				addButton4.setVisible(true);
+				deleteButton4.setVisible(true);
+				updateBoxButton4.setVisible(true);
+				stopButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
+				stopButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
+			}
+		});
+		stopButton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		stopButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop_inactive.png")));
+		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, stopButton4, 35, SpringLayout.NORTH, moduleCardPanel);
+		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, stopButton4, -223, SpringLayout.EAST, moduleCardPanel);
+		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, stopButton4, 0, SpringLayout.SOUTH, addButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, stopButton4, -67, SpringLayout.EAST, moduleCardPanel);
+		stopButton4.setOpaque(false);
+		stopButton4.setIconTextGap(10);
+		stopButton4.setFont(new Font("Poppins", Font.BOLD, 14));
+		stopButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 128)));
+		stopButton4.setBackground(Color.WHITE);
+		moduleCardPanel.add(stopButton4);
 
-		JButton deleteButton3_1 = new JButton("Delete");
-		deleteButton3_1.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/delete.png")));
-		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, deleteButton3_1, 32, SpringLayout.SOUTH, stopButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, deleteButton3_1, 0, SpringLayout.WEST, stopButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton3_1, 0, SpringLayout.SOUTH,
-				updateBoxButton3_1);
-		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, deleteButton3_1, 0, SpringLayout.EAST, stopButton3_1);
-		deleteButton3_1.setOpaque(false);
-		deleteButton3_1.setIconTextGap(14);
-		deleteButton3_1.setFont(new Font("Poppins", Font.BOLD, 14));
-		deleteButton3_1.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
-		deleteButton3_1.setBackground(Color.WHITE);
-		moduleCardPanel.add(deleteButton3_1);
+		updateBoxButton4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Do you want to enter update mode?", "Update Module",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+				if (n == 0) {
+					isModuleUpdate = true;
+					isModuleDelete = false;
+					JOptionPane.showMessageDialog(null, "Entered Update Mode!");
+					addButton4.setVisible(false);
+					deleteButton4.setVisible(false);
+					stopButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/stop.png")));
+					stopButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(255, 0, 0)));
+				}
+			}
+		});
+		updateBoxButton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		updateBoxButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/update.png")));
+		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, updateBoxButton4, 32, SpringLayout.SOUTH, addButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, updateBoxButton4, 0, SpringLayout.WEST, addButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, updateBoxButton4, 83, SpringLayout.SOUTH, addButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, updateBoxButton4, 0, SpringLayout.EAST, addButton4);
+		updateBoxButton4.setOpaque(false);
+		updateBoxButton4.setIconTextGap(14);
+		updateBoxButton4.setFont(new Font("Poppins", Font.BOLD, 14));
+		updateBoxButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		updateBoxButton4.setBackground(Color.WHITE);
+		moduleCardPanel.add(updateBoxButton4);
+
+		deleteButton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		deleteButton4.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/delete.png")));
+		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, deleteButton4, 32, SpringLayout.SOUTH, stopButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, deleteButton4, 0, SpringLayout.WEST, stopButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton4, 0, SpringLayout.SOUTH, updateBoxButton4);
+		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, deleteButton4, 0, SpringLayout.EAST, stopButton4);
+		deleteButton4.setOpaque(false);
+		deleteButton4.setIconTextGap(14);
+		deleteButton4.setFont(new Font("Poppins", Font.BOLD, 14));
+		deleteButton4.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		deleteButton4.setBackground(Color.WHITE);
+		moduleCardPanel.add(deleteButton4);
 
 		JScrollPane scrollPane_3 = new JScrollPane();
-		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, scrollPane_3, 25, SpringLayout.SOUTH, updateBoxButton3_1);
+		sl_moduleCardPanel.putConstraint(SpringLayout.NORTH, scrollPane_3, 25, SpringLayout.SOUTH, updateBoxButton4);
 		sl_moduleCardPanel.putConstraint(SpringLayout.WEST, scrollPane_3, 33, SpringLayout.WEST, moduleCardPanel);
 		sl_moduleCardPanel.putConstraint(SpringLayout.SOUTH, scrollPane_3, -31, SpringLayout.SOUTH, moduleCardPanel);
 		sl_moduleCardPanel.putConstraint(SpringLayout.EAST, scrollPane_3, 501, SpringLayout.WEST, moduleCardPanel);
 		moduleCardPanel.add(scrollPane_3);
+
+		moduleTable = new JTable();
+		moduleTable.setDefaultEditor(Object.class, null);
+		moduleTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
+		moduleTable.setModel(moduleDefaultTableModel);
+		moduleTable.getColumnModel().getColumn(2).setPreferredWidth(97);
+		scrollPane_3.setViewportView(moduleTable);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 
 		AdminPanel.showTeacherDataFromDatabase();
 		AdminPanel.showStudentDataFromDatabase();
 		AdminPanel.showCourseDataFromDatabase();
+		AdminPanel.showModuleDataFromDatabase();
 	}
 }
