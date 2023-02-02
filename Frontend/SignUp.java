@@ -27,10 +27,13 @@ public class SignUp {
 
     private JFrame signupPanel;
     private JTextField usernameTextField;
-    private JTextField emailTextField;
+    private JTextField uniIdTextField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
     private JLabel passwordsNotMatchingError;
+    private JLabel usernameCantBeEmpty;
+    private JLabel universityIdCantBeEmpty;
+    private JLabel passwordCantBeEmpty;
 
     public JFrame getSignupPanel() {
         return signupPanel;
@@ -97,13 +100,13 @@ public class SignUp {
 
         JLabel lblNewLabel_2 = new JLabel("Username");
         sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2, 91, SpringLayout.WEST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -527, SpringLayout.SOUTH, panel_1);
         lblNewLabel_2.setFont(new Font("Poppins", Font.BOLD, 18));
         panel_1.add(lblNewLabel_2);
 
         usernameTextField = new JTextField();
-        sl_panel_1.putConstraint(SpringLayout.NORTH, usernameTextField, 161, SpringLayout.NORTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, usernameTextField, -29, SpringLayout.EAST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -6, SpringLayout.NORTH, usernameTextField);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, usernameTextField, 6, SpringLayout.SOUTH, lblNewLabel_2);
+        sl_panel_1.putConstraint(SpringLayout.WEST, usernameTextField, 10, SpringLayout.WEST, lblNewLabel_1);
         usernameTextField.setSelectionColor(new Color(128, 128, 255));
         usernameTextField.setSelectedTextColor(Color.WHITE);
         usernameTextField.setForeground(new Color(104, 104, 104));
@@ -116,41 +119,43 @@ public class SignUp {
         panel_1.add(usernameTextField);
 
         JLabel lblNewLabel_2_1 = new JLabel("");
-        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1, -387, SpringLayout.EAST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.WEST, usernameTextField, 13, SpringLayout.EAST, lblNewLabel_2_1);
-        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1, 156, SpringLayout.NORTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1, 136, SpringLayout.NORTH, panel_1);
         sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_1, 46, SpringLayout.WEST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1, 0, SpringLayout.SOUTH, usernameTextField);
+        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1, -13, SpringLayout.WEST, lblNewLabel_2);
         lblNewLabel_2_1.setIcon(new ImageIcon(SignUp.class.getResource("/images/user.png")));
         panel_1.add(lblNewLabel_2_1);
 
-        JLabel lblNewLabel_2_2 = new JLabel("Email");
-        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_2, 95, SpringLayout.WEST, panel_1);
+        JLabel lblNewLabel_2_2 = new JLabel("University Id");
+        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_2, 0, SpringLayout.WEST, lblNewLabel_2);
         lblNewLabel_2_2.setFont(new Font("Poppins", Font.BOLD, 18));
         panel_1.add(lblNewLabel_2_2);
 
-        emailTextField = new JTextField();
-        sl_panel_1.putConstraint(SpringLayout.NORTH, emailTextField, 252, SpringLayout.NORTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, emailTextField, -29, SpringLayout.EAST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_2, -6, SpringLayout.NORTH, emailTextField);
-        emailTextField.setSelectionColor(new Color(128, 128, 255));
-        emailTextField.setSelectedTextColor(Color.WHITE);
-        emailTextField.setForeground(new Color(104, 104, 104));
-        emailTextField.setFont(new Font("Poppins", Font.PLAIN, 16));
-        emailTextField.setColumns(10);
-        emailTextField.setCaretColor(new Color(128, 128, 255));
-        emailTextField.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255),
+        uniIdTextField = new JTextField();
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_2, -6, SpringLayout.NORTH, uniIdTextField);
+        sl_panel_1.putConstraint(SpringLayout.EAST, usernameTextField, 0, SpringLayout.EAST, uniIdTextField);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, uniIdTextField, 252, SpringLayout.NORTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.EAST, uniIdTextField, -29, SpringLayout.EAST, panel_1);
+        uniIdTextField.setSelectionColor(new Color(128, 128, 255));
+        uniIdTextField.setSelectedTextColor(Color.WHITE);
+        uniIdTextField.setForeground(new Color(104, 104, 104));
+        uniIdTextField.setFont(new Font("Poppins", Font.PLAIN, 16));
+        uniIdTextField.setColumns(10);
+        uniIdTextField.setCaretColor(new Color(128, 128, 255));
+        uniIdTextField.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255),
 
                 new Color(128, 128, 255), new Color(255, 255, 255), new Color(255, 255, 255)));
-        panel_1.add(emailTextField);
+        panel_1.add(uniIdTextField);
 
         JLabel lblNewLabel_2_2_1 = new JLabel("Password");
+        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_2_1, 0, SpringLayout.WEST, lblNewLabel_2);
         lblNewLabel_2_2_1.setFont(new Font("Poppins", Font.BOLD, 18));
         panel_1.add(lblNewLabel_2_2_1);
 
         passwordField = new JPasswordField();
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_2_1, -6, SpringLayout.NORTH, passwordField);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, passwordField, 347, SpringLayout.NORTH, panel_1);
         sl_panel_1.putConstraint(SpringLayout.EAST, passwordField, -29, SpringLayout.EAST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_2_1, -12, SpringLayout.NORTH, passwordField);
-        sl_panel_1.putConstraint(SpringLayout.NORTH, passwordField, 342, SpringLayout.NORTH, panel_1);
         passwordField.setSelectionColor(new Color(128, 128, 255));
         passwordField.setSelectedTextColor(Color.WHITE);
         passwordField.setFont(new Font("Poppins", Font.PLAIN, 16));
@@ -162,24 +167,21 @@ public class SignUp {
         panel_1.add(passwordField);
 
         JLabel lblNewLabel_2_1_1 = new JLabel("");
-        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_2_1, 10, SpringLayout.EAST, lblNewLabel_2_1_1);
         sl_panel_1.putConstraint(SpringLayout.WEST, passwordField, 11, SpringLayout.EAST, lblNewLabel_2_1_1);
         sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_1_1, 0, SpringLayout.WEST, lblNewLabel_2_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1_1, 0, SpringLayout.EAST, lblNewLabel_2_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1_1, 0, SpringLayout.SOUTH, passwordField);
+        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1_1, -387, SpringLayout.EAST, panel_1);
         lblNewLabel_2_1_1.setIcon(new ImageIcon(SignUp.class.getResource("/images/password.png")));
         panel_1.add(lblNewLabel_2_1_1);
 
         JLabel lblNewLabel_2_2_1_1 = new JLabel("Confirm Password");
-        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_2_1_1, 0, SpringLayout.WEST, lblNewLabel_2_2_1);
         lblNewLabel_2_2_1_1.setFont(new Font("Poppins", Font.BOLD, 18));
         panel_1.add(lblNewLabel_2_2_1_1);
 
         confirmPasswordField = new JPasswordField();
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_2_1_1, -17, SpringLayout.NORTH,
-                confirmPasswordField);
-        sl_panel_1.putConstraint(SpringLayout.NORTH, confirmPasswordField, 434, SpringLayout.NORTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_2_1_1, -6, SpringLayout.NORTH, confirmPasswordField);
         sl_panel_1.putConstraint(SpringLayout.WEST, confirmPasswordField, 8, SpringLayout.WEST, lblNewLabel_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, confirmPasswordField, -29, SpringLayout.EAST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.EAST, confirmPasswordField, 0, SpringLayout.EAST, usernameTextField);
         confirmPasswordField.setSelectionColor(new Color(128, 128, 255));
         confirmPasswordField.setSelectedTextColor(Color.WHITE);
         confirmPasswordField.setFont(new Font("Poppins", Font.PLAIN, 16));
@@ -192,44 +194,55 @@ public class SignUp {
         panel_1.add(confirmPasswordField);
 
         JLabel lblNewLabel_2_1_1_1 = new JLabel("");
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1_1, -51, SpringLayout.NORTH, lblNewLabel_2_1_1_1);
-        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1_1_1, 422, SpringLayout.NORTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1_1_1, -206, SpringLayout.SOUTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_2_1_1, 14, SpringLayout.EAST, lblNewLabel_2_1_1_1);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1_1_1, 432, SpringLayout.NORTH, panel_1);
         sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_1_1_1, 0, SpringLayout.WEST, lblNewLabel_2_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1_1_1, 0, SpringLayout.EAST, lblNewLabel_2_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1_1_1, 0, SpringLayout.SOUTH, confirmPasswordField);
+        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1_1_1, -11, SpringLayout.WEST, confirmPasswordField);
         lblNewLabel_2_1_1_1.setIcon(new ImageIcon(SignUp.class.getResource("/images/password.png")));
         panel_1.add(lblNewLabel_2_1_1_1);
 
         JButton btnSignUp = new JButton("Sign Up");
         btnSignUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                usernameCantBeEmpty.setVisible(false);
+                universityIdCantBeEmpty.setVisible(false);
+                passwordCantBeEmpty.setVisible(false);
+                passwordsNotMatchingError.setVisible(false);
+                String username = usernameTextField.getText().trim();
+                String uniId = uniIdTextField.getText().trim();
                 String password = String.valueOf(passwordField.getPassword());
                 String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
-                if (!password.equals(confirmPassword)) {
+                if (username.isEmpty()) {
+                    usernameCantBeEmpty.setVisible(true);
+                } else if (uniId.isEmpty()) {
+                    universityIdCantBeEmpty.setVisible(true);
+                } else if (password.isEmpty()) {
+                    passwordCantBeEmpty.setVisible(true);
+
+                } else if (!password.equals(confirmPassword)) {
                     passwordsNotMatchingError.setVisible(true);
                 } else {
-                    passwordsNotMatchingError.setVisible(false);
-                }
-                String username = usernameTextField.getText().trim();
-                String email = emailTextField.getText().trim();
-                Statement statement = DatabaseConnection.getStatement();
-                String insertQuery = "INSERT INTO `userdetails` (`username`, `email`, `password`, `usertype`)"
-                        + " VALUES ('"
-                        + username + "', '" + email + "', '" + password + "', 'Student');";
 
-                try {
-                    int insertSuccess = statement.executeUpdate(insertQuery);
-                    if (insertSuccess == 1) {
-                        JOptionPane.showMessageDialog(null, "Successfully Signed Up!");
-                        signupPanel.dispose();
+                    Statement statement = DatabaseConnection.getStatement();
+                    String insertQuery = "INSERT INTO `userdetails` (`username`, `uniId`, `password`, `usertype`)"
+                            + " VALUES ('" + username + "', '" + uniId + "', '" + password + "', 'Student');";
+
+                    try {
+                        int insertSuccess = statement.executeUpdate(insertQuery);
+                        if (insertSuccess == 1) {
+                            JOptionPane.showMessageDialog(null, "Successfully Signed Up!");
+                            Login window = new Login();
+                            window.getFrmLogin().setVisible(true);
+                            signupPanel.dispose();
+                        }
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
                     }
-                } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
                 }
             }
         });
-        sl_panel_1.putConstraint(SpringLayout.NORTH, btnSignUp, 63, SpringLayout.SOUTH, confirmPasswordField);
         sl_panel_1.putConstraint(SpringLayout.WEST, btnSignUp, 80, SpringLayout.WEST, panel_1);
         sl_panel_1.putConstraint(SpringLayout.EAST, btnSignUp, -29, SpringLayout.EAST, panel_1);
         btnSignUp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -240,8 +253,8 @@ public class SignUp {
         panel_1.add(btnSignUp);
 
         JLabel lblNewLabel_6 = new JLabel("Already have an account? ");
-        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 602, SpringLayout.NORTH, panel_1);
         sl_panel_1.putConstraint(SpringLayout.SOUTH, btnSignUp, -26, SpringLayout.NORTH, lblNewLabel_6);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 602, SpringLayout.NORTH, panel_1);
         sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_6, 81, SpringLayout.WEST, panel_1);
         sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_6, -214, SpringLayout.EAST, panel_1);
         lblNewLabel_6.setFont(new Font("Poppins", Font.BOLD, 12));
@@ -266,26 +279,56 @@ public class SignUp {
         panel_1.add(btnNewButton_1);
 
         JLabel lblNewLabel_2_1_2 = new JLabel("");
-        sl_panel_1.putConstraint(SpringLayout.WEST, emailTextField, 13, SpringLayout.EAST, lblNewLabel_2_1_2);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1_1, 52, SpringLayout.SOUTH, lblNewLabel_2_1_2);
+        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_1_2, 46, SpringLayout.WEST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1_2, -387, SpringLayout.EAST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.WEST, uniIdTextField, 13, SpringLayout.EAST, lblNewLabel_2_1_2);
         sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1_2, 252, SpringLayout.NORTH, panel_1);
         sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1_2, -390, SpringLayout.SOUTH, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2_1_1, 47, SpringLayout.SOUTH, lblNewLabel_2_1_2);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNewLabel_2_1, -53, SpringLayout.NORTH, lblNewLabel_2_1_2);
-        sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2_1_2, 0, SpringLayout.WEST, lblNewLabel_2_1);
-        sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2_1_2, 0, SpringLayout.EAST, lblNewLabel_2_1);
         lblNewLabel_2_1_2.setIcon(new ImageIcon(SignUp.class.getResource("/images/mail.png")));
         panel_1.add(lblNewLabel_2_1_2);
 
         passwordsNotMatchingError = new JLabel("Passwords do not match.");
+        sl_panel_1.putConstraint(SpringLayout.NORTH, passwordsNotMatchingError, 481, SpringLayout.NORTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, passwordsNotMatchingError, -171, SpringLayout.SOUTH, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, btnSignUp, 26, SpringLayout.SOUTH, passwordsNotMatchingError);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, confirmPasswordField, -6, SpringLayout.NORTH,
+                passwordsNotMatchingError);
+        sl_panel_1.putConstraint(SpringLayout.WEST, passwordsNotMatchingError, 93, SpringLayout.WEST, panel_1);
+        sl_panel_1.putConstraint(SpringLayout.EAST, passwordsNotMatchingError, -12, SpringLayout.EAST, btnNewButton_1);
         passwordsNotMatchingError.setVisible(false);
-        sl_panel_1.putConstraint(SpringLayout.EAST, passwordsNotMatchingError, -14, SpringLayout.EAST, btnNewButton_1);
         passwordsNotMatchingError.setForeground(new Color(255, 0, 0));
         passwordsNotMatchingError.setFont(new Font("Poppins", Font.BOLD, 14));
-        sl_panel_1.putConstraint(SpringLayout.NORTH, passwordsNotMatchingError, 6, SpringLayout.SOUTH,
-                confirmPasswordField);
-        sl_panel_1.putConstraint(SpringLayout.WEST, passwordsNotMatchingError, 91, SpringLayout.WEST, panel_1);
-        sl_panel_1.putConstraint(SpringLayout.SOUTH, passwordsNotMatchingError, -20, SpringLayout.NORTH, btnSignUp);
         panel_1.add(passwordsNotMatchingError);
+
+        usernameCantBeEmpty = new JLabel("Field can't be empty");
+        usernameCantBeEmpty.setVisible(false);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, usernameCantBeEmpty, 6, SpringLayout.SOUTH, usernameTextField);
+        sl_panel_1.putConstraint(SpringLayout.WEST, usernameCantBeEmpty, 0, SpringLayout.WEST, lblNewLabel_2);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, usernameCantBeEmpty, -20, SpringLayout.NORTH, lblNewLabel_2_2);
+        sl_panel_1.putConstraint(SpringLayout.EAST, usernameCantBeEmpty, -213, SpringLayout.EAST, usernameTextField);
+        usernameCantBeEmpty.setForeground(new Color(255, 0, 0));
+        usernameCantBeEmpty.setFont(new Font("Poppins", Font.BOLD, 12));
+        panel_1.add(usernameCantBeEmpty);
+
+        universityIdCantBeEmpty = new JLabel("Field can't be empty");
+        universityIdCantBeEmpty.setVisible(false);
+        sl_panel_1.putConstraint(SpringLayout.WEST, universityIdCantBeEmpty, 0, SpringLayout.WEST, lblNewLabel_2);
+        sl_panel_1.putConstraint(SpringLayout.SOUTH, universityIdCantBeEmpty, -6, SpringLayout.NORTH,
+                lblNewLabel_2_2_1);
+        sl_panel_1.putConstraint(SpringLayout.EAST, universityIdCantBeEmpty, 5, SpringLayout.EAST, usernameCantBeEmpty);
+        universityIdCantBeEmpty.setForeground(Color.RED);
+        universityIdCantBeEmpty.setFont(new Font("Poppins", Font.BOLD, 12));
+        panel_1.add(universityIdCantBeEmpty);
+
+        passwordCantBeEmpty = new JLabel("Field can't be empty");
+        passwordCantBeEmpty.setVisible(false);
+        sl_panel_1.putConstraint(SpringLayout.NORTH, passwordCantBeEmpty, 6, SpringLayout.SOUTH, passwordField);
+        sl_panel_1.putConstraint(SpringLayout.WEST, passwordCantBeEmpty, 0, SpringLayout.WEST, lblNewLabel_2);
+        sl_panel_1.putConstraint(SpringLayout.EAST, passwordCantBeEmpty, 0, SpringLayout.EAST, usernameCantBeEmpty);
+        passwordCantBeEmpty.setForeground(Color.RED);
+        passwordCantBeEmpty.setFont(new Font("Poppins", Font.BOLD, 12));
+        panel_1.add(passwordCantBeEmpty);
         splitPane.setDividerLocation(370);
     }
 

@@ -50,6 +50,8 @@ public class Login {
 	private JTextField enteredUsername;
 	private JPasswordField passwordField;
 	private JComboBox comboBox;
+	private JLabel usernameFieldCantBeEmpty;
+	private JLabel passwordFieldCantBeEmpty;
 
 	/**
 	 * Launch the application.
@@ -123,10 +125,16 @@ public class Login {
 		btnNewButton.setBorder(null);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				usernameFieldCantBeEmpty.setVisible(false);
+				passwordFieldCantBeEmpty.setVisible(false);
 				String username = enteredUsername.getText().trim();
 				String password = String.valueOf(passwordField.getPassword());
 				String userType = comboBox.getSelectedItem().toString();
-				if (username.equals("admin")
+				if (username.isEmpty()) {
+					usernameFieldCantBeEmpty.setVisible(true);
+				} else if (password.isEmpty()) {
+					passwordFieldCantBeEmpty.setVisible(true);
+				} else if (username.equals("admin")
 						&& password.equals("admin")
 						&& userType.equals("Admin")) {
 					System.out.println("Logged in as admin successfully!");
@@ -158,7 +166,7 @@ public class Login {
 							studentPanel.getFrmStudentPanel().setVisible(true);
 							fromLogin.setVisible(false);
 						} else {
-							JOptionPane.showMessageDialog(fromLogin, "Username or password is wrong!");
+							JOptionPane.showMessageDialog(fromLogin, "Incorrect Username, Password or User Type.");
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -215,32 +223,46 @@ public class Login {
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1.setBorder(null);
 		btnNewButton_1.setFont(new Font("Poppins", Font.BOLD, 12));
+
+		usernameFieldCantBeEmpty = new JLabel("Field can't be empty");
+		usernameFieldCantBeEmpty.setVisible(false);
+		usernameFieldCantBeEmpty.setForeground(new Color(255, 0, 0));
+		usernameFieldCantBeEmpty.setFont(new Font("Poppins", Font.BOLD, 10));
+
+		passwordFieldCantBeEmpty = new JLabel("Field can't be empty");
+		passwordFieldCantBeEmpty.setVisible(false);
+		passwordFieldCantBeEmpty.setForeground(Color.RED);
+		passwordFieldCantBeEmpty.setFont(new Font("Poppins", Font.BOLD, 10));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-								.addGap(37)
+								.addGap(39)
 								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 										.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 32,
 												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNewLabel_4)
 										.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNewLabel_4))
+												GroupLayout.PREFERRED_SIZE))
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblUserType, GroupLayout.PREFERRED_SIZE, 108,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(passwordFieldCantBeEmpty, GroupLayout.PREFERRED_SIZE, 112,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 104,
+												GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 78,
 												GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_panel.createSequentialGroup()
 												.addComponent(lblNewLabel_6)
 												.addPreferredGap(ComponentPlacement.RELATED)
 												.addComponent(btnNewButton_1))
-										.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 104,
-												GroupLayout.PREFERRED_SIZE)
 										.addComponent(enteredUsername, GroupLayout.PREFERRED_SIZE, 367,
 												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 104,
+										.addComponent(usernameFieldCantBeEmpty, GroupLayout.PREFERRED_SIZE, 112,
 												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblUserType, GroupLayout.PREFERRED_SIZE, 108,
+										.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 104,
 												GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 												.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
@@ -249,50 +271,55 @@ public class Login {
 														Short.MAX_VALUE)
 												.addComponent(passwordField, Alignment.LEADING,
 														GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)))
-								.addContainerGap(74, Short.MAX_VALUE)));
+								.addContainerGap(72, Short.MAX_VALUE)));
 		gl_panel.setVerticalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 								.addGap(54)
 								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-								.addGap(53)
+								.addGap(37)
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblNewLabel_2)
+										.addComponent(enteredUsername, GroupLayout.PREFERRED_SIZE, 34,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(10)
 								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_panel.createSequentialGroup()
-												.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 30,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(enteredUsername, GroupLayout.PREFERRED_SIZE, 34,
-														GroupLayout.PREFERRED_SIZE))
-										.addComponent(lblNewLabel_2))
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup()
+												.addComponent(usernameFieldCantBeEmpty)
 												.addGap(18)
 												.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 30,
 														GroupLayout.PREFERRED_SIZE)
-												.addGap(18)
+												.addGap(3)
 												.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 35,
+														GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 38,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(passwordFieldCantBeEmpty, GroupLayout.PREFERRED_SIZE, 16,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(lblUserType, GroupLayout.PREFERRED_SIZE, 30,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 36,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(36)
+												.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 45,
 														GroupLayout.PREFERRED_SIZE)
 												.addGap(18)
-												.addComponent(lblUserType, GroupLayout.PREFERRED_SIZE, 30,
-														GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+														.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 27,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(btnNewButton_1)))
 										.addGroup(gl_panel.createSequentialGroup()
-												.addGap(55)
-												.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 38,
+												.addGap(47)
+												.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 40,
 														GroupLayout.PREFERRED_SIZE)))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 36,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 49,
-												GroupLayout.PREFERRED_SIZE))
-								.addGap(39)
-								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-								.addGap(26)
-								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 27,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnNewButton_1))
-								.addGap(35)));
+								.addGap(13)));
 		panel.setLayout(gl_panel);
 
 		JLabel lblNewLabel_5 = new JLabel("");
