@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +38,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class AdminPanel {
 
@@ -66,6 +70,9 @@ public class AdminPanel {
 	private static int studentCount = 0;
 	private static int courseCount = 0;
 	private JTable moduleTable;
+
+	private static String studentIdFromComboBox;
+	static JComboBox studentIdComboBox = new JComboBox();
 	private static JLabel teacherCountDisplay;
 	private static JLabel studentCountDisplay;
 	private static JLabel courseCountDisplay;
@@ -88,6 +95,34 @@ public class AdminPanel {
 	private static DefaultTableModel moduleDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { null, null, null, null }, { null, null, null, null }, },
 			new String[] { "Id", "Name", "Module Leader", "Course" });
+	
+	public static void getStudentIdForComboBox() {
+		studentIdComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select University Id" }));
+		String fetchStudentIdQuery = "SELECT Id FROM `studentdetails`";
+		String[] studentIdArray = new String[5];
+		int i = 0;
+		try {
+			Statement statement = DatabaseConnection.getStatement();
+			ResultSet resultSet = statement.executeQuery(fetchStudentIdQuery);
+
+			while (resultSet.next()) {
+				studentIdArray[i] = resultSet.getString("Id");
+				studentIdComboBox.addItem(studentIdArray[i]);
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		studentIdComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == 1) {
+					studentIdFromComboBox = (String) e.getItem();
+				}
+			}
+		});
+
+	}
 
 	public static void showStudentDataFromDatabase() {
 		Statement statement = DatabaseConnection.getStatement();
@@ -573,7 +608,7 @@ public class AdminPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddTeacher createTeacher = new AddTeacher();
 				createTeacher.setVisible(true);
-				// teacherCount = teacherTable.getRowCount();
+//				teacherCount = teacherTable.getRowCount();
 			}
 		});
 		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, addButton, 20, SpringLayout.NORTH, teachersCardPanel);
@@ -732,13 +767,13 @@ public class AdminPanel {
 								updateTeacher.getTeacherPhoneTextField().setText(teacherPhone.toString());
 								updateTeacher.getTeacherAddressTextField().setText(teacherAddress);
 
-								// for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
-								// .hasMoreElements();) {
-								// AbstractButton button = buttons.nextElement();
-								// if (isPartTime.equals(button.getText())) {
-								// button.setText("0");
-								// }
-								// }
+//							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+//									.hasMoreElements();) {
+//								AbstractButton button = buttons.nextElement();
+//								if (isPartTime.equals(button.getText())) {
+//									button.setText("0");
+//								}
+//							}
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
 
@@ -990,10 +1025,9 @@ public class AdminPanel {
 
 											int updatedUniIdInt = Integer.parseInt(updatedUniId);
 
-											String updateQuery = "UPDATE `studentdetails` SET "
-													+ "`Id` = '" + updatedUniIdInt + "', "
-													+ "`studentName` = '" + updatedStudentName + "', "
-													+ "`level` = '" + updatedStudentLevel + "', "
+											String updateQuery = "UPDATE `studentdetails` SET " + "`Id` = '"
+													+ updatedUniIdInt + "', " + "`studentName` = '" + updatedStudentName
+													+ "', " + "`level` = '" + updatedStudentLevel + "', "
 													+ "`semester` = '" + updatedStudentSemester + "', "
 													+ "`studentGroup` = '" + updatedStudentGroup + "', "
 													+ "`studentAddress` = '" + updatedStudentAddress + "', "
@@ -1008,6 +1042,7 @@ public class AdminPanel {
 													JOptionPane.showMessageDialog(null, "Student Data Updated");
 													updateStudent.dispose();
 													AdminPanel.showStudentDataFromDatabase();
+													AdminPanel.getStudentIdForComboBox();
 												}
 											} catch (SQLException e1) {
 												// TODO Auto-generated catch block
@@ -1337,16 +1372,32 @@ public class AdminPanel {
 		scrollPane_2.setViewportView(courseTable);
 
 		JPanel reportCardPanel = new JPanel();
+		reportCardPanel.setBackground(new Color(255, 255, 255));
 		cardPanel.add(reportCardPanel, "name_76380701101000");
 		SpringLayout sl_reportCardPanel = new SpringLayout();
 		reportCardPanel.setLayout(sl_reportCardPanel);
 
-		JLabel lblNewLabel_5 = new JLabel("Report");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 85, SpringLayout.NORTH, reportCardPanel);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_5, 127, SpringLayout.WEST, reportCardPanel);
-		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_5, 173, SpringLayout.NORTH, reportCardPanel);
-		sl_reportCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_5, 300, SpringLayout.WEST, reportCardPanel);
-		reportCardPanel.add(lblNewLabel_5);
+		JLabel lblNewLabel_1 = new JLabel("Student Id:");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 28, SpringLayout.NORTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1, 54, SpringLayout.WEST, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 63, SpringLayout.NORTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1, 155, SpringLayout.WEST, reportCardPanel);
+		lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1.setBackground(new Color(255, 255, 255));
+		reportCardPanel.add(lblNewLabel_1);
+
+		
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentIdComboBox, 2, SpringLayout.NORTH, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentIdComboBox, 6, SpringLayout.EAST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, studentIdComboBox, 32, SpringLayout.NORTH, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, studentIdComboBox, 293, SpringLayout.EAST, lblNewLabel_1);
+		studentIdComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
+		studentIdComboBox
+				.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
+
+						new Color(255, 255, 255), new Color(255, 255, 255)));
+		studentIdComboBox.setBackground(Color.WHITE);
+		reportCardPanel.add(studentIdComboBox);
 
 		JPanel moduleCardPanel = new JPanel();
 		moduleCardPanel.setBackground(new Color(255, 255, 255));
@@ -1487,7 +1538,7 @@ public class AdminPanel {
 								}
 								updateModule.getModuleIdTextField().setText(moduleId);
 								updateModule.getModuleNameTextField().setText(moduleName);
-								// updateModule.getModuleLeaderTextField().setText(moduleLeader);
+//								updateModule.getModuleLeaderTextField().setText(moduleLeader);
 
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
@@ -1582,5 +1633,6 @@ public class AdminPanel {
 		AdminPanel.showStudentDataFromDatabase();
 		AdminPanel.showCourseDataFromDatabase();
 		AdminPanel.showModuleDataFromDatabase();
+		AdminPanel.getStudentIdForComboBox();
 	}
 }
