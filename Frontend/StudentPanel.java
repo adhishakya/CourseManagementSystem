@@ -1,460 +1,252 @@
 package courseMngmtSystem;
 
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.SpringLayout;
 import java.awt.Color;
+import javax.swing.SpringLayout;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
-import javax.swing.JComboBox;
-import javax.swing.border.BevelBorder;
-import java.awt.Cursor;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ItemListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.awt.event.ItemEvent;
+import java.awt.CardLayout;
+import java.awt.Cursor;
 
-public class AddStudent extends JDialog {
+public class StudentPanel {
 
-	private final JPanel contentPanel = new JPanel();
-	private JTextField studentFullNameTextField;
-	private JTextField studentAgeTextField;
-	private JTextField studentGroupTextField;
-	private JTextField studentAddressTextField;
-	private JTextField studentPhoneTextField;
-	private int uniId;
-	private String studentName = "";
-	private String studentLevel = "";
-	private String studentSemester = "";
-	private String studentGroup = "";
-	private String studentAddress = "";
-	private String studentCourse = "";
-	private String studentAge = "";
-	private String studentPhone = "";
-	private JButton addStudentButton;
-	private JLabel addStudentHeading;
-	private JTextField uniIdtextField;
-	private String courseFromComboBox;
-	
-	
-	public String getCourseFromComboBox() {
-		return courseFromComboBox;
-	}
+    private CardLayout cl_cardPanelStudent = new CardLayout(0, 0);
+    private CardLayout cl_cardPanelStudentTop = new CardLayout(0, 0);
+    static JLabel welcomeStudentMessage;
 
-	public JTextField getUniIdtextField() {
-		return uniIdtextField;
-	}
+    public static JFrame getFrmStudentPanel() {
+        return fromStudentPanel;
+    }
 
-	public JLabel getAddStudentHeading() {
-		return addStudentHeading;
-	}
+    private static JFrame fromStudentPanel;
+    private JPanel cardPanelStudent;
+    private JPanel cardPanelStudentTop;
 
-	public JPanel getContentPanel() {
-		return contentPanel;
-	}
+    public static void getStudentNameFromLogin() {
+        Login login = new Login();
+        String studentNameFromLogin = login.getUsername();
+        // welcomeStudentMessage.setText("Welcome back, "+studentNameFromLogin);
+    }
 
-	public JTextField getStudentFullNameTextField() {
-		return studentFullNameTextField;
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    StudentPanel window = new StudentPanel("");
+                    window.fromStudentPanel.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	public JTextField getStudentAgeTextField() {
-		return studentAgeTextField;
-	}
+    /**
+     * Create the application.
+     */
+    public StudentPanel(String name) {
+        initialize(name);
+    }
 
-	public JTextField getStudentGroupTextField() {
-		return studentGroupTextField;
-	}
+    /**
+     * Initialize the contents of the frame.
+     */
+    private void initialize(String name) {
+        fromStudentPanel = new JFrame();
+        fromStudentPanel.setResizable(false);
+        fromStudentPanel.setTitle("Student Panel | Course Management System");
+        fromStudentPanel.setBounds(100, 100, 677, 523);
+        fromStudentPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	public JTextField getStudentAddressTextField() {
-		return studentAddressTextField;
-	}
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setDividerSize(0);
+        fromStudentPanel.getContentPane().add(splitPane, BorderLayout.CENTER);
 
-	public JTextField getStudentPhoneTextField() {
-		return studentPhoneTextField;
-	}
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(128, 128, 255));
+        splitPane.setLeftComponent(panel);
+        SpringLayout sl_panel = new SpringLayout();
+        panel.setLayout(sl_panel);
 
-	public String getStudentName() {
-		return studentName;
-	}
+        JButton btnNewButton = new JButton("Dashboard");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cl_cardPanelStudent.show(cardPanelStudent, "name_78982683888600");
+                cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110887659857400");
+            }
+        });
+        sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 33, SpringLayout.NORTH, panel);
+        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton, 22, SpringLayout.WEST, panel);
+        btnNewButton.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/dashboard.png")));
+        btnNewButton.setIconTextGap(16);
+        btnNewButton.setForeground(Color.WHITE);
+        btnNewButton.setFont(new Font("Poppins", Font.BOLD, 18));
+        btnNewButton.setBorderPainted(false);
+        btnNewButton.setBorder(null);
+        btnNewButton.setBackground(new Color(128, 128, 255));
+        panel.add(btnNewButton);
 
-	public String getStudentLevel() {
-		return studentLevel;
-	}
+        JButton btnNewButton_1 = new JButton("Teachers");
+        btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnNewButton_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cl_cardPanelStudent.show(cardPanelStudent, "name_78985517477200");
+                cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110889775858700");
+            }
+        });
+        sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 29, SpringLayout.SOUTH, btnNewButton);
+        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, btnNewButton);
+        btnNewButton_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/teacher.png")));
+        btnNewButton_1.setIconTextGap(15);
+        btnNewButton_1.setForeground(Color.WHITE);
+        btnNewButton_1.setFont(new Font("Poppins", Font.BOLD, 18));
+        btnNewButton_1.setBorderPainted(false);
+        btnNewButton_1.setBorder(null);
+        btnNewButton_1.setBackground(new Color(128, 128, 255));
+        panel.add(btnNewButton_1);
 
-	public String getStudentSemester() {
-		return studentSemester;
-	}
+        JButton btnNewButton_1_1_2 = new JButton("Modules");
+        btnNewButton_1_1_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnNewButton_1_1_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cl_cardPanelStudent.show(cardPanelStudent, "name_78987815364700");
+                cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_110891736583900");
+            }
+        });
+        btnNewButton_1_1_2.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/books.png")));
+        sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2, 30, SpringLayout.SOUTH, btnNewButton_1);
+        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2, 0, SpringLayout.WEST, btnNewButton);
+        btnNewButton_1_1_2.setIconTextGap(14);
+        btnNewButton_1_1_2.setForeground(Color.WHITE);
+        btnNewButton_1_1_2.setFont(new Font("Poppins", Font.BOLD, 18));
+        btnNewButton_1_1_2.setBorderPainted(false);
+        btnNewButton_1_1_2.setBorder(null);
+        btnNewButton_1_1_2.setBackground(new Color(128, 128, 255));
+        panel.add(btnNewButton_1_1_2);
 
-	public String getStudentGroup() {
-		return studentGroup;
-	}
+        JButton btnNewButton_1_1_1 = new JButton("Log Out");
+        btnNewButton_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_1, 0, SpringLayout.WEST, btnNewButton);
+        sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_1, -22, SpringLayout.SOUTH, panel);
+        btnNewButton_1_1_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                LogoutPromptStudent logoutPrompt = new LogoutPromptStudent();
+                logoutPrompt.setVisible(true);
+            }
+        });
+        btnNewButton_1_1_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/logout.png")));
+        btnNewButton_1_1_1.setIconTextGap(16);
+        btnNewButton_1_1_1.setForeground(Color.WHITE);
+        btnNewButton_1_1_1.setFont(new Font("Poppins", Font.BOLD, 18));
+        btnNewButton_1_1_1.setBorderPainted(false);
+        btnNewButton_1_1_1.setBorder(null);
+        btnNewButton_1_1_1.setBackground(new Color(128, 128, 255));
+        panel.add(btnNewButton_1_1_1);
 
-	public String getStudentAddress() {
-		return studentAddress;
-	}
+        JSplitPane splitPane_1 = new JSplitPane();
+        splitPane_1.setDividerSize(3);
+        splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setRightComponent(splitPane_1);
 
-	public String getStudentCourse() {
-		return studentCourse;
-	}
+        cardPanelStudentTop = new JPanel();
+        cardPanelStudentTop.setBackground(new Color(255, 255, 255));
+        splitPane_1.setLeftComponent(cardPanelStudentTop);
+        cardPanelStudentTop.setLayout(cl_cardPanelStudentTop);
 
-	public String getStudentAge() {
-		return studentAge;
-	}
+        JPanel dashboardCardPanelStudentTop = new JPanel();
+        dashboardCardPanelStudentTop.setBackground(new Color(255, 255, 255));
+        cardPanelStudentTop.add(dashboardCardPanelStudentTop, "name_110887659857400");
+        SpringLayout sl_dashboardCardPanelStudentTop = new SpringLayout();
+        dashboardCardPanelStudentTop.setLayout(sl_dashboardCardPanelStudentTop);
 
-	public String getStudentPhone() {
-		return studentPhone;
-	}
+        welcomeStudentMessage = new JLabel();
+        welcomeStudentMessage.setText("Welcome back, " + name);
+        sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.NORTH, welcomeStudentMessage, 25, SpringLayout.NORTH,
+                dashboardCardPanelStudentTop);
+        sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.WEST, welcomeStudentMessage, 31, SpringLayout.WEST,
+                dashboardCardPanelStudentTop);
+        welcomeStudentMessage.setFont(new Font("Poppins", Font.BOLD, 30));
+        dashboardCardPanelStudentTop.add(welcomeStudentMessage);
 
-	public JButton getAddStudentButton() {
-		return addStudentButton;
-	}
+        JPanel teachersCardPanelStudentTop = new JPanel();
+        teachersCardPanelStudentTop.setBackground(new Color(0, 64, 64));
+        cardPanelStudentTop.add(teachersCardPanelStudentTop, "name_110889775858700");
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AddStudent dialog = new AddStudent();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        JPanel modulesCardPanelStudentTop = new JPanel();
+        cardPanelStudentTop.add(modulesCardPanelStudentTop, "name_110891736583900");
 
-	/**
-	 * Create the dialog.
-	 */
-	public AddStudent() {
-		setBounds(100, 100, 533, 602);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBackground(new Color(255, 255, 255));
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		SpringLayout sl_contentPanel = new SpringLayout();
-		contentPanel.setLayout(sl_contentPanel);
+        cardPanelStudent = new JPanel();
+        splitPane_1.setRightComponent(cardPanelStudent);
+        cardPanelStudent.setLayout(cl_cardPanelStudent);
 
-		addStudentHeading = new JLabel("Add New Student");
-		addStudentHeading.setBackground(new Color(255, 255, 255));
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, addStudentHeading, 10, SpringLayout.NORTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, addStudentHeading, 26, SpringLayout.WEST, contentPanel);
-		addStudentHeading.setFont(new Font("Poppins", Font.BOLD, 20));
-		contentPanel.add(addStudentHeading);
+        JPanel dashboardCardPanelStudent = new JPanel();
+        dashboardCardPanelStudent.setBackground(new Color(255, 255, 255));
+        cardPanelStudent.add(dashboardCardPanelStudent, "name_78982683888600");
+        SpringLayout sl_dashboardCardPanelStudent = new SpringLayout();
+        dashboardCardPanelStudent.setLayout(sl_dashboardCardPanelStudent);
 
-		JLabel lblNewLabel_1_1_2 = new JLabel("Full Name :");
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_2, 0, SpringLayout.WEST, addStudentHeading);
-		lblNewLabel_1_1_2.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_2);
+        JLabel lblNewLabel_1 = new JLabel(
+                "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student ID: 2223456<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Name: Mike Bean<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Group: L5CG20<br>\r\n</html>\r\n\r\n\r\n");
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 99, SpringLayout.NORTH,
+                dashboardCardPanelStudent);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_1, 25, SpringLayout.WEST,
+                dashboardCardPanelStudent);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -38, SpringLayout.SOUTH,
+                dashboardCardPanelStudent);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.EAST, lblNewLabel_1, -30, SpringLayout.EAST,
+                dashboardCardPanelStudent);
+        lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 24));
+        lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+        lblNewLabel_1.setBackground(Color.WHITE);
+        dashboardCardPanelStudent.add(lblNewLabel_1);
 
-		studentFullNameTextField = new JTextField();
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_2, -2, SpringLayout.NORTH,
-				studentFullNameTextField);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, studentFullNameTextField, -431, SpringLayout.SOUTH,
-				contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, studentFullNameTextField, -37, SpringLayout.EAST,
-				contentPanel);
-		studentFullNameTextField.setSelectionColor(new Color(128, 128, 255));
-		studentFullNameTextField.setSelectedTextColor(Color.WHITE);
-		studentFullNameTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-		studentFullNameTextField.setColumns(10);
-		studentFullNameTextField.setCaretColor(new Color(128, 128, 255));
-		studentFullNameTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-		contentPanel.add(studentFullNameTextField);
+        JLabel lblNewLabel = new JLabel("Your Details:");
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel, 0, SpringLayout.WEST, lblNewLabel_1);
+        sl_dashboardCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel, -26, SpringLayout.NORTH,
+                lblNewLabel_1);
+        lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 24));
+        dashboardCardPanelStudent.add(lblNewLabel);
 
-		studentAgeTextField = new JTextField();
-		sl_contentPanel.putConstraint(SpringLayout.WEST, studentFullNameTextField, 0, SpringLayout.WEST,
-				studentAgeTextField);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, studentAgeTextField, -37, SpringLayout.EAST, contentPanel);
-		studentAgeTextField.setSelectionColor(new Color(128, 128, 255));
-		studentAgeTextField.setSelectedTextColor(Color.WHITE);
-		studentAgeTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-		studentAgeTextField.setColumns(10);
-		studentAgeTextField.setCaretColor(new Color(128, 128, 255));
-		studentAgeTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-		contentPanel.add(studentAgeTextField);
+        JPanel teachersCardPanelStudent = new JPanel();
+        cardPanelStudent.add(teachersCardPanelStudent, "name_78985517477200");
+        SpringLayout sl_teachersCardPanelStudent = new SpringLayout();
+        teachersCardPanelStudent.setLayout(sl_teachersCardPanelStudent);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Phone No :");
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 444, SpringLayout.NORTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, 0, SpringLayout.WEST, addStudentHeading);
-		lblNewLabel_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1);
+        JLabel lblNewLabel_2 = new JLabel("Teachers");
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 96, SpringLayout.NORTH,
+                teachersCardPanelStudent);
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_2, 130, SpringLayout.WEST,
+                teachersCardPanelStudent);
+        teachersCardPanelStudent.add(lblNewLabel_2);
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("Address :");
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1, 0, SpringLayout.WEST, addStudentHeading);
-		lblNewLabel_1_1_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_1);
+        JPanel modulesCardPanelStudent = new JPanel();
+        cardPanelStudent.add(modulesCardPanelStudent, "name_78987815364700");
+        SpringLayout sl_modulesCardPanelStudent = new SpringLayout();
+        modulesCardPanelStudent.setLayout(sl_modulesCardPanelStudent);
 
-		studentGroupTextField = new JTextField();
-		sl_contentPanel.putConstraint(SpringLayout.EAST, studentGroupTextField, -37, SpringLayout.EAST, contentPanel);
-		studentGroupTextField.setSelectionColor(new Color(128, 128, 255));
-		studentGroupTextField.setSelectedTextColor(Color.WHITE);
-		studentGroupTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-		studentGroupTextField.setColumns(10);
-		studentGroupTextField.setCaretColor(new Color(128, 128, 255));
-		studentGroupTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-		contentPanel.add(studentGroupTextField);
+        JLabel lblNewLabel_3 = new JLabel("Modules");
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 132, SpringLayout.NORTH,
+                modulesCardPanelStudent);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 175, SpringLayout.WEST,
+                modulesCardPanelStudent);
+        modulesCardPanelStudent.add(lblNewLabel_3);
+        splitPane_1.setDividerLocation(100);
+        splitPane.setDividerLocation(200);
 
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Course :");
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, addStudentHeading);
-		lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_1_1);
-
-		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Semester : ");
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1_1, 209, SpringLayout.NORTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1_1, 0, SpringLayout.WEST,
-				addStudentHeading);
-		lblNewLabel_1_1_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_1_1_1);
-
-		JComboBox levelComboBox = new JComboBox();
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, levelComboBox, 24, SpringLayout.SOUTH,
-				studentFullNameTextField);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, levelComboBox, 0, SpringLayout.WEST, studentFullNameTextField);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, levelComboBox, -377, SpringLayout.SOUTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, levelComboBox, -37, SpringLayout.EAST, contentPanel);
-		levelComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == 1) {
-					studentLevel = (String) e.getItem();
-				}
-			}
-		});
-
-		levelComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Level", "4", "5", "6" }));
-		levelComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		levelComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
-		levelComboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
-
-				new Color(255, 255, 255), new Color(255, 255, 255)));
-		levelComboBox.setBackground(Color.WHITE);
-		contentPanel.add(levelComboBox);
-
-		JLabel lblNewLabel_1_1_1_1_1_1 = new JLabel("Group :");
-		sl_contentPanel.putConstraint(SpringLayout.WEST, studentGroupTextField, 45, SpringLayout.EAST,
-				lblNewLabel_1_1_1_1_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1_1_1, -2, SpringLayout.NORTH,
-				studentGroupTextField);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1_1_1, 0, SpringLayout.WEST,
-				addStudentHeading);
-		lblNewLabel_1_1_1_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_1_1_1_1);
-		
-		JComboBox courseComboBox = new JComboBox();
-		courseComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, courseComboBox, -3, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, courseComboBox, 0, SpringLayout.WEST, studentFullNameTextField);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, courseComboBox, 27, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, courseComboBox, 0, SpringLayout.EAST, studentFullNameTextField);
-		courseComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
-		courseComboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
-
-		
-
-								new Color(255, 255, 255), new Color(255, 255, 255)));
-		courseComboBox.setBackground(Color.WHITE);
-		contentPanel.add(courseComboBox);
-		
-		courseComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Course" }));
-		String fetchCoursesQuery = "SELECT courseName FROM `coursedetails`";
-		String[] coursesArray = new String[5];
-		int i = 0;
-		try {
-			Statement statement = DatabaseConnection.getStatement();
-			ResultSet resultSet = statement.executeQuery(fetchCoursesQuery);
-
-			while (resultSet.next()) {
-				coursesArray[i] = resultSet.getString("CourseName");
-				courseComboBox.addItem(coursesArray[i]);
-				i++;
-			}
-
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		courseComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == 1) {
-					courseFromComboBox = (String) e.getItem();
-				}
-			}
-		});
-
-		addStudentButton = new JButton("Add");
-		addStudentButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getActionCommand().equals("Add")) {
-					uniId = Integer.parseInt(getUniIdtextField().getText().trim());
-					studentName = studentFullNameTextField.getText().trim();
-					studentLevel = studentLevel.trim();
-					studentSemester = studentSemester.trim();
-					studentGroup = studentGroupTextField.getText().trim();
-					studentAddress = studentAddressTextField.getText().trim();
-					studentCourse = courseFromComboBox.trim();
-					studentAge = studentAgeTextField.getText().trim();
-					studentPhone = studentPhoneTextField.getText().trim();
-
-					Statement statement = DatabaseConnection.getStatement();
-					String insertQuery = "INSERT INTO `studentdetails` "
-							+ "(`Id`, `studentName`, `level`, `semester`, `studentgroup`, `studentAddress`,"
-							+ " `studentCourse`, `studentAge`, `studentPhone`)" + " VALUES (" + uniId + ", '"
-							+ studentName + "', '" + studentLevel + "', '" + studentSemester + "'," + " '"
-							+ studentGroup + "', '" + studentAddress + "', '" + studentCourse + "', '" + studentAge
-							+ "'," + " '" + studentPhone + "');";
-					try {
-						int insertSuccess = statement.executeUpdate(insertQuery);
-						if (insertSuccess == 1) {
-							JOptionPane.showMessageDialog(contentPanel, "Added Student data successfully!");
-							AdminPanel.showStudentDataFromDatabase();
-							AdminPanel.getStudentIdForComboBox();
-							dispose();
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
-		addStudentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, addStudentButton, -58, SpringLayout.SOUTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, addStudentButton, -221, SpringLayout.EAST, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, addStudentButton, -15, SpringLayout.SOUTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, addStudentButton, -150, SpringLayout.EAST, contentPanel);
-		addStudentButton.setForeground(Color.WHITE);
-		addStudentButton.setFont(new Font("Poppins", Font.BOLD, 14));
-		addStudentButton.setBorder(null);
-		addStudentButton.setBackground(new Color(128, 128, 255));
-		contentPanel.add(addStudentButton);
-
-		JButton btnCancel = new JButton("Cancel");
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, btnCancel, 0, SpringLayout.NORTH, addStudentButton);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, btnCancel, 27, SpringLayout.EAST, addStudentButton);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, btnCancel, -15, SpringLayout.SOUTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, btnCancel, -37, SpringLayout.EAST, contentPanel);
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnCancel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnCancel.setForeground(Color.WHITE);
-		btnCancel.setFont(new Font("Poppins", Font.BOLD, 14));
-		btnCancel.setBorder(null);
-		btnCancel.setBackground(new Color(128, 128, 255));
-		contentPanel.add(btnCancel);
-
-		studentAddressTextField = new JTextField();
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, studentAddressTextField, 315, SpringLayout.NORTH,
-				contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, studentAddressTextField, 32, SpringLayout.EAST,
-				lblNewLabel_1_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, studentAddressTextField, -63, SpringLayout.NORTH,
-				studentAgeTextField);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, studentAddressTextField, -37, SpringLayout.EAST, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1, -2, SpringLayout.NORTH,
-				studentAddressTextField);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, studentGroupTextField, -28, SpringLayout.NORTH,
-				studentAddressTextField);
-		studentAddressTextField.setSelectionColor(new Color(128, 128, 255));
-		studentAddressTextField.setSelectedTextColor(Color.WHITE);
-		studentAddressTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-		studentAddressTextField.setColumns(10);
-		studentAddressTextField.setCaretColor(new Color(128, 128, 255));
-		studentAddressTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-		contentPanel.add(studentAddressTextField);
-
-		JLabel lblNewLabel_1_1_1_2 = new JLabel("Level :");
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_2, 3, SpringLayout.NORTH, levelComboBox);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_2, 0, SpringLayout.WEST, addStudentHeading);
-		lblNewLabel_1_1_1_2.setFont(new Font("Poppins", Font.PLAIN, 16));
-		lblNewLabel_1_1_1_2.setBackground(Color.WHITE);
-		contentPanel.add(lblNewLabel_1_1_1_2);
-
-		JComboBox semesterComboBox = new JComboBox();
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, semesterComboBox, 206, SpringLayout.NORTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, semesterComboBox, 17, SpringLayout.EAST,
-				lblNewLabel_1_1_1_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, semesterComboBox, -27, SpringLayout.NORTH,
-				studentGroupTextField);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, semesterComboBox, -37, SpringLayout.EAST, contentPanel);
-		semesterComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == 1) {
-					studentSemester = (String) e.getItem();
-				}
-			}
-		});
-		semesterComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Semester", "1", "2" }));
-		semesterComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
-		semesterComboBox
-				.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
-
-						new Color(255, 255, 255), new Color(255, 255, 255)));
-		semesterComboBox.setBackground(Color.WHITE);
-		contentPanel.add(semesterComboBox);
-
-		JLabel lblNewLabel_1_1_3 = new JLabel("Age :");
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_1_1, -17, SpringLayout.NORTH,
-				lblNewLabel_1_1_3);
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, studentAgeTextField, 2, SpringLayout.NORTH,
-				lblNewLabel_1_1_3);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, studentAgeTextField, 65, SpringLayout.EAST, lblNewLabel_1_1_3);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_3, 0, SpringLayout.WEST, addStudentHeading);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_3, -18, SpringLayout.NORTH, lblNewLabel_1_1);
-		lblNewLabel_1_1_3.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_3);
-
-		studentPhoneTextField = new JTextField();
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, studentPhoneTextField, 2, SpringLayout.NORTH,
-				lblNewLabel_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, studentPhoneTextField, 20, SpringLayout.EAST, lblNewLabel_1_1);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, studentPhoneTextField, -37, SpringLayout.EAST, contentPanel);
-		studentPhoneTextField.setSelectionColor(new Color(128, 128, 255));
-		studentPhoneTextField.setSelectedTextColor(Color.WHITE);
-		studentPhoneTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-		studentPhoneTextField.setColumns(10);
-		studentPhoneTextField.setCaretColor(new Color(128, 128, 255));
-		studentPhoneTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-		contentPanel.add(studentPhoneTextField);
-
-		JLabel lblNewLabel_1_1_2_1 = new JLabel("Uni Id :");
-		sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_2_1, 0, SpringLayout.WEST, addStudentHeading);
-		sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_2_1, -16, SpringLayout.NORTH,
-				lblNewLabel_1_1_2);
-		lblNewLabel_1_1_2_1.setFont(new Font("Poppins", Font.PLAIN, 16));
-		contentPanel.add(lblNewLabel_1_1_2_1);
-
-		uniIdtextField = new JTextField();
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, uniIdtextField, 0, SpringLayout.NORTH, lblNewLabel_1_1_2_1);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, uniIdtextField, 0, SpringLayout.WEST,
-				studentFullNameTextField);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, uniIdtextField, 343, SpringLayout.WEST,
-				studentFullNameTextField);
-		uniIdtextField.setSelectionColor(new Color(128, 128, 255));
-		uniIdtextField.setSelectedTextColor(Color.WHITE);
-		uniIdtextField.setFont(new Font("Poppins", Font.PLAIN, 14));
-		uniIdtextField.setColumns(10);
-		uniIdtextField.setCaretColor(new Color(128, 128, 255));
-		uniIdtextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
-		contentPanel.add(uniIdtextField);
-		
-		
-
-		
-	}
-
+        StudentPanel.getStudentNameFromLogin();
+    }
 }
