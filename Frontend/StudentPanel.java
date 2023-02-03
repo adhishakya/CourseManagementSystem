@@ -14,6 +14,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.awt.Cursor;
@@ -23,6 +26,7 @@ public class StudentPanel {
     private CardLayout cl_cardPanelStudent = new CardLayout(0, 0);
     private CardLayout cl_cardPanelStudentTop = new CardLayout(0, 0);
     static JLabel welcomeStudentMessage;
+    JLabel studentModulesDisplay = new JLabel();
 
     public static JFrame getFrmStudentPanel() {
         return fromStudentPanel;
@@ -32,10 +36,11 @@ public class StudentPanel {
     private JPanel cardPanelStudent;
     private JPanel cardPanelStudentTop;
 
+    private String studentNameFromDB;
+
     public static void getStudentNameFromLogin() {
         Login login = new Login();
         String studentNameFromLogin = login.getUsername();
-        // welcomeStudentMessage.setText("Welcome back, "+studentNameFromLogin);
     }
 
     /**
@@ -65,10 +70,11 @@ public class StudentPanel {
      * Initialize the contents of the frame.
      */
     private void initialize(String name) {
+        studentNameFromDB = name;
         fromStudentPanel = new JFrame();
         fromStudentPanel.setResizable(false);
         fromStudentPanel.setTitle("Student Panel | Course Management System");
-        fromStudentPanel.setBounds(100, 100, 677, 523);
+        fromStudentPanel.setBounds(100, 100, 849, 587);
         fromStudentPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JSplitPane splitPane = new JSplitPane();
@@ -179,7 +185,7 @@ public class StudentPanel {
                 dashboardCardPanelStudentTop);
         sl_dashboardCardPanelStudentTop.putConstraint(SpringLayout.WEST, welcomeStudentMessage, 31, SpringLayout.WEST,
                 dashboardCardPanelStudentTop);
-        welcomeStudentMessage.setFont(new Font("Poppins", Font.BOLD, 30));
+        welcomeStudentMessage.setFont(new Font("Poppins", Font.BOLD, 24));
         dashboardCardPanelStudentTop.add(welcomeStudentMessage);
 
         JPanel teachersCardPanelStudentTop = new JPanel();
@@ -199,8 +205,67 @@ public class StudentPanel {
         SpringLayout sl_dashboardCardPanelStudent = new SpringLayout();
         dashboardCardPanelStudent.setLayout(sl_dashboardCardPanelStudent);
 
+        String studentIdFromDB = "SELECT Id FROM `studentdetails` WHERE studentName = '" + studentNameFromDB + "'";
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(studentIdFromDB);
+
+            while (resultSet.next()) {
+                studentIdFromDB = resultSet.getString("Id");
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        String studentGroupFromDB = "SELECT studentGroup FROM `studentdetails` WHERE Id = " + studentIdFromDB + "";
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(studentGroupFromDB);
+
+            while (resultSet.next()) {
+                studentGroupFromDB = resultSet.getString("studentGroup");
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        String studentPhoneFromDB = "SELECT studentPhone FROM `studentdetails` WHERE Id = " + studentIdFromDB + "";
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(studentPhoneFromDB);
+
+            while (resultSet.next()) {
+                studentPhoneFromDB = resultSet.getString("studentPhone");
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        String studentLevelFromDB = "SELECT level FROM `studentdetails` WHERE Id = " + studentIdFromDB + "";
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(studentLevelFromDB);
+
+            while (resultSet.next()) {
+                studentLevelFromDB = resultSet.getString("level");
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
         JLabel lblNewLabel_1 = new JLabel(
-                "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student ID: 2223456<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Name: Mike Bean<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Group: L5CG20<br>\r\n</html>\r\n\r\n\r\n");
+                "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student ID: "
+                        + studentIdFromDB
+                        + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Name: "
+                        + studentNameFromDB
+                        + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Group: "
+                        + studentGroupFromDB
+                        + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "Phone Number: " + studentPhoneFromDB + "</html>\r\n\r\n\r\n");
         sl_dashboardCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 99, SpringLayout.NORTH,
                 dashboardCardPanelStudent);
         sl_dashboardCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_1, 25, SpringLayout.WEST,
@@ -234,16 +299,71 @@ public class StudentPanel {
         teachersCardPanelStudent.add(lblNewLabel_2);
 
         JPanel modulesCardPanelStudent = new JPanel();
+        modulesCardPanelStudent.setBackground(new Color(255, 255, 255));
         cardPanelStudent.add(modulesCardPanelStudent, "name_78987815364700");
         SpringLayout sl_modulesCardPanelStudent = new SpringLayout();
         modulesCardPanelStudent.setLayout(sl_modulesCardPanelStudent);
 
-        JLabel lblNewLabel_3 = new JLabel("Modules");
-        sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 132, SpringLayout.NORTH,
+        JLabel lblNewLabel_3 = new JLabel("Your Modules:");
+        lblNewLabel_3.setFont(new Font("Poppins", Font.BOLD, 20));
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 35, SpringLayout.NORTH,
                 modulesCardPanelStudent);
-        sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 175, SpringLayout.WEST,
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 35, SpringLayout.WEST,
+                modulesCardPanelStudent);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, 84, SpringLayout.NORTH,
+                modulesCardPanelStudent);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, lblNewLabel_3, 188, SpringLayout.WEST,
                 modulesCardPanelStudent);
         modulesCardPanelStudent.add(lblNewLabel_3);
+
+        int relevantLevel = Integer.parseInt(studentLevelFromDB);
+        String fetchRelevantModulesQuery = "SELECT moduleName FROM `moduledetails` WHERE inLevel = " + relevantLevel
+                + "";
+        String[] relevantModules = new String[3];
+        int i = 0;
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(fetchRelevantModulesQuery);
+
+            while (resultSet.next()) {
+                relevantModules[i] = resultSet.getString("moduleName");
+                if (relevantModules[2] == null) {
+                    relevantModules[2] = "Elective";
+                    studentModulesDisplay = new JLabel(
+                            "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    + relevantModules[0]
+                                    + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    + relevantModules[1]
+                                    + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    + relevantModules[2] + "<br></html>");
+                } else {
+                    studentModulesDisplay = new JLabel(
+                            "<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    + relevantModules[0]
+                                    + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    + relevantModules[1]
+                                    + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                    + relevantModules[2] + "<br></html>");
+                }
+                i++;
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, studentModulesDisplay, 6, SpringLayout.SOUTH,
+                lblNewLabel_3);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, studentModulesDisplay, 0, SpringLayout.WEST,
+                lblNewLabel_3);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, studentModulesDisplay, 328, SpringLayout.SOUTH,
+                lblNewLabel_3);
+        sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, studentModulesDisplay, 572, SpringLayout.WEST,
+                lblNewLabel_3);
+        studentModulesDisplay.setFont(new Font("Poppins", Font.BOLD, 24));
+        studentModulesDisplay.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+        studentModulesDisplay.setBackground(Color.WHITE);
+        modulesCardPanelStudent.add(studentModulesDisplay);
         splitPane_1.setDividerLocation(100);
         splitPane.setDividerLocation(200);
 
