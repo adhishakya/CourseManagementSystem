@@ -76,6 +76,9 @@ public class AdminPanel {
 	private static JLabel teacherCountDisplay;
 	private static JLabel studentCountDisplay;
 	private static JLabel courseCountDisplay;
+	private static JLabel studentNameForReport = new JLabel();
+
+	private String selectedStudentNameForReport;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -95,7 +98,7 @@ public class AdminPanel {
 	private static DefaultTableModel moduleDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { null, null, null, null }, { null, null, null, null }, },
 			new String[] { "Id", "Name", "Module Leader", "Course" });
-	
+
 	public static void getStudentIdForComboBox() {
 		studentIdComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select University Id" }));
 		String fetchStudentIdQuery = "SELECT Id FROM `studentdetails`";
@@ -118,7 +121,22 @@ public class AdminPanel {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) {
 					studentIdFromComboBox = (String) e.getItem();
+					int studentIdFromComboBoxInt = Integer.parseInt(studentIdFromComboBox);
+					String fetchSelectedStudentName = "SELECT studentName FROM `studentdetails` WHERE Id = "
+							+ studentIdFromComboBoxInt + "";
+					Statement statement = DatabaseConnection.getStatement();
+					try {
+						ResultSet resultSet = statement.executeQuery(fetchSelectedStudentName);
+						while (resultSet.next()) {
+							String fetchedstudentNameForReport = resultSet.getString("studentName");
+							studentNameForReport.setText(fetchedstudentNameForReport);
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
+
 			}
 		});
 
@@ -608,7 +626,7 @@ public class AdminPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddTeacher createTeacher = new AddTeacher();
 				createTeacher.setVisible(true);
-//				teacherCount = teacherTable.getRowCount();
+				// teacherCount = teacherTable.getRowCount();
 			}
 		});
 		sl_teachersCardPanel.putConstraint(SpringLayout.NORTH, addButton, 20, SpringLayout.NORTH, teachersCardPanel);
@@ -767,13 +785,13 @@ public class AdminPanel {
 								updateTeacher.getTeacherPhoneTextField().setText(teacherPhone.toString());
 								updateTeacher.getTeacherAddressTextField().setText(teacherAddress);
 
-//							for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
-//									.hasMoreElements();) {
-//								AbstractButton button = buttons.nextElement();
-//								if (isPartTime.equals(button.getText())) {
-//									button.setText("0");
-//								}
-//							}
+								// for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons
+								// .hasMoreElements();) {
+								// AbstractButton button = buttons.nextElement();
+								// if (isPartTime.equals(button.getText())) {
+								// button.setText("0");
+								// }
+								// }
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
 
@@ -1378,6 +1396,10 @@ public class AdminPanel {
 		reportCardPanel.setLayout(sl_reportCardPanel);
 
 		JLabel lblNewLabel_1 = new JLabel("Student Id:");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentIdComboBox, 2, SpringLayout.NORTH, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentIdComboBox, 33, SpringLayout.EAST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, studentIdComboBox, 32, SpringLayout.NORTH, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, studentIdComboBox, 320, SpringLayout.EAST, lblNewLabel_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 28, SpringLayout.NORTH, reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1, 54, SpringLayout.WEST, reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 63, SpringLayout.NORTH, reportCardPanel);
@@ -1385,12 +1407,6 @@ public class AdminPanel {
 		lblNewLabel_1.setFont(new Font("Poppins", Font.BOLD, 16));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
 		reportCardPanel.add(lblNewLabel_1);
-
-		
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentIdComboBox, 2, SpringLayout.NORTH, lblNewLabel_1);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentIdComboBox, 6, SpringLayout.EAST, lblNewLabel_1);
-		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, studentIdComboBox, 32, SpringLayout.NORTH, lblNewLabel_1);
-		sl_reportCardPanel.putConstraint(SpringLayout.EAST, studentIdComboBox, 293, SpringLayout.EAST, lblNewLabel_1);
 		studentIdComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
 		studentIdComboBox
 				.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
@@ -1398,6 +1414,70 @@ public class AdminPanel {
 						new Color(255, 255, 255), new Color(255, 255, 255)));
 		studentIdComboBox.setBackground(Color.WHITE);
 		reportCardPanel.add(studentIdComboBox);
+
+		JLabel lblNewLabel_1_1 = new JLabel("Student Name:");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 22, SpringLayout.SOUTH, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1, 130, SpringLayout.WEST, lblNewLabel_1);
+		lblNewLabel_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1_1.setBackground(Color.WHITE);
+		reportCardPanel.add(lblNewLabel_1_1);
+
+		studentNameForReport = new JLabel();
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentNameForReport, 0, SpringLayout.NORTH,
+				lblNewLabel_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentNameForReport, 6, SpringLayout.EAST,
+				lblNewLabel_1_1);
+		studentNameForReport.setFont(new Font("Poppins", Font.BOLD, 16));
+		studentNameForReport.setBackground(Color.WHITE);
+		reportCardPanel.add(studentNameForReport);
+
+		JLabel lblNewLabel_1_1_1 = new JLabel("Level:");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1, 18, SpringLayout.SOUTH,
+				lblNewLabel_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
+		lblNewLabel_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1_1_1.setBackground(Color.WHITE);
+		reportCardPanel.add(lblNewLabel_1_1_1);
+
+		JLabel studentLevelForReport = new JLabel("Level");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentLevelForReport, 0, SpringLayout.NORTH,
+				lblNewLabel_1_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentLevelForReport, 0, SpringLayout.WEST,
+				studentIdComboBox);
+		studentLevelForReport.setFont(new Font("Poppins", Font.BOLD, 16));
+		studentLevelForReport.setBackground(Color.WHITE);
+		reportCardPanel.add(studentLevelForReport);
+
+		JLabel lblNewLabel_1_1_1_1 = new JLabel("Course:");
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
+		lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1_1_1_1.setBackground(Color.WHITE);
+		reportCardPanel.add(lblNewLabel_1_1_1_1);
+
+		JLabel studentCourseForReport = new JLabel("Course");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 0, SpringLayout.NORTH,
+				studentCourseForReport);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentCourseForReport, 20, SpringLayout.SOUTH,
+				studentLevelForReport);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentCourseForReport, 0, SpringLayout.WEST,
+				studentIdComboBox);
+		studentCourseForReport.setFont(new Font("Poppins", Font.BOLD, 16));
+		studentCourseForReport.setBackground(Color.WHITE);
+		reportCardPanel.add(studentCourseForReport);
+
+		JButton publishButton = new JButton("Publish Result");
+		publishButton.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, publishButton, -87, SpringLayout.SOUTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, publishButton, 103, SpringLayout.WEST, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, publishButton, -32, SpringLayout.SOUTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, publishButton, 403, SpringLayout.WEST, reportCardPanel);
+		publishButton.setOpaque(false);
+		publishButton.setIconTextGap(17);
+		publishButton.setFont(new Font("Poppins", Font.BOLD, 18));
+		publishButton.setBorder(new MatteBorder(1, 1, 3, 3, (Color) new Color(128, 128, 255)));
+		publishButton.setBackground(Color.WHITE);
+		reportCardPanel.add(publishButton);
 
 		JPanel moduleCardPanel = new JPanel();
 		moduleCardPanel.setBackground(new Color(255, 255, 255));
@@ -1538,7 +1618,7 @@ public class AdminPanel {
 								}
 								updateModule.getModuleIdTextField().setText(moduleId);
 								updateModule.getModuleNameTextField().setText(moduleName);
-//								updateModule.getModuleLeaderTextField().setText(moduleLeader);
+								// updateModule.getModuleLeaderTextField().setText(moduleLeader);
 
 								updateButton.setActionCommand("Update");
 								updateButton.addActionListener(new ActionListener() {
