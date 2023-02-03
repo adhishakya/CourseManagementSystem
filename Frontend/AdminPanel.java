@@ -77,8 +77,12 @@ public class AdminPanel {
 	private static JLabel studentCountDisplay;
 	private static JLabel courseCountDisplay;
 	private static JLabel studentNameForReport = new JLabel();
+	private static JLabel studentLevelForReport = new JLabel();
+	private static JLabel studentCourseForReport = new JLabel();
 
 	private String selectedStudentNameForReport;
+	private String selectedStudentLevelForReport;
+	private String selectedStudentCourseForReport;
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -128,15 +132,42 @@ public class AdminPanel {
 					try {
 						ResultSet resultSet = statement.executeQuery(fetchSelectedStudentName);
 						while (resultSet.next()) {
-							String fetchedstudentNameForReport = resultSet.getString("studentName");
-							studentNameForReport.setText(fetchedstudentNameForReport);
+							String fetchedStudentNameForReport = resultSet.getString("studentName");
+							studentNameForReport.setText(fetchedStudentNameForReport);
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					String fetchSelectedStudentLevel = "SELECT level FROM `studentdetails` WHERE Id = "
+							+ studentIdFromComboBoxInt + "";
+					try {
+						ResultSet resultSet2 = statement.executeQuery(fetchSelectedStudentLevel);
+						while (resultSet2.next()) {
+							String fetchedStudentLevelForReport = resultSet2.getString("level");
+							studentLevelForReport.setText(fetchedStudentLevelForReport);
+
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					String fetchSelectedStudentCourse = "SELECT studentCourse FROM `studentdetails` WHERE Id = "
+							+ studentIdFromComboBoxInt + "";
+					try {
+						ResultSet resultSet3 = statement.executeQuery(fetchSelectedStudentCourse);
+						while (resultSet3.next()) {
+							String fetchedStudentCourseForReport = resultSet3.getString("studentCourse");
+							studentCourseForReport.setText(fetchedStudentCourseForReport);
+
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
-
 			}
 		});
 
@@ -1416,7 +1447,6 @@ public class AdminPanel {
 		reportCardPanel.add(studentIdComboBox);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Student Name:");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 22, SpringLayout.SOUTH, lblNewLabel_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1, 130, SpringLayout.WEST, lblNewLabel_1);
 		lblNewLabel_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
@@ -1424,25 +1454,27 @@ public class AdminPanel {
 		reportCardPanel.add(lblNewLabel_1_1);
 
 		studentNameForReport = new JLabel();
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentNameForReport, 0, SpringLayout.NORTH,
-				lblNewLabel_1_1);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentNameForReport, 6, SpringLayout.EAST,
-				lblNewLabel_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentNameForReport, 86, SpringLayout.NORTH,
+				reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentNameForReport, 0, SpringLayout.WEST,
+				studentIdComboBox);
 		studentNameForReport.setFont(new Font("Poppins", Font.BOLD, 16));
 		studentNameForReport.setBackground(Color.WHITE);
 		reportCardPanel.add(studentNameForReport);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Level:");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1, 18, SpringLayout.SOUTH,
-				lblNewLabel_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1, 133, SpringLayout.NORTH,
+				reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1, -22, SpringLayout.NORTH,
+				lblNewLabel_1_1_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
 		lblNewLabel_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
 		lblNewLabel_1_1_1.setBackground(Color.WHITE);
 		reportCardPanel.add(lblNewLabel_1_1_1);
 
-		JLabel studentLevelForReport = new JLabel("Level");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentLevelForReport, 0, SpringLayout.NORTH,
-				lblNewLabel_1_1_1);
+		studentLevelForReport = new JLabel();
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentLevelForReport, 128, SpringLayout.NORTH,
+				reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentLevelForReport, 0, SpringLayout.WEST,
 				studentIdComboBox);
 		studentLevelForReport.setFont(new Font("Poppins", Font.BOLD, 16));
@@ -1450,16 +1482,16 @@ public class AdminPanel {
 		reportCardPanel.add(studentLevelForReport);
 
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Course:");
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 15, SpringLayout.SOUTH,
+				lblNewLabel_1_1_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
 		lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
 		lblNewLabel_1_1_1_1.setBackground(Color.WHITE);
 		reportCardPanel.add(lblNewLabel_1_1_1_1);
 
-		JLabel studentCourseForReport = new JLabel("Course");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 0, SpringLayout.NORTH,
-				studentCourseForReport);
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentCourseForReport, 20, SpringLayout.SOUTH,
-				studentLevelForReport);
+		studentCourseForReport = new JLabel();
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentCourseForReport, 0, SpringLayout.NORTH,
+				lblNewLabel_1_1_1_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentCourseForReport, 0, SpringLayout.WEST,
 				studentIdComboBox);
 		studentCourseForReport.setFont(new Font("Poppins", Font.BOLD, 16));
