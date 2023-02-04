@@ -45,6 +45,13 @@ public class AddModule extends JDialog {
     private String moduleName;
     private String courseFromComboBox;
     private String moduleLeaderFromComboBox;
+    private String valueFromLevelComboBox;
+    private int valueFromLevelComboBoxInt;
+    // JComboBox levelComboBox = new JComboBox();
+
+    public String getValueFromLevelComboBox() {
+        return valueFromLevelComboBox;
+    }
 
     public String getModuleLeaderFromComboBox() {
         return moduleLeaderFromComboBox;
@@ -126,11 +133,10 @@ public class AddModule extends JDialog {
         contentPanel.add(lblNewLabel_1_1);
 
         moduleNameTextField = new JTextField();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleNameTextField, 32, SpringLayout.SOUTH,
-                moduleIdTextField);
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, moduleNameTextField, -258, SpringLayout.SOUTH, contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleNameTextField, -6, SpringLayout.NORTH, lblNewLabel_1_1);
         sl_contentPanel.putConstraint(SpringLayout.WEST, moduleNameTextField, 0, SpringLayout.WEST, moduleIdTextField);
-        sl_contentPanel.putConstraint(SpringLayout.EAST, moduleNameTextField, -28, SpringLayout.EAST, contentPanel);
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, moduleNameTextField, 0, SpringLayout.SOUTH, lblNewLabel_1_1);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, moduleNameTextField, 0, SpringLayout.EAST, moduleIdTextField);
         moduleNameTextField.setSelectionColor(new Color(128, 128, 255));
         moduleNameTextField.setSelectedTextColor(new Color(255, 255, 255));
         moduleNameTextField.setCaretColor(new Color(128, 128, 255));
@@ -140,19 +146,21 @@ public class AddModule extends JDialog {
         contentPanel.add(moduleNameTextField);
 
         JLabel lblNewLabel_1_1_1 = new JLabel("Module Leader : ");
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1, 33, SpringLayout.SOUTH, lblNewLabel_1_1);
         sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1, 0, SpringLayout.WEST, moduleHeading);
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_1, -189, SpringLayout.SOUTH, contentPanel);
         sl_contentPanel.putConstraint(SpringLayout.EAST, lblNewLabel_1_1_1, -335, SpringLayout.EAST, contentPanel);
         lblNewLabel_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1_1);
 
         JLabel lblNewLabel_1_1_1_1 = new JLabel("Course :");
-        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, moduleHeading);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 34, SpringLayout.SOUTH,
+                lblNewLabel_1_1_1);
+        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 26, SpringLayout.WEST, contentPanel);
         lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
         contentPanel.add(lblNewLabel_1_1_1_1);
 
         JLabel lblNewLabel_1_1_2 = new JLabel("Module Id:");
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 45, SpringLayout.SOUTH, lblNewLabel_1_1_2);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1, 33, SpringLayout.SOUTH, lblNewLabel_1_1_2);
         sl_contentPanel.putConstraint(SpringLayout.WEST, moduleIdTextField, 62, SpringLayout.EAST, lblNewLabel_1_1_2);
         sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_2, 24, SpringLayout.WEST, contentPanel);
         sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_2, 0, SpringLayout.SOUTH, moduleIdTextField);
@@ -191,10 +199,8 @@ public class AddModule extends JDialog {
         contentPanel.add(btnNewButton_1);
 
         JComboBox courseComboBox = new JComboBox();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, courseComboBox, 108, SpringLayout.SOUTH, moduleNameTextField);
-        sl_contentPanel.putConstraint(SpringLayout.SOUTH, courseComboBox, -53, SpringLayout.NORTH, addButton);
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 3, SpringLayout.NORTH, courseComboBox);
         sl_contentPanel.putConstraint(SpringLayout.WEST, courseComboBox, 0, SpringLayout.WEST, moduleIdTextField);
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, courseComboBox, 0, SpringLayout.SOUTH, lblNewLabel_1_1_1_1);
         sl_contentPanel.putConstraint(SpringLayout.EAST, courseComboBox, 0, SpringLayout.EAST, moduleIdTextField);
 
         courseComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
@@ -206,7 +212,7 @@ public class AddModule extends JDialog {
         contentPanel.add(courseComboBox);
 
         JComboBox moduleLeaderComboBox = new JComboBox();
-        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleLeaderComboBox, -6, SpringLayout.NORTH,
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, moduleLeaderComboBox, -5, SpringLayout.NORTH,
                 lblNewLabel_1_1_1);
         sl_contentPanel.putConstraint(SpringLayout.WEST, moduleLeaderComboBox, 0, SpringLayout.WEST, moduleIdTextField);
         sl_contentPanel.putConstraint(SpringLayout.EAST, moduleLeaderComboBox, 0, SpringLayout.EAST, moduleIdTextField);
@@ -244,6 +250,33 @@ public class AddModule extends JDialog {
         });
 
         courseComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Course" }));
+
+        JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Level :");
+        sl_contentPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1_1, 25, SpringLayout.WEST, contentPanel);
+        lblNewLabel_1_1_1_1_1.setFont(new Font("Poppins", Font.PLAIN, 16));
+        contentPanel.add(lblNewLabel_1_1_1_1_1);
+
+        JComboBox levelComboBox = new JComboBox();
+        levelComboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == 1) {
+                    valueFromLevelComboBox = (String) e.getItem();
+                    valueFromLevelComboBoxInt = Integer.parseInt(valueFromLevelComboBox);
+                }
+            }
+        });
+
+        sl_contentPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_1_1_1, 0, SpringLayout.SOUTH, levelComboBox);
+        sl_contentPanel.putConstraint(SpringLayout.NORTH, levelComboBox, 15, SpringLayout.SOUTH, courseComboBox);
+        levelComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select Level", "4", "5", "6" }));
+        sl_contentPanel.putConstraint(SpringLayout.WEST, levelComboBox, 0, SpringLayout.WEST, moduleIdTextField);
+        sl_contentPanel.putConstraint(SpringLayout.EAST, levelComboBox, 0, SpringLayout.EAST, moduleIdTextField);
+        levelComboBox.setFont(new Font("Poppins", Font.PLAIN, 16));
+        levelComboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
+
+                new Color(255, 255, 255), new Color(255, 255, 255)));
+        levelComboBox.setBackground(Color.WHITE);
+        contentPanel.add(levelComboBox);
         String fetchCoursesQuery = "SELECT courseName FROM `coursedetails`";
         String[] coursesArray = new String[5];
         i = 0;
@@ -276,8 +309,10 @@ public class AddModule extends JDialog {
                     Statement statement = DatabaseConnection.getStatement();
 
                     String insertQuery = "INSERT INTO `moduledetails` "
-                            + "(`moduleId`, `moduleName`, `moduleLeader`, `course`)" + " VALUES ('" + moduleId + "', '"
-                            + moduleName + "', '" + moduleLeaderFromComboBox + "', '" + courseFromComboBox + "');";
+                            + "(`moduleId`, `moduleName`, `moduleLeader`, `course`, `inLevel`)" + " VALUES ('"
+                            + moduleId + "', '"
+                            + moduleName + "', '" + moduleLeaderFromComboBox + "', '" + courseFromComboBox + "','"
+                            + valueFromLevelComboBoxInt + "');";
                     try {
                         int insertSuccess = statement.executeUpdate(insertQuery);
                         if (insertSuccess == 1) {
