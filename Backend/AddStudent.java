@@ -338,6 +338,7 @@ public class AddStudent extends JDialog {
                                                         JOptionPane.showMessageDialog(contentPanel,
                                                                         "Added Student data successfully!");
                                                         AdminPanel.showStudentDataFromDatabase();
+                                                        AdminPanel.getStudentIdForComboBox();
                                                         dispose();
                                                 }
                                         } catch (SQLException e1) {

@@ -52,6 +52,11 @@ public class Login {
 	private JComboBox comboBox;
 	private JLabel usernameFieldCantBeEmpty;
 	private JLabel passwordFieldCantBeEmpty;
+	private String username;
+
+	public String getUsername() {
+		return username;
+	}
 
 	/**
 	 * Launch the application.
@@ -146,7 +151,7 @@ public class Login {
 						&& userType.equals("Student")) {
 					System.out.println("Logged in as student successfully!");
 					fromLogin.dispose();
-					StudentPanel window = new StudentPanel();
+					StudentPanel window = new StudentPanel(enteredUsername.getText());
 					window.getFrmStudentPanel().setVisible(true);
 				} else if (enteredUsername.getText().equals("teacher")
 						&& password.equals("teacher")
@@ -162,7 +167,7 @@ public class Login {
 					try {
 						ResultSet resultSet = statement.executeQuery(checkQuery);
 						if (resultSet.next()) {
-							StudentPanel studentPanel = new StudentPanel();
+							StudentPanel studentPanel = new StudentPanel(enteredUsername.getText());
 							studentPanel.getFrmStudentPanel().setVisible(true);
 							fromLogin.setVisible(false);
 						} else {

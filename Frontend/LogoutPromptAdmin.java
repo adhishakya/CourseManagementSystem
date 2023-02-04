@@ -94,7 +94,7 @@ public class LogoutPromptAdmin extends JDialog {
         springLayout.putConstraint(SpringLayout.SOUTH, btnCancel, 39, SpringLayout.NORTH, btnNewButton);
         springLayout.putConstraint(SpringLayout.EAST, btnCancel, -54, SpringLayout.EAST, getContentPane());
         getContentPane().add(btnCancel);
-        setBounds(250, 280, 375, 192);
+        setBounds(500, 280, 375, 192);
 
     }
 }
