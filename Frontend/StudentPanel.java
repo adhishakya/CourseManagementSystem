@@ -316,9 +316,22 @@ public class StudentPanel {
                 modulesCardPanelStudent);
         modulesCardPanelStudent.add(lblNewLabel_3);
 
+        String studentCourseFromDB = "SELECT studentCourse FROM `studentdetails` WHERE Id = " + studentIdFromDB + "";
+        try {
+            Statement statement = DatabaseConnection.getStatement();
+            ResultSet resultSet = statement.executeQuery(studentCourseFromDB);
+
+            while (resultSet.next()) {
+                studentCourseFromDB = resultSet.getString("studentCourse");
+            }
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
         int relevantLevel = Integer.parseInt(studentLevelFromDB);
         String fetchRelevantModulesQuery = "SELECT moduleName FROM `moduledetails` WHERE inLevel = " + relevantLevel
-                + "";
+                + " AND course = '" + studentCourseFromDB + "'";
         String[] relevantModules = new String[3];
         int i = 0;
         try {
