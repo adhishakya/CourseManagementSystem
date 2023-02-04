@@ -20,6 +20,9 @@ import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.awt.Cursor;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class StudentPanel {
 
@@ -37,6 +40,17 @@ public class StudentPanel {
     private JPanel cardPanelStudentTop;
 
     private String studentNameFromDB;
+    private JTable teacherAndModulesTable;
+
+    private static DefaultTableModel teacherAndModulesDefaultTableModel = new DefaultTableModel(
+            new Object[][] {
+                    { null, null },
+                    { null, null },
+                    { null, null },
+            },
+            new String[] {
+                    "Teacher", "Module"
+            });
 
     public static void getStudentNameFromLogin() {
         Login login = new Login();
@@ -189,11 +203,34 @@ public class StudentPanel {
         dashboardCardPanelStudentTop.add(welcomeStudentMessage);
 
         JPanel teachersCardPanelStudentTop = new JPanel();
-        teachersCardPanelStudentTop.setBackground(new Color(0, 64, 64));
+        teachersCardPanelStudentTop.setBackground(new Color(255, 255, 255));
         cardPanelStudentTop.add(teachersCardPanelStudentTop, "name_110889775858700");
+        SpringLayout sl_teachersCardPanelStudentTop = new SpringLayout();
+        teachersCardPanelStudentTop.setLayout(sl_teachersCardPanelStudentTop);
+
+        JLabel welcomeStudentMessage_1 = new JLabel();
+        sl_teachersCardPanelStudentTop.putConstraint(SpringLayout.NORTH, welcomeStudentMessage_1, 29,
+                SpringLayout.NORTH, teachersCardPanelStudentTop);
+        sl_teachersCardPanelStudentTop.putConstraint(SpringLayout.WEST, welcomeStudentMessage_1, 49, SpringLayout.WEST,
+                teachersCardPanelStudentTop);
+        welcomeStudentMessage_1.setText("Teachers");
+        welcomeStudentMessage_1.setFont(new Font("Poppins", Font.BOLD, 24));
+        teachersCardPanelStudentTop.add(welcomeStudentMessage_1);
 
         JPanel modulesCardPanelStudentTop = new JPanel();
+        modulesCardPanelStudentTop.setBackground(new Color(255, 255, 255));
         cardPanelStudentTop.add(modulesCardPanelStudentTop, "name_110891736583900");
+        SpringLayout sl_modulesCardPanelStudentTop = new SpringLayout();
+        modulesCardPanelStudentTop.setLayout(sl_modulesCardPanelStudentTop);
+
+        JLabel modulesTitle = new JLabel();
+        sl_modulesCardPanelStudentTop.putConstraint(SpringLayout.WEST, modulesTitle, 59, SpringLayout.WEST,
+                modulesCardPanelStudentTop);
+        sl_modulesCardPanelStudentTop.putConstraint(SpringLayout.SOUTH, modulesTitle, -30, SpringLayout.SOUTH,
+                modulesCardPanelStudentTop);
+        modulesTitle.setText("Modules");
+        modulesTitle.setFont(new Font("Poppins", Font.BOLD, 24));
+        modulesCardPanelStudentTop.add(modulesTitle);
 
         cardPanelStudent = new JPanel();
         splitPane_1.setRightComponent(cardPanelStudent);
@@ -287,16 +324,37 @@ public class StudentPanel {
         dashboardCardPanelStudent.add(lblNewLabel);
 
         JPanel teachersCardPanelStudent = new JPanel();
+        teachersCardPanelStudent.setBackground(new Color(255, 255, 255));
         cardPanelStudent.add(teachersCardPanelStudent, "name_78985517477200");
         SpringLayout sl_teachersCardPanelStudent = new SpringLayout();
         teachersCardPanelStudent.setLayout(sl_teachersCardPanelStudent);
 
-        JLabel lblNewLabel_2 = new JLabel("Teachers");
-        sl_teachersCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 96, SpringLayout.NORTH,
+        JScrollPane scrollPane = new JScrollPane();
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.NORTH, scrollPane, 70, SpringLayout.NORTH,
                 teachersCardPanelStudent);
-        sl_teachersCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_2, 130, SpringLayout.WEST,
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.WEST, scrollPane, 55, SpringLayout.WEST,
                 teachersCardPanelStudent);
-        teachersCardPanelStudent.add(lblNewLabel_2);
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.SOUTH, scrollPane, 331, SpringLayout.NORTH,
+                teachersCardPanelStudent);
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.EAST, scrollPane, -41, SpringLayout.EAST,
+                teachersCardPanelStudent);
+        teachersCardPanelStudent.add(scrollPane);
+
+        teacherAndModulesTable = new JTable();
+        teacherAndModulesTable.setFont(new Font("Poppins", Font.PLAIN, 12));
+        teacherAndModulesTable.setDefaultEditor(Object.class, null);
+        teacherAndModulesTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
+        teacherAndModulesTable.setModel(teacherAndModulesDefaultTableModel);
+        scrollPane.setViewportView(teacherAndModulesTable);
+
+        JLabel lblYourTeachers = new JLabel();
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.NORTH, lblYourTeachers, 20, SpringLayout.NORTH,
+                teachersCardPanelStudent);
+        sl_teachersCardPanelStudent.putConstraint(SpringLayout.WEST, lblYourTeachers, 51, SpringLayout.WEST,
+                teachersCardPanelStudent);
+        lblYourTeachers.setText("Your Teachers:");
+        lblYourTeachers.setFont(new Font("Poppins", Font.BOLD, 18));
+        teachersCardPanelStudent.add(lblYourTeachers);
 
         JPanel modulesCardPanelStudent = new JPanel();
         modulesCardPanelStudent.setBackground(new Color(255, 255, 255));
@@ -334,6 +392,8 @@ public class StudentPanel {
                 + " AND course = '" + studentCourseFromDB + "'";
         String[] relevantModules = new String[3];
         int i = 0;
+        int j = 0;
+        teacherAndModulesDefaultTableModel.setRowCount(0);
         try {
             Statement statement = DatabaseConnection.getStatement();
             ResultSet resultSet = statement.executeQuery(fetchRelevantModulesQuery);
@@ -358,7 +418,26 @@ public class StudentPanel {
                                     + "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                                     + relevantModules[2] + "<br></html>");
                 }
+                String fetchTeacherUsingModule = "SELECT moduleLeader FROM `moduledetails` WHERE moduleName ='"
+                        + relevantModules[i] + "'";
+                String[] relevantTeachers = new String[3];
+                try {
+                    Statement statement2 = DatabaseConnection.getStatement();
+                    ResultSet resultSet2 = statement2.executeQuery(fetchTeacherUsingModule);
+
+                    while (resultSet2.next()) {
+                        relevantTeachers[j] = resultSet2.getString("moduleLeader");
+                        teacherAndModulesDefaultTableModel
+                                .addRow(new Object[] { relevantTeachers[j], relevantModules[i] });
+                        j++;
+                    }
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
                 i++;
+
             }
 
         } catch (SQLException e1) {
