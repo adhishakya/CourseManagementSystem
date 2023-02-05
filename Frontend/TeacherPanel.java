@@ -18,7 +18,7 @@ import java.awt.CardLayout;
 import java.awt.Cursor;
 
 public class TeacherPanel {
-
+	
 	private CardLayout cl_cardPanelTeacher = new CardLayout(0, 0);
 	private CardLayout cl_cardPanelTopTeacher = new CardLayout(0, 0);
 
@@ -29,6 +29,7 @@ public class TeacherPanel {
 	private static JFrame fromTeacherPanel;
 	private JPanel cardPanelTeacher;
 	private JPanel cardPanelTopTeacher;
+	private String teacherNameFromLogin;
 
 	/**
 	 * Launch the application.
@@ -37,7 +38,7 @@ public class TeacherPanel {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TeacherPanel window = new TeacherPanel();
+					TeacherPanel window = new TeacherPanel("");
 					window.fromTeacherPanel.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,14 +50,15 @@ public class TeacherPanel {
 	/**
 	 * Create the application.
 	 */
-	public TeacherPanel() {
-		initialize();
+	public TeacherPanel(String name) {
+		initialize(name);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String name) {
+		teacherNameFromLogin = name;
 		fromTeacherPanel = new JFrame();
 		fromTeacherPanel.setResizable(false);
 		fromTeacherPanel.setTitle("Teacher Panel | Course Management System");
@@ -159,53 +161,44 @@ public class TeacherPanel {
 		cardPanelTopTeacher.setBackground(new Color(255, 255, 255));
 		splitPane_1.setLeftComponent(cardPanelTopTeacher);
 		cardPanelTopTeacher.setLayout(cl_cardPanelTopTeacher);
-
+		
 		JPanel dashboardCardPanelTeacherTop = new JPanel();
+		dashboardCardPanelTeacherTop.setBackground(new Color(255, 255, 255));
 		cardPanelTopTeacher.add(dashboardCardPanelTeacherTop, "name_112385867187000");
 		SpringLayout sl_dashboardCardPanelTeacherTop = new SpringLayout();
 		dashboardCardPanelTeacherTop.setLayout(sl_dashboardCardPanelTeacherTop);
-
-		JLabel lblNewLabel_2 = new JLabel("hi");
-		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 25, SpringLayout.NORTH,
-				dashboardCardPanelTeacherTop);
-		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel_2, 37, SpringLayout.WEST,
-				dashboardCardPanelTeacherTop);
-		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 38, SpringLayout.NORTH,
-				dashboardCardPanelTeacherTop);
-		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel_2, 121, SpringLayout.WEST,
-				dashboardCardPanelTeacherTop);
-		dashboardCardPanelTeacherTop.add(lblNewLabel_2);
-
+		
+		JLabel welcomeMessageTeacher = new JLabel();
+		welcomeMessageTeacher.setText("Welcome back, "+teacherNameFromLogin);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, welcomeMessageTeacher, 25, SpringLayout.NORTH, dashboardCardPanelTeacherTop);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.WEST, welcomeMessageTeacher, 10, SpringLayout.WEST, dashboardCardPanelTeacherTop);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, welcomeMessageTeacher, -22, SpringLayout.SOUTH, dashboardCardPanelTeacherTop);
+		sl_dashboardCardPanelTeacherTop.putConstraint(SpringLayout.EAST, welcomeMessageTeacher, 362, SpringLayout.WEST, dashboardCardPanelTeacherTop);
+		welcomeMessageTeacher.setFont(new Font("Poppins", Font.BOLD, 22));
+		dashboardCardPanelTeacherTop.add(welcomeMessageTeacher);
+		
 		JPanel studentCardPanelTeacherTop = new JPanel();
 		cardPanelTopTeacher.add(studentCardPanelTeacherTop, "name_112387896874700");
 		SpringLayout sl_studentCardPanelTeacherTop = new SpringLayout();
 		studentCardPanelTeacherTop.setLayout(sl_studentCardPanelTeacherTop);
-
+		
 		JLabel lblNewLabel = new JLabel("New label");
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH,
-				studentCardPanelTeacherTop);
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel, 22, SpringLayout.WEST,
-				studentCardPanelTeacherTop);
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel, 45, SpringLayout.NORTH,
-				studentCardPanelTeacherTop);
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel, 100, SpringLayout.WEST,
-				studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel, 22, SpringLayout.WEST, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel, 45, SpringLayout.NORTH, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel, 100, SpringLayout.WEST, studentCardPanelTeacherTop);
 		studentCardPanelTeacherTop.add(lblNewLabel);
-
+		
 		JPanel modulesCardPanelTeacherTop = new JPanel();
 		cardPanelTopTeacher.add(modulesCardPanelTeacherTop, "name_112389746503700");
 		SpringLayout sl_modulesCardPanelTeacherTop = new SpringLayout();
 		modulesCardPanelTeacherTop.setLayout(sl_modulesCardPanelTeacherTop);
-
+		
 		JLabel lblNewLabel_1 = new JLabel("Modules");
-		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 27, SpringLayout.NORTH,
-				modulesCardPanelTeacherTop);
-		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel_1, 53, SpringLayout.WEST,
-				modulesCardPanelTeacherTop);
-		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 68, SpringLayout.NORTH,
-				modulesCardPanelTeacherTop);
-		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel_1, 174, SpringLayout.WEST,
-				modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 27, SpringLayout.NORTH, modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel_1, 53, SpringLayout.WEST, modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, 68, SpringLayout.NORTH, modulesCardPanelTeacherTop);
+		sl_modulesCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel_1, 174, SpringLayout.WEST, modulesCardPanelTeacherTop);
 		modulesCardPanelTeacherTop.add(lblNewLabel_1);
 
 		cardPanelTeacher = new JPanel();
