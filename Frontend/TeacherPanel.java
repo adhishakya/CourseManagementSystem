@@ -20,6 +20,9 @@ import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.awt.Cursor;
 import javax.swing.border.MatteBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class TeacherPanel {
 	
@@ -34,6 +37,16 @@ public class TeacherPanel {
 	private JPanel cardPanelTeacher;
 	private JPanel cardPanelTopTeacher;
 	private String teacherNameFromLogin;
+	private JTable yourStudentsTable;
+	
+	private static DefaultTableModel yourStudentsDefaultTableModel = new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"Id", "Name", "Group"
+			}
+		);
 
 	/**
 	 * Launch the application.
@@ -184,15 +197,18 @@ public class TeacherPanel {
 		dashboardCardPanelTeacherTop.add(welcomeMessageTeacher);
 		
 		JPanel studentCardPanelTeacherTop = new JPanel();
+		studentCardPanelTeacherTop.setBackground(new Color(255, 255, 255));
 		cardPanelTopTeacher.add(studentCardPanelTeacherTop, "name_112387896874700");
 		SpringLayout sl_studentCardPanelTeacherTop = new SpringLayout();
 		studentCardPanelTeacherTop.setLayout(sl_studentCardPanelTeacherTop);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, studentCardPanelTeacherTop);
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel, 22, SpringLayout.WEST, studentCardPanelTeacherTop);
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel, 45, SpringLayout.NORTH, studentCardPanelTeacherTop);
-		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel, 100, SpringLayout.WEST, studentCardPanelTeacherTop);
+		JLabel lblNewLabel = new JLabel("Your Students");
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.NORTH, lblNewLabel, 22, SpringLayout.NORTH, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.WEST, lblNewLabel, 29, SpringLayout.WEST, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.SOUTH, lblNewLabel, -26, SpringLayout.SOUTH, studentCardPanelTeacherTop);
+		sl_studentCardPanelTeacherTop.putConstraint(SpringLayout.EAST, lblNewLabel, 222, SpringLayout.WEST, studentCardPanelTeacherTop);
+		lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 22));
+		lblNewLabel.setBackground(new Color(255, 255, 255));
 		studentCardPanelTeacherTop.add(lblNewLabel);
 		
 		JPanel assignmentCardPanelTeacherTop = new JPanel();
@@ -267,9 +283,58 @@ public class TeacherPanel {
 		dashboardCardPanelTeacher.add(yourDetails);
 
 		JPanel studentCardPanelTeacher = new JPanel();
-		studentCardPanelTeacher.setBackground(new Color(192, 192, 192));
+		studentCardPanelTeacher.setBackground(new Color(255, 255, 255));
 		cardPanelTeacher.add(studentCardPanelTeacher, "name_79342838523500");
-		studentCardPanelTeacher.setLayout(new SpringLayout());
+		SpringLayout sl_studentCardPanelTeacher = new SpringLayout();
+		studentCardPanelTeacher.setLayout(sl_studentCardPanelTeacher);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		sl_studentCardPanelTeacher.putConstraint(SpringLayout.NORTH, scrollPane, 32, SpringLayout.NORTH, studentCardPanelTeacher);
+		sl_studentCardPanelTeacher.putConstraint(SpringLayout.WEST, scrollPane, 32, SpringLayout.WEST, studentCardPanelTeacher);
+		sl_studentCardPanelTeacher.putConstraint(SpringLayout.SOUTH, scrollPane, 348, SpringLayout.NORTH, studentCardPanelTeacher);
+		sl_studentCardPanelTeacher.putConstraint(SpringLayout.EAST, scrollPane, -32, SpringLayout.EAST, studentCardPanelTeacher);
+		studentCardPanelTeacher.add(scrollPane);
+		
+		String teacherLevelFromDB = "SELECT inLevel FROM `moduledetails` WHERE moduleLeader = '"+teacherNameFromLogin+"'";
+		int teacherLevelFromDBInt=0;
+		try {
+			Statement statement = DatabaseConnection.getStatement();
+			ResultSet resultSet = statement.executeQuery(teacherLevelFromDB);
+
+			while (resultSet.next()) {
+				teacherLevelFromDB = resultSet.getString("inLevel");
+				teacherLevelFromDBInt = Integer.parseInt(teacherLevelFromDB);
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
+		yourStudentsTable = new JTable();
+		yourStudentsTable.setDefaultEditor(Object.class, null);
+		yourStudentsTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 12));
+		yourStudentsTable.setModel(yourStudentsDefaultTableModel);
+		scrollPane.setViewportView(yourStudentsTable);
+	
+		String studentNameOfLevelX = "SELECT Id, studentName, studentGroup From `studentdetails` WHERE level = "+teacherLevelFromDBInt+"";
+		try {
+			yourStudentsDefaultTableModel.setRowCount(0);
+			Statement statement = DatabaseConnection.getStatement();
+			ResultSet resultSet = statement.executeQuery(studentNameOfLevelX);
+
+			while (resultSet.next()) {
+				int studentIdFromDB = resultSet.getInt("Id");
+				String studentNameFromDB = resultSet.getString("studentName");
+				String studentGroupFromDB = resultSet.getString("studentGroup");
+				
+				yourStudentsDefaultTableModel.addRow(new Object[] { studentIdFromDB, studentNameFromDB, studentGroupFromDB });
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 
 		JPanel assignmentCardPanelTeacher = new JPanel();
 		assignmentCardPanelTeacher.setBackground(new Color(128, 64, 0));
@@ -278,5 +343,4 @@ public class TeacherPanel {
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 	}
-
 }
