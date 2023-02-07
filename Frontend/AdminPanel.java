@@ -92,6 +92,8 @@ public class AdminPanel {
 	private static JLabel secondModule = new JLabel();
 	private static JLabel thirdModule = new JLabel();
 	
+	static JButton publishButton = new JButton("Publish Result");
+	
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { "", null, null, null, null, null }, { null, null, null, null, null, null },
@@ -203,7 +205,48 @@ public class AdminPanel {
 						firstModule.setText(modulesForReportArray.get(0)+": "+fetchMarksOfFirstModule+" marks");
 						secondModule.setText(modulesForReportArray.get(1)+": "+fetchMarksOfSecondModule+" marks");
 						thirdModule.setText(modulesForReportArray.get(2)+": "+fetchMarksOfThirdModule+" marks");
+						int fetchMarksOfFirstModuleInt = Integer.parseInt(fetchMarksOfFirstModule);
+						int fetchMarksOfSecondModuleInt = Integer.parseInt(fetchMarksOfSecondModule);
+						int fetchMarksOfThirdModuleInt = Integer.parseInt(fetchMarksOfThirdModule);
+						String firstModuleName = modulesForReportArray.get(0);
+						String secondModuleName = modulesForReportArray.get(1);
+						String thirdModuleName = modulesForReportArray.get(2);
 						modulesForReportArray.clear();
+						publishButton.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								String studentNameForMarks = studentNameForReport.getText();
+								Statement firstStatement = DatabaseConnection.getStatement();
+								String publishResult1 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`) "
+										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfFirstModuleInt+", '"+firstModuleName+"')";
+								try {
+									firstStatement.executeUpdate(publishResult1);
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								Statement secondStatement = DatabaseConnection.getStatement();
+								String publishResult2 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`) "
+										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfSecondModuleInt+", '"+secondModuleName+"')";
+								try {
+									secondStatement.executeUpdate(publishResult2);
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								Statement thirdStatement = DatabaseConnection.getStatement();
+								String publishResult3 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`) "
+										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfThirdModuleInt+", '"+thirdModuleName+"')";
+								try {
+									int executeUpdate = thirdStatement.executeUpdate(publishResult3);
+									if(executeUpdate==1) {
+										JOptionPane.showMessageDialog(null, "Marks of '"+studentNameForMarks+"' published successfully!");
+									}
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+						});
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -1521,7 +1564,6 @@ public class AdminPanel {
 		studentCourseForReport.setBackground(Color.WHITE);
 		reportCardPanel.add(studentCourseForReport);
 
-		JButton publishButton = new JButton("Publish Result");
 		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, publishButton, -65, SpringLayout.SOUTH, reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, publishButton, 102, SpringLayout.WEST, reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, publishButton, -10, SpringLayout.SOUTH, reportCardPanel);
