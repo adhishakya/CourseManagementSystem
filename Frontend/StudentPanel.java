@@ -287,7 +287,7 @@ public class StudentPanel {
 				modulesCardPanelStudentTop);
 		sl_modulesCardPanelStudentTop.putConstraint(SpringLayout.SOUTH, modulesTitle, -30, SpringLayout.SOUTH,
 				modulesCardPanelStudentTop);
-		modulesTitle.setText("Modules");
+		modulesTitle.setText("Your Modules");
 		modulesTitle.setFont(new Font("Poppins", Font.BOLD, 24));
 		modulesCardPanelStudentTop.add(modulesTitle);
 
@@ -447,20 +447,11 @@ public class StudentPanel {
 		modulesCardPanelStudent.setBackground(new Color(255, 255, 255));
 		cardPanelStudent.add(modulesCardPanelStudent, "name_78987815364700");
 		SpringLayout sl_modulesCardPanelStudent = new SpringLayout();
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, studentModulesDisplay, 90, SpringLayout.NORTH, modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, studentModulesDisplay, 35, SpringLayout.WEST, modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, studentModulesDisplay, -32, SpringLayout.SOUTH, modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, studentModulesDisplay, -25, SpringLayout.EAST, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, studentModulesDisplay, 83, SpringLayout.NORTH, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, studentModulesDisplay, 31, SpringLayout.WEST, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, studentModulesDisplay, -83, SpringLayout.SOUTH, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, studentModulesDisplay, -34, SpringLayout.EAST, modulesCardPanelStudent);
 		modulesCardPanelStudent.setLayout(sl_modulesCardPanelStudent);
-
-		JLabel lblNewLabel_3 = new JLabel("Your Modules:");
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 19, SpringLayout.NORTH, modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 0, SpringLayout.WEST, studentModulesDisplay);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, -376, SpringLayout.SOUTH, modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, lblNewLabel_3, 188, SpringLayout.WEST,
-				modulesCardPanelStudent);
-		lblNewLabel_3.setFont(new Font("Poppins", Font.BOLD, 20));
-		modulesCardPanelStudent.add(lblNewLabel_3);
 
 		String studentCourseFromDB = "SELECT studentCourse FROM `studentdetails` WHERE Id = " + studentIdFromDB + "";
 		try {
@@ -532,7 +523,7 @@ public class StudentPanel {
 			e1.printStackTrace();
 		}
 		studentModulesDisplay.setFont(new Font("Poppins", Font.BOLD, 24));
-		studentModulesDisplay.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
+		studentModulesDisplay.setBorder(null);
 		studentModulesDisplay.setBackground(Color.WHITE);
 		modulesCardPanelStudent.add(studentModulesDisplay);
 		
