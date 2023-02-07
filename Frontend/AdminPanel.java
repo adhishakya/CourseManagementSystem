@@ -113,8 +113,6 @@ public class AdminPanel {
 			new String[] { "Id", "Name", "Module Leader", "Course" });
 
 	public static void getStudentIdForComboBox() {
-		studentIdComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		studentIdComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select University Id" }));
 		String fetchStudentIdQuery = "SELECT Id FROM `studentdetails`";
 		String[] studentIdArray = new String[5];
 		int i = 0;
@@ -187,11 +185,11 @@ public class AdminPanel {
 						firstModule.setText(modulesForReportArray.get(0));
 						secondModule.setText(modulesForReportArray.get(1));
 						thirdModule.setText(modulesForReportArray.get(2));
+						modulesForReportArray.clear();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					AdminPanel.getStudentIdForComboBox();
 				}
 			}
 		});
@@ -224,9 +222,9 @@ public class AdminPanel {
 				studentCount = studentTable.getRowCount();
 			}
 			studentCountDisplay.setText(
-					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ studentCount
-							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Students\r\n</html>\r\n\r\n\r\n");
+							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Students\r\n</html>\r\n\r\n\r\n");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1440,6 +1438,8 @@ public class AdminPanel {
 		reportCardPanel.setLayout(sl_reportCardPanel);
 
 		JLabel lblNewLabel_1 = new JLabel("Student Id:");
+		studentIdComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		studentIdComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select University Id" }));
 		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentIdComboBox, 2, SpringLayout.NORTH, lblNewLabel_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentIdComboBox, 33, SpringLayout.EAST, lblNewLabel_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, studentIdComboBox, 32, SpringLayout.NORTH, lblNewLabel_1);
