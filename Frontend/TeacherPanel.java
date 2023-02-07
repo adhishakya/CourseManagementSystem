@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SpringLayout;
 import javax.swing.JButton;
@@ -28,6 +30,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.JTextField;
 
 public class TeacherPanel {
 
@@ -75,6 +78,7 @@ public class TeacherPanel {
 
 	private static DefaultTableModel yourStudentsDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { null, null, null }, }, new String[] { "Id", "Name", "Group" });
+	private JTextField obtainedMarksTextField;
 
 	/**
 	 * Launch the application.
@@ -107,7 +111,7 @@ public class TeacherPanel {
 		fromTeacherPanel = new JFrame();
 		fromTeacherPanel.setResizable(false);
 		fromTeacherPanel.setTitle("Teacher Panel | Course Management System");
-		fromTeacherPanel.setBounds(100, 100, 803, 552);
+		fromTeacherPanel.setBounds(300, 100, 803, 552);
 		fromTeacherPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JSplitPane splitPane = new JSplitPane();
@@ -510,6 +514,30 @@ public class TeacherPanel {
 		assignmentCardPanelTeacher.add(btnUploadAssignment);
 
 		JButton btnClosePortal = new JButton("Close Portal");
+		btnClosePortal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Yes", "No" };
+				int confirmation = JOptionPane.showOptionDialog(null,
+						"Close the Assignment Portal?", "Close Assignment Portal",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
+						options[0]);
+				if(confirmation == 0) {
+					String deleteQuery = "DELETE FROM assignmentdetails WHERE `assignmentdetails`.`course` = '"+teacherModuleFromDB+"'";
+					try {
+						Statement statement = DatabaseConnection.getStatement();
+						int deleteSuccess = statement.executeUpdate(deleteQuery);
+						if (deleteSuccess == 1) {
+							JOptionPane.showMessageDialog(null, "Portal Closed");
+							firstQuestionLabel.setText("");
+							secondQuestionLabel.setText("");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		btnClosePortal.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnClosePortal.setIcon(new ImageIcon(TeacherPanel.class.getResource("/images/close.png")));
 		sl_assignmentCardPanelTeacher.putConstraint(SpringLayout.NORTH, btnClosePortal, 6, SpringLayout.SOUTH,
@@ -646,6 +674,60 @@ public class TeacherPanel {
 		studentNameForReport.setFont(new Font("Poppins", Font.BOLD, 16));
 		studentNameForReport.setBackground(Color.WHITE);
 		markingCardPanelTeacher.add(studentNameForReport);
+		
+		JLabel lblNewLabel_1_1_1_1 = new JLabel("Marks:");
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 26, SpringLayout.SOUTH, lblNewLabel_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, lblIssuingMarksFor);
+		lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1_1_1_1.setBackground(Color.WHITE);
+		markingCardPanelTeacher.add(lblNewLabel_1_1_1_1);
+		
+		obtainedMarksTextField = new JTextField();
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.NORTH, obtainedMarksTextField, -1, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.WEST, obtainedMarksTextField, 0, SpringLayout.WEST, studentIdComboBox);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.SOUTH, obtainedMarksTextField, 29, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.EAST, obtainedMarksTextField, 0, SpringLayout.EAST, studentIdComboBox);
+		obtainedMarksTextField.setSelectionColor(new Color(128, 128, 255));
+		obtainedMarksTextField.setSelectedTextColor(Color.WHITE);
+		obtainedMarksTextField.setFont(new Font("Poppins", Font.PLAIN, 14));
+		obtainedMarksTextField.setColumns(10);
+		obtainedMarksTextField.setCaretColor(new Color(128, 128, 255));
+		obtainedMarksTextField.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(128, 128, 255)));
+		markingCardPanelTeacher.add(obtainedMarksTextField);
+		
+		JButton btnIssueMarks = new JButton("Issue Marks");
+		btnIssueMarks.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnIssueMarks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String marks = obtainedMarksTextField.getText();
+				int marksInt = Integer.parseInt(marks);
+				String studentName = studentNameForReport.getText();
+				String universityId = studentIdFromComboBox;
+				int universityIdInt = Integer.parseInt(universityId);
+				String marksInsertQuery = "INSERT INTO `marksdetails` (`Id`, `studentName`, `marks`, `module`) "
+						+ "VALUES ("+universityIdInt+", '"+studentName+"', '"+marksInt+"', '"+teacherModuleFromDB+"')";
+				Statement statement = DatabaseConnection.getStatement();
+				try {	
+					int assignmentUploadSuccess = statement.executeUpdate(marksInsertQuery);
+					if (assignmentUploadSuccess == 1) {
+						JOptionPane.showMessageDialog(null, "Marks issued successfully!");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.NORTH, btnIssueMarks, -76, SpringLayout.SOUTH, markingCardPanelTeacher);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.WEST, btnIssueMarks, -252, SpringLayout.EAST, markingCardPanelTeacher);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.SOUTH, btnIssueMarks, -26, SpringLayout.SOUTH, markingCardPanelTeacher);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.EAST, btnIssueMarks, 0, SpringLayout.EAST, studentIdComboBox);
+		btnIssueMarks.setForeground(Color.WHITE);
+		btnIssueMarks.setFont(new Font("Poppins", Font.BOLD, 20));
+		btnIssueMarks.setBorder(null);
+		btnIssueMarks.setBackground(new Color(128, 128, 255));
+		btnIssueMarks.setActionCommand("Add");
+		markingCardPanelTeacher.add(btnIssueMarks);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 		TeacherPanel.getAssignmentFromDatabase();
