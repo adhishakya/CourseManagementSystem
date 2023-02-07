@@ -49,6 +49,9 @@ public class StudentPanel {
 	
 	private String moduleForAssignmentFromComboBox;
 	JLabel lblNewLabel_2 = new JLabel();
+	
+	private String moduleForMarksFromComboBox;
+	JLabel marksLabel = new JLabel();
 
 	private static DefaultTableModel teacherAndModulesDefaultTableModel = new DefaultTableModel(
 			new Object[][] { { null, null }, { null, null }, { null, null }, }, new String[] { "Teacher", "Module" });
@@ -179,6 +182,8 @@ public class StudentPanel {
 		panel.add(btnNewButton_1_1_1);
 
 		JButton btnNewButton_1_1_2_1 = new JButton("Assignment");
+		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2_1, 28, SpringLayout.SOUTH, btnNewButton_1_1_2);
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_1, 0, SpringLayout.WEST, btnNewButton);
 		btnNewButton_1_1_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanelStudent.show(cardPanelStudent, "name_259197036500");
@@ -187,8 +192,6 @@ public class StudentPanel {
 		});
 		btnNewButton_1_1_2_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_1_1_2_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/assignment.png")));
-		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2_1, 32, SpringLayout.SOUTH, btnNewButton_1_1_2);
-		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_1, 0, SpringLayout.WEST, btnNewButton);
 		btnNewButton_1_1_2_1.setIconTextGap(12);
 		btnNewButton_1_1_2_1.setForeground(Color.WHITE);
 		btnNewButton_1_1_2_1.setFont(new Font("Poppins", Font.BOLD, 18));
@@ -196,6 +199,42 @@ public class StudentPanel {
 		btnNewButton_1_1_2_1.setBorder(null);
 		btnNewButton_1_1_2_1.setBackground(new Color(128, 128, 255));
 		panel.add(btnNewButton_1_1_2_1);
+		
+		JButton btnNewButton_1_1_2_2 = new JButton("Elective");
+		btnNewButton_1_1_2_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_1_1_2_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_2, 0, SpringLayout.WEST, btnNewButton);
+		sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_2_2, -206, SpringLayout.SOUTH, panel);
+		btnNewButton_1_1_2_2.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/books.png")));
+		btnNewButton_1_1_2_2.setIconTextGap(14);
+		btnNewButton_1_1_2_2.setForeground(Color.WHITE);
+		btnNewButton_1_1_2_2.setFont(new Font("Poppins", Font.BOLD, 18));
+		btnNewButton_1_1_2_2.setBorderPainted(false);
+		btnNewButton_1_1_2_2.setBorder(null);
+		btnNewButton_1_1_2_2.setBackground(new Color(128, 128, 255));
+		panel.add(btnNewButton_1_1_2_2);
+		
+		JButton btnNewButton_1_1_2_2_1 = new JButton("Marks");
+		btnNewButton_1_1_2_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanelStudent.show(cardPanelStudent, "name_36790997887600");
+				cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_36821380256700");
+			}
+		});
+		btnNewButton_1_1_2_2_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2_2_1, 27, SpringLayout.SOUTH, btnNewButton_1_1_2_2);
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_2_1, 22, SpringLayout.WEST, panel);
+		btnNewButton_1_1_2_2_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/mark.png")));
+		btnNewButton_1_1_2_2_1.setIconTextGap(26);
+		btnNewButton_1_1_2_2_1.setForeground(Color.WHITE);
+		btnNewButton_1_1_2_2_1.setFont(new Font("Poppins", Font.BOLD, 18));
+		btnNewButton_1_1_2_2_1.setBorderPainted(false);
+		btnNewButton_1_1_2_2_1.setBorder(null);
+		btnNewButton_1_1_2_2_1.setBackground(new Color(128, 128, 255));
+		panel.add(btnNewButton_1_1_2_2_1);
 
 		JSplitPane splitPane_1 = new JSplitPane();
 		splitPane_1.setDividerSize(3);
@@ -266,6 +305,19 @@ public class StudentPanel {
 		lblAssignments.setText("Assignments");
 		lblAssignments.setFont(new Font("Poppins", Font.BOLD, 24));
 		assignmentCardPanelStudentTop.add(lblAssignments);
+		
+		JPanel marksCardPanelStudentTop = new JPanel();
+		marksCardPanelStudentTop.setBackground(new Color(255, 255, 255));
+		cardPanelStudentTop.add(marksCardPanelStudentTop, "name_36821380256700");
+		SpringLayout sl_marksCardPanelStudentTop = new SpringLayout();
+		marksCardPanelStudentTop.setLayout(sl_marksCardPanelStudentTop);
+		
+		JLabel lblYourMarks = new JLabel();
+		sl_marksCardPanelStudentTop.putConstraint(SpringLayout.NORTH, lblYourMarks, 29, SpringLayout.NORTH, marksCardPanelStudentTop);
+		sl_marksCardPanelStudentTop.putConstraint(SpringLayout.WEST, lblYourMarks, 40, SpringLayout.WEST, marksCardPanelStudentTop);
+		lblYourMarks.setText("Your Marks");
+		lblYourMarks.setFont(new Font("Poppins", Font.BOLD, 24));
+		marksCardPanelStudentTop.add(lblYourMarks);
 
 		cardPanelStudent = new JPanel();
 		splitPane_1.setRightComponent(cardPanelStudent);
@@ -395,18 +447,19 @@ public class StudentPanel {
 		modulesCardPanelStudent.setBackground(new Color(255, 255, 255));
 		cardPanelStudent.add(modulesCardPanelStudent, "name_78987815364700");
 		SpringLayout sl_modulesCardPanelStudent = new SpringLayout();
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, studentModulesDisplay, 90, SpringLayout.NORTH, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, studentModulesDisplay, 35, SpringLayout.WEST, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, studentModulesDisplay, -32, SpringLayout.SOUTH, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, studentModulesDisplay, -25, SpringLayout.EAST, modulesCardPanelStudent);
 		modulesCardPanelStudent.setLayout(sl_modulesCardPanelStudent);
 
 		JLabel lblNewLabel_3 = new JLabel("Your Modules:");
-		lblNewLabel_3.setFont(new Font("Poppins", Font.BOLD, 20));
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 35, SpringLayout.NORTH,
-				modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 35, SpringLayout.WEST,
-				modulesCardPanelStudent);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, 84, SpringLayout.NORTH,
-				modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 19, SpringLayout.NORTH, modulesCardPanelStudent);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel_3, 0, SpringLayout.WEST, studentModulesDisplay);
+		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, -376, SpringLayout.SOUTH, modulesCardPanelStudent);
 		sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, lblNewLabel_3, 188, SpringLayout.WEST,
 				modulesCardPanelStudent);
+		lblNewLabel_3.setFont(new Font("Poppins", Font.BOLD, 20));
 		modulesCardPanelStudent.add(lblNewLabel_3);
 
 		String studentCourseFromDB = "SELECT studentCourse FROM `studentdetails` WHERE Id = " + studentIdFromDB + "";
@@ -478,20 +531,11 @@ public class StudentPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.NORTH, studentModulesDisplay, 6, SpringLayout.SOUTH,
-				lblNewLabel_3);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.WEST, studentModulesDisplay, 0, SpringLayout.WEST,
-				lblNewLabel_3);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.SOUTH, studentModulesDisplay, 328, SpringLayout.SOUTH,
-				lblNewLabel_3);
-		sl_modulesCardPanelStudent.putConstraint(SpringLayout.EAST, studentModulesDisplay, 572, SpringLayout.WEST,
-				lblNewLabel_3);
 		studentModulesDisplay.setFont(new Font("Poppins", Font.BOLD, 24));
 		studentModulesDisplay.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
 		studentModulesDisplay.setBackground(Color.WHITE);
 		modulesCardPanelStudent.add(studentModulesDisplay);
-
+		
 		JPanel assignmentCardPanelStudent = new JPanel();
 		assignmentCardPanelStudent.setBackground(new Color(255, 255, 255));
 		cardPanelStudent.add(assignmentCardPanelStudent, "name_259197036500");
@@ -594,6 +638,83 @@ public class StudentPanel {
 		lblNoteAssignmentTo.setText("Note: Assignments to be submitted via mail.");
 		lblNoteAssignmentTo.setFont(new Font("Poppins", Font.BOLD, 24));
 		panel_1.add(lblNoteAssignmentTo);
+		
+		JPanel marksCardPanelStudent = new JPanel();
+		marksCardPanelStudent.setBackground(new Color(255, 255, 255));
+		cardPanelStudent.add(marksCardPanelStudent, "name_36790997887600");
+		SpringLayout sl_marksCardPanelStudent = new SpringLayout();
+		marksCardPanelStudent.setLayout(sl_marksCardPanelStudent);
+		
+		JComboBox moduleForMarks = new JComboBox();
+		moduleForMarks.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		moduleForMarks.setModel(new DefaultComboBoxModel(new String[] {"Select Module"}));
+		
+		
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, moduleForMarks, -52, SpringLayout.EAST, marksCardPanelStudent);
+		moduleForMarks.setFont(new Font("Poppins", Font.PLAIN, 16));
+		moduleForMarks.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 255), new Color(128, 128, 255),
+
+		
+
+								new Color(255, 255, 255), new Color(255, 255, 255)));
+		moduleForMarks.setBackground(Color.WHITE);
+		marksCardPanelStudent.add(moduleForMarks);
+		String fetchModulesForMarksQuery = "SELECT moduleName FROM `moduledetails` WHERE inLevel = "
+				+ studentLevelFromDB + " AND course = '" + studentCourseFromDB + "'";
+		String[] modulesForMarksArray = new String[3];
+		int l = 0;
+		try {
+			Statement statement = DatabaseConnection.getStatement();
+			ResultSet resultSet = statement.executeQuery(fetchModulesForMarksQuery);
+
+			while (resultSet.next()) {
+				modulesForMarksArray[l] = resultSet.getString("moduleName");
+				moduleForMarks.addItem(modulesForMarksArray[l]);
+				l++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		int studentIdFromDBInt = Integer.parseInt(studentIdFromDB);
+		
+		moduleForMarks.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				moduleForMarksFromComboBox = (String) e.getItem();
+				String fetchMarks = "SELECT marks FROM `studentmarksdetails` WHERE module = '"+moduleForMarksFromComboBox+"' AND Id = "+studentIdFromDBInt+"";
+				try {
+					Statement statement = DatabaseConnection.getStatement();
+					ResultSet resultSet = statement.executeQuery(fetchMarks);
+
+					while (resultSet.next()) {
+						fetchMarks = resultSet.getString("marks");
+						marksLabel.setText("Marks: "+fetchMarks);
+					}
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		
+		
+		JLabel lblViewMarksOf = new JLabel();
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, lblViewMarksOf, -443, SpringLayout.EAST, marksCardPanelStudent);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.WEST, moduleForMarks, 18, SpringLayout.EAST, lblViewMarksOf);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.SOUTH, moduleForMarks, 0, SpringLayout.SOUTH, lblViewMarksOf);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.NORTH, lblViewMarksOf, 44, SpringLayout.NORTH, marksCardPanelStudent);
+		lblViewMarksOf.setText("View marks of:");
+		lblViewMarksOf.setFont(new Font("Poppins", Font.BOLD, 20));
+		marksCardPanelStudent.add(lblViewMarksOf);
+		
+		
+		marksLabel.setFont(new Font("Poppins", Font.BOLD, 20));
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.NORTH, marksLabel, 39, SpringLayout.SOUTH, moduleForMarks);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.WEST, marksLabel, 207, SpringLayout.WEST, marksCardPanelStudent);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.SOUTH, marksLabel, 102, SpringLayout.SOUTH, moduleForMarks);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, marksLabel, 337, SpringLayout.WEST, marksCardPanelStudent);
+		marksCardPanelStudent.add(marksLabel);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 
