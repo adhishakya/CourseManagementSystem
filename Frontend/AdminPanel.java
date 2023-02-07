@@ -182,9 +182,27 @@ public class AdminPanel {
 							fetchSelectedStudentModules = resultSet4.getString("moduleName");
 							modulesForReportArray.add(fetchSelectedStudentModules);
 						}
-						firstModule.setText(modulesForReportArray.get(0));
-						secondModule.setText(modulesForReportArray.get(1));
-						thirdModule.setText(modulesForReportArray.get(2));
+						
+						String fetchMarksOfFirstModule = "SELECT marks FROM `marksdetails` WHERE module = '"+modulesForReportArray.get(0)+"' AND Id = "+studentIdFromComboBoxInt+"";
+						ResultSet resultSetFirstModule = statement.executeQuery(fetchMarksOfFirstModule);
+						while(resultSetFirstModule.next()) {
+							fetchMarksOfFirstModule = resultSetFirstModule.getString("marks");
+						}
+						
+						String fetchMarksOfSecondModule = "SELECT marks FROM `marksdetails` WHERE module = '"+modulesForReportArray.get(1)+"' AND Id = "+studentIdFromComboBoxInt+"";
+						ResultSet resultSetSecondModule = statement.executeQuery(fetchMarksOfSecondModule);
+						while(resultSetSecondModule.next()) {
+							fetchMarksOfSecondModule = resultSetSecondModule.getString("marks");
+						}
+						
+						String fetchMarksOfThirdModule = "SELECT marks FROM `marksdetails` WHERE module = '"+modulesForReportArray.get(2)+"' AND Id = "+studentIdFromComboBoxInt+"";
+						ResultSet resultSetThirdModule = statement.executeQuery(fetchMarksOfThirdModule);
+						while(resultSetThirdModule.next()) {
+							fetchMarksOfThirdModule = resultSetThirdModule.getString("marks");
+						}
+						firstModule.setText(modulesForReportArray.get(0)+": "+fetchMarksOfFirstModule+" marks");
+						secondModule.setText(modulesForReportArray.get(1)+": "+fetchMarksOfSecondModule+" marks");
+						thirdModule.setText(modulesForReportArray.get(2)+": "+fetchMarksOfThirdModule+" marks");
 						modulesForReportArray.clear();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
