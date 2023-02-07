@@ -52,9 +52,9 @@ public class Login {
 	private JComboBox comboBox;
 	private JLabel usernameFieldCantBeEmpty;
 	private JLabel passwordFieldCantBeEmpty;
-	private String username;
+	private static String username;
 
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 

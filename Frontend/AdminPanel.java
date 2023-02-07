@@ -272,9 +272,9 @@ public class AdminPanel {
 				courseCount = courseTable.getRowCount();
 			}
 			courseCountDisplay.setText(
-					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ courseCount
-							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Courses\r\n</html>\r\n\r\n\r\n");
+							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Courses\r\n</html>\r\n\r\n\r\n");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -305,9 +305,9 @@ public class AdminPanel {
 				teacherCount = teacherTable.getRowCount();
 			}
 			teacherCountDisplay.setText(
-					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ teacherCount
-							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
+							+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teachers\r\n</html>\r\n\r\n\r\n");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1248,11 +1248,12 @@ public class AdminPanel {
 		sl_courseCardPanel.putConstraint(SpringLayout.WEST, updateBoxButton3, 59, SpringLayout.WEST, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.EAST, updateBoxButton3, 0, SpringLayout.EAST, addButton3);
 		JButton deleteButton3 = new JButton("Delete");
-		sl_courseCardPanel.putConstraint(SpringLayout.WEST, deleteButton3, 338, SpringLayout.WEST, courseCardPanel);
+		sl_courseCardPanel.putConstraint(SpringLayout.NORTH, deleteButton3, 96, SpringLayout.NORTH, courseCardPanel);
+		sl_courseCardPanel.putConstraint(SpringLayout.WEST, deleteButton3, 78, SpringLayout.EAST, updateBoxButton3);
+		sl_courseCardPanel.putConstraint(SpringLayout.EAST, deleteButton3, -66, SpringLayout.EAST, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.WEST, stopButton3, 0, SpringLayout.WEST, deleteButton3);
 		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, stopButton3, -21, SpringLayout.NORTH, deleteButton3);
 		sl_courseCardPanel.putConstraint(SpringLayout.EAST, stopButton3, 0, SpringLayout.EAST, deleteButton3);
-		sl_courseCardPanel.putConstraint(SpringLayout.NORTH, deleteButton3, 96, SpringLayout.NORTH, courseCardPanel);
 		deleteButton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] options = { "Yes", "No" };
@@ -1417,12 +1418,11 @@ public class AdminPanel {
 		courseCardPanel.add(deleteButton3);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
+		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton3, -24, SpringLayout.NORTH, scrollPane_2);
+		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, updateBoxButton3, -30, SpringLayout.NORTH, scrollPane_2);
+		sl_courseCardPanel.putConstraint(SpringLayout.NORTH, scrollPane_2, 176, SpringLayout.NORTH, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.WEST, scrollPane_2, 59, SpringLayout.WEST, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.EAST, scrollPane_2, -66, SpringLayout.EAST, courseCardPanel);
-		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, updateBoxButton3, -63, SpringLayout.NORTH, scrollPane_2);
-		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, deleteButton3, -57, SpringLayout.NORTH, scrollPane_2);
-		sl_courseCardPanel.putConstraint(SpringLayout.EAST, deleteButton3, 0, SpringLayout.EAST, scrollPane_2);
-		sl_courseCardPanel.putConstraint(SpringLayout.NORTH, scrollPane_2, 209, SpringLayout.NORTH, courseCardPanel);
 		sl_courseCardPanel.putConstraint(SpringLayout.SOUTH, scrollPane_2, -46, SpringLayout.SOUTH, courseCardPanel);
 		courseCardPanel.add(scrollPane_2);
 

@@ -45,19 +45,18 @@ public class LogoutPromptTeacher extends JDialog {
 		setTitle("Logout");
 		setResizable(false);
 		setAlwaysOnTop(true);
-		setIconImage(
-				Toolkit.getDefaultToolkit().getImage(LogoutPromptTeacher.class.getResource("/images/warning.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LogoutPromptTeacher.class.getResource("/images/warning.png")));
 		getContentPane().setBackground(new Color(255, 255, 255));
 		SpringLayout springLayout = new SpringLayout();
 		getContentPane().setLayout(springLayout);
-
+		
 		JLabel lblNewLabel = new JLabel("Are you sure you want to logout?");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 20, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 39, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -54, SpringLayout.EAST, getContentPane());
 		lblNewLabel.setFont(new Font("Poppins", Font.BOLD, 16));
 		getContentPane().add(lblNewLabel);
-
+		
 		JButton btnNewButton = new JButton("Confirm");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,7 +77,7 @@ public class LogoutPromptTeacher extends JDialog {
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 38, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton, 145, SpringLayout.WEST, getContentPane());
 		getContentPane().add(btnNewButton);
-
+		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setForeground(new Color(255, 255, 255));
 		btnCancel.setBackground(new Color(128, 128, 255));
