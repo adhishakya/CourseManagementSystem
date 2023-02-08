@@ -52,14 +52,20 @@ public class StudentPanel {
 	private String moduleForAssignmentFromComboBox;
 	JLabel lblNewLabel_2 = new JLabel();
 
-	private String moduleForMarksFromComboBox;
+	private static String moduleForMarksFromComboBox;
 	JLabel marksLabel = new JLabel();
 
 	JButton btnPickElective = new JButton("Pick Elective");
+	JLabel chosenElectiveLabel = new JLabel();
+	
+	static JLabel percentLabel = new JLabel("Percent:");
+	static JLabel statusLabel = new JLabel("Status:");
+	
+	private static int studentIdFromDBInt;
 
 	private static DefaultTableModel teacherAndModulesDefaultTableModel = new DefaultTableModel(
-			new Object[][] { { null, null }, { null, null }, { null, null }, }, new String[] { "Teacher", "Module" });
-
+			new Object[][] { { null, null }, { null, null }, { null, null }, }, new String[] { "Teacher", "Module" });	
+	
 	public static void getStudentNameFromLogin() {
 		Login login = new Login();
 		String studentNameFromLogin = login.getUsername();
@@ -499,6 +505,30 @@ public class StudentPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+		
+		JComboBox moduleForElectivesComboBox = new JComboBox();
+		moduleForElectivesComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				String pickedElective = (String) e.getItem();
+				if (pickedElective.equals("Select Elective")) {
+
+				} else {
+					btnPickElective.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							Object[] options = { "Yes", "No" };
+							int confirmation = JOptionPane.showOptionDialog(null, "Pick elective?", "Pick Elective",
+									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+							if (confirmation == 0) {
+								JOptionPane.showMessageDialog(null,
+										"Picked '" + pickedElective + "' as your elective!");
+								chosenElectiveLabel.setText("Your Elective: "+pickedElective);
+								btnPickElective.setVisible(false);
+							}
+						}
+					});
+				}
+			}
+		});
 
 		int relevantLevel = Integer.parseInt(studentLevelFromDB);
 		String fetchRelevantModulesQuery = "SELECT moduleName FROM `moduledetails` WHERE inLevel = " + relevantLevel
@@ -702,7 +732,7 @@ public class StudentPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		int studentIdFromDBInt = Integer.parseInt(studentIdFromDB);
+		studentIdFromDBInt = Integer.parseInt(studentIdFromDB);
 
 		moduleForMarks.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -745,6 +775,47 @@ public class StudentPanel {
 		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, marksLabel, 337, SpringLayout.WEST,
 				marksCardPanelStudent);
 		marksCardPanelStudent.add(marksLabel);
+		
+		
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.NORTH, percentLabel, 111, SpringLayout.SOUTH, marksLabel);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.WEST, percentLabel, 39, SpringLayout.WEST, marksCardPanelStudent);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, percentLabel, -337, SpringLayout.EAST, marksCardPanelStudent);
+		percentLabel.setFont(new Font("Poppins", Font.BOLD, 20));
+		marksCardPanelStudent.add(percentLabel);
+		
+		String fetchOverallMarks = "SELECT overallMarks FROM `studentmarksdetails` WHERE Id = " + studentIdFromDBInt + "";
+		try {
+			Statement statement = DatabaseConnection.getStatement();
+			ResultSet resultSet = statement.executeQuery(fetchOverallMarks);
+
+			while (resultSet.next()) {
+				fetchOverallMarks = resultSet.getString("overallMarks");
+				percentLabel.setText("Percent: " + fetchOverallMarks);
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		String fetchOverallStatus= "SELECT isPassOverall FROM `studentmarksdetails` WHERE Id = " + studentIdFromDBInt + "";
+		try {
+			Statement statement = DatabaseConnection.getStatement();
+			ResultSet resultSet = statement.executeQuery(fetchOverallStatus);
+
+			while (resultSet.next()) {
+				fetchOverallStatus = resultSet.getString("isPassOverall");
+				statusLabel.setText("Status: " + fetchOverallStatus);
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.NORTH, statusLabel, 342, SpringLayout.NORTH, marksCardPanelStudent);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.SOUTH, percentLabel, -4, SpringLayout.NORTH, statusLabel);
+		sl_marksCardPanelStudent.putConstraint(SpringLayout.WEST, statusLabel, 0, SpringLayout.WEST, lblViewMarksOf);
+		statusLabel.setFont(new Font("Poppins", Font.BOLD, 20));
+		marksCardPanelStudent.add(statusLabel);
 
 		JPanel electiveCardPanelStudent = new JPanel();
 		electiveCardPanelStudent.setBackground(new Color(255, 255, 255));
@@ -761,7 +832,7 @@ public class StudentPanel {
 		lblListOfElectives.setFont(new Font("Poppins", Font.BOLD, 20));
 		electiveCardPanelStudent.add(lblListOfElectives);
 
-		JComboBox moduleForElectivesComboBox = new JComboBox();
+		
 		moduleForElectivesComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		sl_electiveCardPanelStudent.putConstraint(SpringLayout.NORTH, moduleForElectivesComboBox, -1,
@@ -797,26 +868,6 @@ public class StudentPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		moduleForElectivesComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				String pickedElective = (String) e.getItem();
-				if (pickedElective.equals("Select Elective")) {
-
-				} else {
-					btnPickElective.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							Object[] options = { "Yes", "No" };
-							int confirmation = JOptionPane.showOptionDialog(null, "Pick elective?", "Pick Elective",
-									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-							if (confirmation == 0) {
-								JOptionPane.showMessageDialog(null,
-										"Picked '" + pickedElective + "' as your elective!");
-							}
-						}
-					});
-				}
-			}
-		});
 
 		sl_electiveCardPanelStudent.putConstraint(SpringLayout.NORTH, btnPickElective, -91, SpringLayout.SOUTH,
 				electiveCardPanelStudent);
@@ -832,6 +883,14 @@ public class StudentPanel {
 		btnPickElective.setBorder(null);
 		btnPickElective.setBackground(new Color(128, 128, 255));
 		electiveCardPanelStudent.add(btnPickElective);
+		
+		
+		sl_electiveCardPanelStudent.putConstraint(SpringLayout.NORTH, chosenElectiveLabel, 52, SpringLayout.SOUTH, moduleForElectivesComboBox);
+		sl_electiveCardPanelStudent.putConstraint(SpringLayout.WEST, chosenElectiveLabel, 0, SpringLayout.WEST, lblListOfElectives);
+		sl_electiveCardPanelStudent.putConstraint(SpringLayout.SOUTH, chosenElectiveLabel, 119, SpringLayout.SOUTH, moduleForElectivesComboBox);
+		sl_electiveCardPanelStudent.putConstraint(SpringLayout.EAST, chosenElectiveLabel, 365, SpringLayout.WEST, electiveCardPanelStudent);
+		chosenElectiveLabel.setFont(new Font("Poppins", Font.BOLD, 22));
+		electiveCardPanelStudent.add(chosenElectiveLabel);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 
