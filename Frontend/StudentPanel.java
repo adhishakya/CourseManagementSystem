@@ -592,6 +592,21 @@ public class StudentPanel {
 												+ relevantModules[1]
 												+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 												+ relevantModules[2] + "<br></html>");
+								String fetchElectiveTeacherUsingModule = "SELECT moduleLeader FROM `moduledetails` WHERE moduleName ='"
+										+ pickedElective + "'";
+								try {
+									Statement statement2 = DatabaseConnection.getStatement();
+									ResultSet resultSet2 = statement2.executeQuery(fetchElectiveTeacherUsingModule);
+
+									while (resultSet2.next()) {
+										fetchElectiveTeacherUsingModule = resultSet2.getString("moduleLeader");
+										teacherAndModulesDefaultTableModel
+												.addRow(new Object[] { fetchElectiveTeacherUsingModule, pickedElective });
+									}
+
+								} catch (SQLException e1) {
+									e1.printStackTrace();
+								}
 							}
 						}
 					});
