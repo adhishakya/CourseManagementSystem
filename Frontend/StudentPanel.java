@@ -201,13 +201,15 @@ public class StudentPanel {
 		panel.add(btnNewButton_1_1_2_1);
 		
 		JButton btnNewButton_1_1_2_2 = new JButton("Elective");
+		
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_2, 0, SpringLayout.WEST, btnNewButton);
 		btnNewButton_1_1_2_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cl_cardPanelStudent.show(cardPanelStudent, "name_3401648832600");
+				cl_cardPanelStudentTop.show(cardPanelStudentTop, "name_3405038275800");
 			}
 		});
 		btnNewButton_1_1_2_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_2, 0, SpringLayout.WEST, btnNewButton);
-		sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton_1_1_2_2, -206, SpringLayout.SOUTH, panel);
 		btnNewButton_1_1_2_2.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/books.png")));
 		btnNewButton_1_1_2_2.setIconTextGap(14);
 		btnNewButton_1_1_2_2.setForeground(Color.WHITE);
@@ -218,6 +220,9 @@ public class StudentPanel {
 		panel.add(btnNewButton_1_1_2_2);
 		
 		JButton btnNewButton_1_1_2_2_1 = new JButton("Marks");
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_2_1, 22, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2_2, 23, SpringLayout.SOUTH, btnNewButton_1_1_2_2_1);
+		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2_2_1, 24, SpringLayout.SOUTH, btnNewButton_1_1_2_1);
 		btnNewButton_1_1_2_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanelStudent.show(cardPanelStudent, "name_36790997887600");
@@ -225,8 +230,6 @@ public class StudentPanel {
 			}
 		});
 		btnNewButton_1_1_2_2_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1_1_2_2_1, 27, SpringLayout.SOUTH, btnNewButton_1_1_2_2);
-		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1_1_2_2_1, 22, SpringLayout.WEST, panel);
 		btnNewButton_1_1_2_2_1.setIcon(new ImageIcon(StudentPanel.class.getResource("/images/mark.png")));
 		btnNewButton_1_1_2_2_1.setIconTextGap(26);
 		btnNewButton_1_1_2_2_1.setForeground(Color.WHITE);
@@ -318,6 +321,9 @@ public class StudentPanel {
 		lblYourMarks.setText("Your Marks");
 		lblYourMarks.setFont(new Font("Poppins", Font.BOLD, 24));
 		marksCardPanelStudentTop.add(lblYourMarks);
+		
+		JPanel electiveCardPanelStudentTop = new JPanel();
+		cardPanelStudentTop.add(electiveCardPanelStudentTop, "name_3405038275800");
 
 		cardPanelStudent = new JPanel();
 		splitPane_1.setRightComponent(cardPanelStudent);
@@ -402,6 +408,12 @@ public class StudentPanel {
 		lblNewLabel_1.setBorder(new MatteBorder(1, 1, 5, 5, (Color) new Color(128, 128, 255)));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		dashboardCardPanelStudent.add(lblNewLabel_1);
+		if(studentLevelFromDB.equals("6")) {
+			btnNewButton_1_1_2_2.setVisible(true);
+		}
+		else {
+			btnNewButton_1_1_2_2.setVisible(false);
+		}
 
 		JLabel lblNewLabel = new JLabel("Your Details:");
 		sl_dashboardCardPanelStudent.putConstraint(SpringLayout.WEST, lblNewLabel, 0, SpringLayout.WEST, lblNewLabel_1);
@@ -706,6 +718,9 @@ public class StudentPanel {
 		sl_marksCardPanelStudent.putConstraint(SpringLayout.SOUTH, marksLabel, 102, SpringLayout.SOUTH, moduleForMarks);
 		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, marksLabel, 337, SpringLayout.WEST, marksCardPanelStudent);
 		marksCardPanelStudent.add(marksLabel);
+		
+		JPanel electiveCardPanelStudent = new JPanel();
+		cardPanelStudent.add(electiveCardPanelStudent, "name_3401648832600");
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 
