@@ -505,30 +505,6 @@ public class StudentPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		
-		JComboBox moduleForElectivesComboBox = new JComboBox();
-		moduleForElectivesComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				String pickedElective = (String) e.getItem();
-				if (pickedElective.equals("Select Elective")) {
-
-				} else {
-					btnPickElective.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							Object[] options = { "Yes", "No" };
-							int confirmation = JOptionPane.showOptionDialog(null, "Pick elective?", "Pick Elective",
-									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-							if (confirmation == 0) {
-								JOptionPane.showMessageDialog(null,
-										"Picked '" + pickedElective + "' as your elective!");
-								chosenElectiveLabel.setText("Your Elective: "+pickedElective);
-								btnPickElective.setVisible(false);
-							}
-						}
-					});
-				}
-			}
-		});
 
 		int relevantLevel = Integer.parseInt(studentLevelFromDB);
 		String fetchRelevantModulesQuery = "SELECT moduleName FROM `moduledetails` WHERE inLevel = " + relevantLevel
@@ -590,6 +566,38 @@ public class StudentPanel {
 		studentModulesDisplay.setBorder(null);
 		studentModulesDisplay.setBackground(Color.WHITE);
 		modulesCardPanelStudent.add(studentModulesDisplay);
+		
+		JComboBox moduleForElectivesComboBox = new JComboBox();
+		moduleForElectivesComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				String pickedElective = (String) e.getItem();
+				if (pickedElective.equals("Select Elective")) {
+
+				} else {
+					btnPickElective.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							Object[] options = { "Yes", "No" };
+							int confirmation = JOptionPane.showOptionDialog(null, "Pick elective?", "Pick Elective",
+									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+							if (confirmation == 0) {
+								JOptionPane.showMessageDialog(null,
+										"Picked '" + pickedElective + "' as your elective!");
+								chosenElectiveLabel.setText("Your Elective: "+pickedElective);
+								btnPickElective.setVisible(false);
+								relevantModules[2]=pickedElective;
+								studentModulesDisplay.setText(
+										"<html>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+												+ relevantModules[0]
+												+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+												+ relevantModules[1]
+												+ "<br>\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+												+ relevantModules[2] + "<br></html>");
+							}
+						}
+					});
+				}
+			}
+		});
 
 		JPanel assignmentCardPanelStudent = new JPanel();
 		assignmentCardPanelStudent.setBackground(new Color(255, 255, 255));
