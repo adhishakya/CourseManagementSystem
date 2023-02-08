@@ -141,25 +141,21 @@ public class Login {
 				} else if (password.isEmpty()) {
 					passwordFieldCantBeEmpty.setVisible(true);
 				} else if (username.equals("admin") && password.equals("admin") && userType.equals("Admin")) {
-					System.out.println("Logged in as admin successfully!");
 					fromLogin.dispose();
 					AdminPanel window = new AdminPanel();
 					window.getFrmAdminPanel().setVisible(true);
 				} else if (enteredUsername.getText().equals("student") && password.equals("student")
 						&& userType.equals("Student")) {
-					System.out.println("Logged in as student successfully!");
 					fromLogin.dispose();
 					StudentPanel window = new StudentPanel(enteredUsername.getText());
 					window.getFrmStudentPanel().setVisible(true);
 				} else if (enteredUsername.getText().equals("teacher") && password.equals("teacher")
 						&& userType.equals("Teacher")) {
-					System.out.println("Logged in as teacher successfully!");
 					fromLogin.dispose();
 					TeacherPanel window = new TeacherPanel(enteredUsername.getText());
 					window.getFrmTeacherPanel().setVisible(true);
 				} else {
 					if (userType.equals("Student")) {
-
 						String checkQuery = "SELECT * FROM `userdetails` " + "WHERE username = '" + username + "' "
 								+ "AND password = '" + password + "' " + "AND usertype='Student' ";
 						Statement statement = DatabaseConnection.getStatement();

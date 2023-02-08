@@ -85,6 +85,10 @@ public class AdminPanel {
 	private String selectedStudentNameForReport;
 	private String selectedStudentLevelForReport;
 	private String selectedStudentCourseForReport;
+	private static String isPassFirst;
+	private static String isPassSecond;
+	private static String isPassThird;
+	private static String isPassOverall;
 
 	private static List<String> modulesForReportArray = new ArrayList<String>();
 	
@@ -92,7 +96,12 @@ public class AdminPanel {
 	private static JLabel secondModule = new JLabel();
 	private static JLabel thirdModule = new JLabel();
 	
+	private static int overallMarks;
+	private static JLabel overallMarksLabel = new JLabel();
+	private static JLabel status = new JLabel();
+	
 	static JButton publishButton = new JButton("Publish Result");
+	
 	
 
 	private static DefaultTableModel teacherDefaultTableModel = new DefaultTableModel(
@@ -202,22 +211,50 @@ public class AdminPanel {
 						while(resultSetThirdModule.next()) {
 							fetchMarksOfThirdModule = resultSetThirdModule.getString("marks");
 						}
-						firstModule.setText(modulesForReportArray.get(0)+": "+fetchMarksOfFirstModule+" marks");
-						secondModule.setText(modulesForReportArray.get(1)+": "+fetchMarksOfSecondModule+" marks");
-						thirdModule.setText(modulesForReportArray.get(2)+": "+fetchMarksOfThirdModule+" marks");
+						firstModule.setText(modulesForReportArray.get(0)+":                          "+fetchMarksOfFirstModule+" marks");
+						secondModule.setText(modulesForReportArray.get(1)+":                                "+fetchMarksOfSecondModule+" marks");
+						thirdModule.setText(modulesForReportArray.get(2)+":                                   "+fetchMarksOfThirdModule+" marks");
 						int fetchMarksOfFirstModuleInt = Integer.parseInt(fetchMarksOfFirstModule);
 						int fetchMarksOfSecondModuleInt = Integer.parseInt(fetchMarksOfSecondModule);
 						int fetchMarksOfThirdModuleInt = Integer.parseInt(fetchMarksOfThirdModule);
 						String firstModuleName = modulesForReportArray.get(0);
 						String secondModuleName = modulesForReportArray.get(1);
 						String thirdModuleName = modulesForReportArray.get(2);
+						overallMarks = (fetchMarksOfFirstModuleInt+fetchMarksOfSecondModuleInt+fetchMarksOfThirdModuleInt)*100/300;
+						overallMarksLabel.setText("Percentage:           "+overallMarks+"%");
+						if(fetchMarksOfFirstModuleInt>=40 && fetchMarksOfSecondModuleInt>=40 && fetchMarksOfThirdModuleInt>=40 && overallMarks>=40) {
+							status.setText("Status:                        Passed");
+							isPassOverall="Pass";
+						}
+						else {
+							status.setText("Status:                        Failed");
+							isPassOverall="Fail";
+						}
+						if(fetchMarksOfFirstModuleInt>=40) {
+							isPassFirst="Pass";
+						}
+						else {
+							isPassFirst="Fail";
+						}
+						if(fetchMarksOfSecondModuleInt>=40) {
+							isPassSecond="Pass";
+						}
+						else {
+							isPassSecond="Fail";
+						}
+						if(fetchMarksOfThirdModuleInt>=40) {
+							isPassThird="Pass";
+						}
+						else {
+							isPassThird="Fail";
+						}
 						modulesForReportArray.clear();
 						publishButton.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								String studentNameForMarks = studentNameForReport.getText();
 								Statement firstStatement = DatabaseConnection.getStatement();
-								String publishResult1 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`) "
-										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfFirstModuleInt+", '"+firstModuleName+"')";
+								String publishResult1 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`,`isPass`,`overallMarks`,`isPassOverall`) "
+										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfFirstModuleInt+", '"+firstModuleName+"','"+isPassFirst+"',"+overallMarks+",'"+isPassOverall+"')";
 								try {
 									firstStatement.executeUpdate(publishResult1);
 								} catch (SQLException e1) {
@@ -225,8 +262,8 @@ public class AdminPanel {
 									e1.printStackTrace();
 								}
 								Statement secondStatement = DatabaseConnection.getStatement();
-								String publishResult2 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`) "
-										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfSecondModuleInt+", '"+secondModuleName+"')";
+								String publishResult2 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`,`isPass`,`overallMarks`,`isPassOverall`) "
+										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfSecondModuleInt+", '"+secondModuleName+"','"+isPassSecond+"',"+overallMarks+",'"+isPassOverall+"')";
 								try {
 									secondStatement.executeUpdate(publishResult2);
 								} catch (SQLException e1) {
@@ -234,8 +271,8 @@ public class AdminPanel {
 									e1.printStackTrace();
 								}
 								Statement thirdStatement = DatabaseConnection.getStatement();
-								String publishResult3 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`) "
-										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfThirdModuleInt+", '"+thirdModuleName+"')";
+								String publishResult3 = "INSERT INTO `studentmarksdetails` (`Id`, `studentName`, `marks`, `module`,`isPass`,`overallMarks`,`isPassOverall`) "
+										+ "VALUES ("+studentIdFromComboBoxInt+", '"+studentNameForMarks+"', "+fetchMarksOfThirdModuleInt+", '"+thirdModuleName+"','"+isPassThird+"',"+overallMarks+",'"+isPassOverall+"')";
 								try {
 									int executeUpdate = thirdStatement.executeUpdate(publishResult3);
 									if(executeUpdate==1) {
@@ -403,7 +440,7 @@ public class AdminPanel {
 		fromAdminPanel = new JFrame();
 		fromAdminPanel.setResizable(false);
 		fromAdminPanel.setTitle("Admin Panel | Course Management System");
-		fromAdminPanel.setBounds(330, 100, 822, 608);
+		fromAdminPanel.setBounds(330, 100, 822, 619);
 		fromAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JSplitPane splitPane = new JSplitPane();
@@ -1496,9 +1533,22 @@ public class AdminPanel {
 		reportCardPanel.setBackground(new Color(255, 255, 255));
 		cardPanel.add(reportCardPanel, "name_76380701101000");
 		SpringLayout sl_reportCardPanel = new SpringLayout();
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, overallMarksLabel, 6, SpringLayout.SOUTH, thirdModule);
+		
+				sl_reportCardPanel.putConstraint(SpringLayout.NORTH, publishButton, -65, SpringLayout.SOUTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, publishButton, 275, SpringLayout.WEST, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, publishButton, -10, SpringLayout.SOUTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, publishButton, -30, SpringLayout.EAST, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, thirdModule, 6, SpringLayout.SOUTH, secondModule);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, secondModule, 6, SpringLayout.SOUTH, firstModule);
 		reportCardPanel.setLayout(sl_reportCardPanel);
 
 		JLabel lblNewLabel_1 = new JLabel("Student Id:");
+		sl_reportCardPanel.putConstraint(SpringLayout.EAST, status, 255, SpringLayout.WEST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, overallMarksLabel, 0, SpringLayout.WEST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, thirdModule, 0, SpringLayout.WEST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, secondModule, 0, SpringLayout.WEST, lblNewLabel_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, firstModule, 0, SpringLayout.WEST, lblNewLabel_1);
 		studentIdComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		studentIdComboBox.setModel(new DefaultComboBoxModel(new String[] { "Select University Id" }));
 		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentIdComboBox, 2, SpringLayout.NORTH, lblNewLabel_1);
@@ -1551,23 +1601,17 @@ public class AdminPanel {
 		reportCardPanel.add(studentLevelForReport);
 
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Course:");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1, 15, SpringLayout.SOUTH, lblNewLabel_1_1_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
 		lblNewLabel_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
 		lblNewLabel_1_1_1_1.setBackground(Color.WHITE);
 		reportCardPanel.add(lblNewLabel_1_1_1_1);
 
 		studentCourseForReport = new JLabel();
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentCourseForReport, 0, SpringLayout.NORTH, lblNewLabel_1_1_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, studentCourseForReport, 173, SpringLayout.NORTH, reportCardPanel);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, studentCourseForReport, 0, SpringLayout.WEST, studentIdComboBox);
 		studentCourseForReport.setFont(new Font("Poppins", Font.BOLD, 16));
 		studentCourseForReport.setBackground(Color.WHITE);
 		reportCardPanel.add(studentCourseForReport);
-
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, publishButton, -65, SpringLayout.SOUTH, reportCardPanel);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, publishButton, 102, SpringLayout.WEST, reportCardPanel);
-		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, publishButton, -10, SpringLayout.SOUTH, reportCardPanel);
-		sl_reportCardPanel.putConstraint(SpringLayout.EAST, publishButton, 402, SpringLayout.WEST, reportCardPanel);
 		publishButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		publishButton.setIcon(new ImageIcon(AdminPanel.class.getResource("/images/create.png")));
 		publishButton.setOpaque(false);
@@ -1578,29 +1622,32 @@ public class AdminPanel {
 		reportCardPanel.add(publishButton);
 		
 		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Marks:");
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1_1, 17, SpringLayout.SOUTH, lblNewLabel_1_1_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1_1, 204, SpringLayout.NORTH, reportCardPanel);
+		sl_reportCardPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_1_1, -6, SpringLayout.NORTH, lblNewLabel_1_1_1_1_1);
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, firstModule, 6, SpringLayout.SOUTH, lblNewLabel_1_1_1_1_1);
 		sl_reportCardPanel.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1_1, 0, SpringLayout.WEST, lblNewLabel_1);
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
 		lblNewLabel_1_1_1_1_1.setBackground(Color.WHITE);
 		reportCardPanel.add(lblNewLabel_1_1_1_1_1);
-		
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, firstModule, 3, SpringLayout.SOUTH, lblNewLabel_1_1_1_1_1);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, firstModule, 0, SpringLayout.WEST, lblNewLabel_1);
 		firstModule.setFont(new Font("Poppins", Font.BOLD, 16));
 		firstModule.setBackground(Color.WHITE);
 		reportCardPanel.add(firstModule);
-		
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, secondModule, 11, SpringLayout.SOUTH, firstModule);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, secondModule, 0, SpringLayout.WEST, lblNewLabel_1);
 		secondModule.setFont(new Font("Poppins", Font.BOLD, 16));
 		secondModule.setBackground(Color.WHITE);
 		reportCardPanel.add(secondModule);
-		
-		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, thirdModule, 14, SpringLayout.SOUTH, secondModule);
-		sl_reportCardPanel.putConstraint(SpringLayout.WEST, thirdModule, 0, SpringLayout.WEST, lblNewLabel_1);
 		thirdModule.setFont(new Font("Poppins", Font.BOLD, 16));
 		thirdModule.setBackground(Color.WHITE);
 		reportCardPanel.add(thirdModule);
+		overallMarksLabel.setFont(new Font("Poppins", Font.BOLD, 16));
+		overallMarksLabel.setBackground(Color.WHITE);
+		reportCardPanel.add(overallMarksLabel);
+		
+		
+		sl_reportCardPanel.putConstraint(SpringLayout.NORTH, status, 6, SpringLayout.SOUTH, overallMarksLabel);
+		sl_reportCardPanel.putConstraint(SpringLayout.WEST, status, 0, SpringLayout.WEST, lblNewLabel_1);
+		status.setFont(new Font("Poppins", Font.BOLD, 16));
+		status.setBackground(Color.WHITE);
+		reportCardPanel.add(status);
 
 		JPanel moduleCardPanel = new JPanel();
 		moduleCardPanel.setBackground(new Color(255, 255, 255));

@@ -54,6 +54,8 @@ public class TeacherPanel {
 	private static JLabel secondQuestionLabel = new JLabel();
 
 	JLabel studentNameForReport = new JLabel();
+	JLabel firstAnswerLabel = new JLabel();
+	JLabel secondAnswerLabel = new JLabel();
 
 	public static String getTeacherModuleFromDB() {
 		return teacherModuleFromDB;
@@ -559,6 +561,8 @@ public class TeacherPanel {
 		markingCardPanelTeacher.setBackground(new Color(255, 255, 255));
 		cardPanelTeacher.add(markingCardPanelTeacher, "name_6013106739300");
 		SpringLayout sl_markingCardPanelTeacher = new SpringLayout();
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.EAST, secondAnswerLabel, 373, SpringLayout.WEST, studentIdComboBox);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.EAST, firstAnswerLabel, 373, SpringLayout.WEST, studentIdComboBox);
 		markingCardPanelTeacher.setLayout(sl_markingCardPanelTeacher);
 
 		JLabel lblIssuingMarksFor = new JLabel();
@@ -637,7 +641,6 @@ public class TeacherPanel {
 					
 				}
 				else {
-				
 				String fetchSelectedStudentName = "SELECT studentName FROM `studentdetails` WHERE Id = "
 						+ studentIdFromComboBox + "";
 				Statement statement = DatabaseConnection.getStatement();
@@ -646,6 +649,20 @@ public class TeacherPanel {
 					while (resultSet.next()) {
 						String fetchedStudentNameForReport = resultSet.getString("studentName");
 						studentNameForReport.setText(fetchedStudentNameForReport);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				String fetchAnswersFromStudentId = "SELECT * from `answerdetails` WHERE studentId ="+studentIdFromComboBox+"";
+				try {
+					Statement statement2 = DatabaseConnection.getStatement();
+					ResultSet resultSet = statement2.executeQuery(fetchAnswersFromStudentId);
+					while (resultSet.next()) {
+						String firstAnswer = resultSet.getString("answer_1");
+						String secondAnswer = resultSet.getString("answer_2");
+						firstAnswerLabel.setText(firstAnswer);
+						secondAnswerLabel.setText(secondAnswer);
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -728,6 +745,34 @@ public class TeacherPanel {
 		btnIssueMarks.setBackground(new Color(128, 128, 255));
 		btnIssueMarks.setActionCommand("Add");
 		markingCardPanelTeacher.add(btnIssueMarks);
+		
+		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Answer 1:");
+		lblNewLabel_1_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1_1_1_1_1.setBackground(Color.WHITE);
+		markingCardPanelTeacher.add(lblNewLabel_1_1_1_1_1);
+		
+		JLabel lblNewLabel_1_1_1_1_1_1 = new JLabel("Answer 2:");
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.NORTH, lblNewLabel_1_1_1_1_1_1, 280, SpringLayout.NORTH, markingCardPanelTeacher);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.SOUTH, lblNewLabel_1_1_1_1_1, -25, SpringLayout.NORTH, lblNewLabel_1_1_1_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.EAST, lblNewLabel_1_1_1_1_1, 0, SpringLayout.EAST, lblNewLabel_1_1_1_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.WEST, lblNewLabel_1_1_1_1_1_1, 0, SpringLayout.WEST, lblIssuingMarksFor);
+		lblNewLabel_1_1_1_1_1_1.setFont(new Font("Poppins", Font.BOLD, 16));
+		lblNewLabel_1_1_1_1_1_1.setBackground(Color.WHITE);
+		markingCardPanelTeacher.add(lblNewLabel_1_1_1_1_1_1);
+		
+		
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.NORTH, firstAnswerLabel, 0, SpringLayout.NORTH, lblNewLabel_1_1_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.WEST, firstAnswerLabel, 0, SpringLayout.WEST, studentIdComboBox);
+		firstAnswerLabel.setFont(new Font("Poppins", Font.BOLD, 16));
+		firstAnswerLabel.setBackground(Color.WHITE);
+		markingCardPanelTeacher.add(firstAnswerLabel);
+		
+	
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.NORTH, secondAnswerLabel, 0, SpringLayout.NORTH, lblNewLabel_1_1_1_1_1_1);
+		sl_markingCardPanelTeacher.putConstraint(SpringLayout.WEST, secondAnswerLabel, 0, SpringLayout.WEST, studentIdComboBox);
+		secondAnswerLabel.setFont(new Font("Poppins", Font.BOLD, 16));
+		secondAnswerLabel.setBackground(Color.WHITE);
+		markingCardPanelTeacher.add(secondAnswerLabel);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 		TeacherPanel.getAssignmentFromDatabase();

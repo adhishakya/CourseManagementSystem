@@ -695,29 +695,24 @@ public class StudentPanel {
 		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.EAST, lblNewLabel_2, -29, SpringLayout.EAST,
 				assignmentCardPanelStudent);
 		assignmentCardPanelStudent.add(lblNewLabel_2);
-
-		JPanel panel_1 = new JPanel();
-		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.NORTH, panel_1, -81, SpringLayout.SOUTH,
-				assignmentCardPanelStudent);
-		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.SOUTH, panel_1, 0, SpringLayout.SOUTH,
-				assignmentCardPanelStudent);
-		panel_1.setBackground(new Color(128, 128, 255));
-		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.WEST, panel_1, -632, SpringLayout.EAST,
-				assignmentCardPanelStudent);
-		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.EAST, panel_1, 0, SpringLayout.EAST,
-				assignmentCardPanelStudent);
-		assignmentCardPanelStudent.add(panel_1);
-		SpringLayout sl_panel_1 = new SpringLayout();
-		panel_1.setLayout(sl_panel_1);
-
-		JLabel lblNoteAssignmentTo = new JLabel();
-		sl_panel_1.putConstraint(SpringLayout.EAST, lblNoteAssignmentTo, 595, SpringLayout.WEST, panel_1);
-		lblNoteAssignmentTo.setForeground(new Color(255, 255, 255));
-		sl_panel_1.putConstraint(SpringLayout.WEST, lblNoteAssignmentTo, 36, SpringLayout.WEST, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.SOUTH, lblNoteAssignmentTo, -21, SpringLayout.SOUTH, panel_1);
-		lblNoteAssignmentTo.setText("Note: Assignments to be submitted via mail.");
-		lblNoteAssignmentTo.setFont(new Font("Poppins", Font.BOLD, 24));
-		panel_1.add(lblNoteAssignmentTo);
+		
+		JButton btnDoAssignment = new JButton("Do Assignment");
+		btnDoAssignment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddAssignmentAnswer addAssignmentAnswer = new AddAssignmentAnswer(moduleForAssignmentFromComboBox,studentIdFromDBInt);
+				addAssignmentAnswer.setVisible(true);
+			}
+		});
+		btnDoAssignment.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.NORTH, btnDoAssignment, -90, SpringLayout.SOUTH, assignmentCardPanelStudent);
+		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.WEST, btnDoAssignment, -239, SpringLayout.EAST, assignmentCardPanelStudent);
+		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.SOUTH, btnDoAssignment, -34, SpringLayout.SOUTH, assignmentCardPanelStudent);
+		sl_assignmentCardPanelStudent.putConstraint(SpringLayout.EAST, btnDoAssignment, -61, SpringLayout.EAST, assignmentCardPanelStudent);
+		btnDoAssignment.setForeground(Color.WHITE);
+		btnDoAssignment.setFont(new Font("Poppins", Font.BOLD, 20));
+		btnDoAssignment.setBorder(null);
+		btnDoAssignment.setBackground(new Color(128, 128, 255));
+		assignmentCardPanelStudent.add(btnDoAssignment);
 
 		JPanel marksCardPanelStudent = new JPanel();
 		marksCardPanelStudent.setBackground(new Color(255, 255, 255));
@@ -804,8 +799,7 @@ public class StudentPanel {
 		sl_marksCardPanelStudent.putConstraint(SpringLayout.WEST, percentLabel, 39, SpringLayout.WEST, marksCardPanelStudent);
 		sl_marksCardPanelStudent.putConstraint(SpringLayout.EAST, percentLabel, -337, SpringLayout.EAST, marksCardPanelStudent);
 		percentLabel.setFont(new Font("Poppins", Font.BOLD, 20));
-		marksCardPanelStudent.add(percentLabel);
-		
+		marksCardPanelStudent.add(percentLabel);		
 		String fetchOverallMarks = "SELECT overallMarks FROM `studentmarksdetails` WHERE Id = " + studentIdFromDBInt + "";
 		try {
 			Statement statement = DatabaseConnection.getStatement();
